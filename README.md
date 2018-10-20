@@ -1,4 +1,5 @@
 # Thunderpets - Frontend
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/academiadev-joinville/projeto-frontend-thunderpets.svg?columns=all)](https://waffle.io/academiadev-joinville/projeto-frontend-thunderpets)
 
 Frontend de uma plataforma web para publicação e busca de animais perdidos, achados ou disponíveis para adoção.
 
