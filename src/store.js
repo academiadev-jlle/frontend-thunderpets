@@ -11,7 +11,6 @@ export default new Vuex.Store({
     updateLocation(state, newLocation) {
       // eslint-disable-next-line
       state.location = newLocation;
-      console.log('Mudou');
     },
   },
   actions: {

@@ -1,12 +1,12 @@
 <template>
-  <v-container style="max-width: 100%">
+  <v-container id="container">
     <v-layout row wrap>
       <v-flex xs12 md5>
         <v-card>
           <v-form refs="form" v-model="valid">
           <v-card-text>
             <p class="display-1">
-              Perdi meu Pet
+              Perdi meu pet
             </p>
             <v-select
               :items="petTypes"
@@ -36,10 +36,10 @@
             <image-upload ref="images" v-on:get-images="getImages"/>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="green" dark >
+            <v-btn color="success">
               Confirmar
             </v-btn>
-            <v-btn color="red" dark>
+            <v-btn color="error">
               Cancelar
             </v-btn>
           </v-card-actions>
@@ -66,6 +66,7 @@ import ImageUpload from '../components/ImageUpload.vue';
 import store from '../store';
 
 export default {
+  name: 'Post',
   components: {
     GoogleMap,
     ImageUpload,
@@ -113,3 +114,8 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+  #container {
+    max-width: 100%;
+  }
+</style>

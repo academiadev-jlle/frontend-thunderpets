@@ -23,7 +23,6 @@
       id="file"
       multiple
       ref="file"
-      style="display: none"
       type="file"
       value="image"
     />
@@ -32,6 +31,7 @@
 
 <script>
 export default {
+  name: 'ImageUpload',
   data() {
     return {
       image: null,
@@ -76,3 +76,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  #file {
+    display: none;
+  }
+</style>

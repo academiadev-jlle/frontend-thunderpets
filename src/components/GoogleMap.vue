@@ -5,7 +5,7 @@
         <v-flex xs12>
           <gmap-autocomplete
             @place_changed="setPlace"
-            class="autocomplete"
+            id="autocomplete"
           ></gmap-autocomplete>
         </v-flex>
       </v-layout>
@@ -13,7 +13,7 @@
     <br>
     <gmap-map
       :center="center"
-      :zoom="12"
+      :zoom="15"
       @click="updateMarker"
       id="gmap"
     >
@@ -31,6 +31,7 @@
 
 <script>
 import store from '../store';
+import logo from '../assets/logo.png';
 
 export default {
   name: 'GoogleMap',
@@ -43,9 +44,11 @@ export default {
       currentPlace: null,
       location: null,
       places: [],
+      markerIcon: null,
     };
   },
   mounted() {
+    this.markerIcon = logo;
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -80,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .autocomplete {
+  #autocomplete {
     border-radius: 5px;
     border: 1px solid lightgray;
     padding: 8px 10px;

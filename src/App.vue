@@ -1,9 +1,7 @@
 <template>
   <v-app>
-    <v-toolbar app color="#764737" dark>
-      <v-toolbar-side-icon>
-      </v-toolbar-side-icon>
-      <v-toolbar-title class="headline" style="margin-right: 20px">
+    <v-toolbar app color="#ffc107">
+      <v-toolbar-title class="headline" id="toolbar-title">
         <span>ThunderPets</span>
       </v-toolbar-title>
       <v-toolbar-items>
@@ -28,3 +26,10 @@ export default {
   name: 'App',
 };
 </script>
+
+<style lang="scss" scoped>
+  #toolbar-title {
+    margin-right: 20px;
+  }
+</style>
+
