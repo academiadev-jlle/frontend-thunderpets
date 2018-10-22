@@ -1,18 +1,26 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-container>
+    <v-layout
+      text-xs-center
+    >
+      <v-flex xs12>
+        <v-img
+          class="my-3"
+          contain
+          height="200"
+          :src="require('../assets/logo.png')"
+        ></v-img>
+        <p class="display-2">ThunderPets</p>
+        <p class="headline">
+          Por que quando perdemos um animalzinho, perdemos um pedaço de nós mesmos.<br>
+        </p>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
-  name: 'home',
-  components: {
-    HelloWorld,
-  },
 };
 </script>
