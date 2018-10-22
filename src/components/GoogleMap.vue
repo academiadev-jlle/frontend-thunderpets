@@ -22,6 +22,7 @@
         @click="markerClick"
         @drag="updateMarker"
         clickable
+        :icon="markerIcon"
         draggable
         v-if="location"
       ></gmap-marker>
@@ -31,7 +32,7 @@
 
 <script>
 import store from '../store';
-import logo from '../assets/logo.png';
+import pawMarker from '../assets/paw-marker.png';
 
 export default {
   name: 'GoogleMap',
@@ -48,7 +49,7 @@ export default {
     };
   },
   mounted() {
-    this.markerIcon = logo;
+    this.markerIcon = pawMarker;
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,

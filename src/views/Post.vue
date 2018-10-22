@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 md5>
         <v-card>
-          <v-form refs="form" v-model="valid">
+          <v-form refs="form">
           <v-card-text>
             <p class="display-1">
               Perdi meu pet
@@ -18,11 +18,10 @@
               label="Porte"
               placeholder="Selecione o porte do animal"
             ></v-select>
-            <v-select
-              :items="['Macho', 'Fêmea', 'Indeterminado']"
-              label="Sexo"
-              placeholder="Selecione o sexo do animal"
-            ></v-select>
+            <div>
+              <v-label>Sexo</v-label>
+              <gender-selection v-on:get-gender="getGender"/>
+            </div>
             <v-textarea
               label="Descrição"
               no-resize
@@ -61,6 +60,7 @@
 </template>
 
 <script>
+import GenderSelection from '../components/GenderSelection.vue';
 import GoogleMap from '../components/GoogleMap.vue';
 import ImageUpload from '../components/ImageUpload.vue';
 import store from '../store';
@@ -68,13 +68,16 @@ import store from '../store';
 export default {
   name: 'Post',
   components: {
+    GenderSelection,
     GoogleMap,
     ImageUpload,
   },
   data() {
     return {
+      email: '',
       images: null,
-      valid: false,
+      gender: 1,
+      name: '',
       petTypes: [
         'Bovino',
         'Cão',
@@ -89,16 +92,6 @@ export default {
         'Médio',
         'Grande',
       ],
-      name: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 10 || 'Name must be less than 10 characters',
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
-      ],
     };
   },
   computed: {
@@ -109,6 +102,9 @@ export default {
   methods: {
     getImages(images) {
       this.images = images;
+    },
+    getGender(gender) {
+      this.gender = gender;
     },
   },
 };
