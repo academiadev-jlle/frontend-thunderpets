@@ -12,8 +12,8 @@
     </v-layout>
     <v-text-field
       @click="openFileUploader"
-      label="Imagem"
-      placeholder="Envie uma imagem para identificar do animal"
+      label="Fotos"
+      placeholder="Envie fotos do animal"
       prepend-icon="attach_file"
       v-model="imageNames"
     ></v-text-field>
