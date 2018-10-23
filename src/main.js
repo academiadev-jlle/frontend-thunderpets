@@ -1,17 +1,11 @@
 import '@babel/polyfill';
-import '@mdi/font/css/materialdesignicons.css';
 import * as VueGoogleMaps from 'vue2-google-maps';
-import Vuetify from 'vuetify';
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 import './plugins/vuetify';
 import './registerServiceWorker';
-
-Vue.use(Vuetify, {
-  iconfont: 'mdi',
-});
 
 Vue.config.productionTip = false;
 
