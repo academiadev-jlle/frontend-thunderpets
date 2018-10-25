@@ -78,11 +78,6 @@ export default {
           top: 0,
           behavior: 'smooth',
         });
-      } else if (pagination.rowsPerPage > this.currentPageSize) {
-        window.scroll({
-          bottom: 0,
-          behavior: 'smooth',
-        });
       }
 
       this.currentPageSize = pagination.rowsPerPage;
