@@ -1,13 +1,13 @@
 <template>
-  <div >
+  <div>
     <v-tabs
+        centered
+        class="main-tabs"
+        color="primary"
+        grow
+        slider-color="secondary"
         slot="extension"
         v-model="model"
-        centered
-        color="primary"
-        slider-color="secondary"
-        class="main-tabs"
-        grow
       >
         <v-tab href="#tab-1">
           Achados
@@ -22,9 +22,9 @@
     <v-container fluid grid-list-md>
       <v-tabs-items v-model="model">
         <v-tab-item
-          v-for="i in 3"
-          :value="`tab-${i}`"
           :key="i"
+          :value="`tab-${i}`"
+          v-for="i in 3"
         >
           <pet-list class="mt-5"/>
         </v-tab-item>
