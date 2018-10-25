@@ -1,7 +1,7 @@
 <template>
   <v-card hover>
     <v-responsive>
-      <v-img :src="pet.foto" aspect-ratio="1.5" alt="pet.nome">
+      <v-img :src="pet.foto" aspect-ratio="1.5">
         <v-layout
           align-end
           class="mx-1"
@@ -70,25 +70,15 @@ export default {
   props: [
     'pet',
   ],
-  data() {
-    return {
-      genderColor: 'blue',
-    };
-  },
-  mounted() {
-
-  },
   computed: {
     sexoColor() {
-      let color = 'grey';
-
       if (this.pet.sexo === 'MACHO') {
-        color = 'blue';
+        return 'blue';
       } else if (this.pet.sexo === 'FEMEA') {
-        color = 'pink';
+        return 'pink';
       }
 
-      return color;
+      return 'grey';
     },
     formatSize() {
       return this.pet.porte === 'MEDIO' ? 'médio' : this.pet.porte.toLowerCase();
