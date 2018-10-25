@@ -9,7 +9,10 @@
           Inicial
         </v-btn>
         <v-btn flat to="/post" exact>
-          Cadastrar
+          Cadastrar Pet
+        </v-btn>
+        <v-btn flat to="/post_user" exact>
+          Cadastrar Usuário
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
