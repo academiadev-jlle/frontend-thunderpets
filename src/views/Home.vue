@@ -9,19 +9,13 @@
         class="main-tabs"
         grow
       >
-        <v-tab
-          :href="`#tab-1`"
-        >
+        <v-tab href="#tab-1">
           Achados
         </v-tab>
-        <v-tab
-          :href="`#tab-2`"
-        >
+        <v-tab href="#tab-2">
           Perdidos
         </v-tab>
-        <v-tab
-          :href="`#tab-3`"
-        >
+        <v-tab href="#tab-3">
           Adoção
         </v-tab>
       </v-tabs>
