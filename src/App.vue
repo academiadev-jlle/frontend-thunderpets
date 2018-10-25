@@ -1,12 +1,18 @@
 <template>
   <v-app>
-    <v-toolbar app class="elevation-0" color="primary" height="50px" clipped-left>
-      <v-toolbar-side-icon v-if="breakpoint === 'xs'" @click="drawer = true">
+    <v-toolbar
+      app
+      class="elevation-0"
+      clipped-left
+      color="primary"
+      height="50px"
+    >
+      <v-toolbar-side-icon v-if="isXS" @click="drawer = true">
       </v-toolbar-side-icon>
       <v-toolbar-title class="headline" id="toolbar-title">
         <span>ThunderPets</span>
       </v-toolbar-title>
-      <v-toolbar-items v-if="breakpoint !== 'xs'">
+      <v-toolbar-items v-if="!isXS">
         <v-btn flat to="/" exact>
           Inicial
         </v-btn>
@@ -16,13 +22,12 @@
       </v-toolbar-items>
     </v-toolbar>
     <v-navigation-drawer
-      v-model="drawer"
-      v-if="breakpoint === 'xs'"
       app
-      absolute
       clipped
+      v-if="isXS"
+      v-model="drawer"
     >
-      <drawer-menu />
+      <drawer-menu @close-drawer="drawer = false"/>
     </v-navigation-drawer>
     <v-content>
       <router-view/>
@@ -44,8 +49,8 @@ export default {
     };
   },
   computed: {
-    breakpoint() {
-      return this.$vuetify.breakpoint.name;
+    isXS() {
+      return this.$vuetify.breakpoint.name === 'xs';
     },
   },
 };

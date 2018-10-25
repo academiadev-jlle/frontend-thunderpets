@@ -4,7 +4,7 @@ module.exports = {
     name: 'ThunderPets',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
-    themeColor: '#ffc107',
+    themeColor: '#ffd044',
     msTileColor: '#FFF',
   },
 };
