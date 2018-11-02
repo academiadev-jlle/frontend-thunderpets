@@ -123,7 +123,6 @@
                 <label class="caption label">Fotos</label>
                 <image-upload
                   v-model="pet.fotos"
-                  ref="images"
                 />
               </div>
             </v-card-text>
@@ -141,7 +140,7 @@
             <p class="display-1">
               Localização
             </p>
-            <google-map ref="map" v-model="pet.localizacao"/>
+            <google-map v-model="pet.localizacao"/>
           </v-card-text>
         </v-card>
       </v-flex>
