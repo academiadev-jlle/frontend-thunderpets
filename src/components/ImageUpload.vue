@@ -117,8 +117,10 @@ export default {
             binaryString = `${binaryString}${String.fromCharCode(array[j])}`;
           }
 
-          this.images.push(btoa(binaryString));
-          this.$emit('input', this.images);
+          if (this.images.length < MAX_PHOTOS) {
+            this.images.push(btoa(binaryString));
+            this.$emit('input', this.images);
+          }
         };
 
         reader.readAsArrayBuffer(file);
