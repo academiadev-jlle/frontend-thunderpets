@@ -95,12 +95,7 @@ export default {
       this.$emit('input', this.images);
     },
     openFileUploader() {
-      if (this.images.length < MAX_PHOTOS) {
-        this.$refs.file.click();
-      } else {
-        // eslint-disable-next-line
-        alert('Número máximo de fotos atingido');
-      }
+      this.$refs.file.click();
     },
     getFile() {
       const uploadedFiles = document.getElementById('file').files;
