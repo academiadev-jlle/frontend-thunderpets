@@ -1,22 +1,64 @@
 <template>
   <div>
-    <v-layout row>
-      <v-img
-        :src="'data:image/png;base64,'+item.image"
-        alt="item.name"
-        height="100px"
-        max-width="100px"
-        v-bind:key="index"
+    <v-layout
+      align-end
+      justify-center
+      row
+      wrap
+    >
+      <v-card
+        :key="index"
+        class="ma-1"
+        color="primary"
+        height="fit-content"
+        hover
         v-for="(item, index) in images"
-      ></v-img>
+        width="100px"
+      >
+        <p class="body-2 ma-0 text-xs-center" v-if="index === mainImage">Foto Principal</p>
+        <v-img
+          :class="{'main-image': index === mainImage}"
+          :src="`data:image/png;base64,${item}`"
+          @click="setMainImage(index)"
+          height="100px"
+          max-width="100px"
+        >
+          <v-layout class="pa-1" justify-end row>
+            <v-tooltip color="red" top>
+              <v-avatar
+                @click="removePhoto(index)"
+                class="elevation-2"
+                color="red"
+                size="20"
+                slot="activator"
+              >
+                <v-icon dark small>mdi-close</v-icon>
+              </v-avatar>
+              <span>Remover</span>
+            </v-tooltip>
+          </v-layout>
+        </v-img>
+      </v-card>
+      <v-card
+        @click.native="openFileUploader"
+        class="ma-1"
+        height="100px"
+        hover
+        id="new-image"
+        v-if="images.length < 10"
+        width="100px"
+      >
+        <v-layout
+          align-center
+          column
+          fill-height
+          justify-center
+        >
+          <v-icon color="grey" size="50">mdi-camera</v-icon>
+          <span class="grey--text">Nova foto</span>
+        </v-layout>
+      </v-card>
     </v-layout>
-    <v-text-field
-      @click="openFileUploader"
-      label="Fotos"
-      placeholder="Envie fotos do animal"
-      prepend-icon="attach_file"
-      v-model="imageNames"
-    ></v-text-field>
     <input
       @change="getFile"
       accept="image/*"
@@ -24,35 +66,48 @@
       multiple
       ref="file"
       type="file"
-      value="image"
     />
   </div>
 </template>
 
 <script>
+const MAX_PHOTOS = 10;
+
 export default {
   name: 'ImageUpload',
   data() {
     return {
-      image: null,
-      imageNames: null,
       images: [],
+      mainImage: 0,
     };
   },
   methods: {
+    validate() {
+      this.$validator.validateAll();
+    },
+    setMainImage(index) {
+      this.mainImage = index >= this.images.length ? 0 : index;
+    },
+    removePhoto(index) {
+      this.images.splice(index, 1);
+      this.setMainImage(index);
+
+      this.$emit('input', this.images);
+    },
     openFileUploader() {
-      this.$refs.file.click();
+      if (this.images.length < MAX_PHOTOS) {
+        this.$refs.file.click();
+      } else {
+        // eslint-disable-next-line
+        alert('Número máximo de fotos atingido');
+      }
     },
     getFile() {
       const uploadedFiles = document.getElementById('file').files;
-      this.imageNames = '';
-      this.images = [];
 
       for (let i = 0; i < uploadedFiles.length; i += 1) {
         const file = uploadedFiles[i];
         const reader = new FileReader();
-
-        this.imageNames += i === uploadedFiles.length - 1 ? file.name : `${file.name}, `;
 
         reader.onload = () => {
           const array = new Uint8Array(reader.result);
@@ -62,16 +117,12 @@ export default {
             binaryString = `${binaryString}${String.fromCharCode(array[j])}`;
           }
 
-          this.images.push({
-            name: file.name,
-            image: btoa(binaryString),
-          });
+          this.images.push(btoa(binaryString));
+          this.$emit('input', this.images);
         };
 
         reader.readAsArrayBuffer(file);
       }
-
-      this.$emit('get-images', this.images);
     },
   },
 };
@@ -80,5 +131,14 @@ export default {
 <style lang="scss" scoped>
   #file {
     display: none;
+  }
+
+  #new-image {
+    border: 3px dashed grey;
+    border-radius: 5px;
+  }
+
+  .main-image {
+    border: 3px solid #ffd044;
   }
 </style>

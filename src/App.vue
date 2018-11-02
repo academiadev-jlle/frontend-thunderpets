@@ -9,7 +9,7 @@
     >
       <v-toolbar-side-icon v-if="isXS" @click="drawer = true">
       </v-toolbar-side-icon>
-      <v-toolbar-title class="headline" id="toolbar-title">
+      <v-toolbar-title class="headline mr-4">
         <span>ThunderPets</span>
       </v-toolbar-title>
       <v-toolbar-items v-if="!isXS">
@@ -50,15 +50,9 @@ export default {
   },
   computed: {
     isXS() {
-      return this.$vuetify.breakpoint.name === 'xs';
+      return this.$vuetify.breakpoint.xsOnly;
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  #toolbar-title {
-    margin-right: 20px;
-  }
-</style>
 
