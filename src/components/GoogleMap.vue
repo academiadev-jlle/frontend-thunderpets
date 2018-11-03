@@ -4,6 +4,7 @@
       <v-layout row align-center>
         <v-flex xs12>
           <gmap-autocomplete
+            :value="formattedAddress"
             @place_changed="setPlace"
             id="autocomplete"
           ></gmap-autocomplete>
@@ -16,13 +17,14 @@
       :zoom="15"
       @click="updateMarker"
       id="gmap"
+      ref="gmap"
     >
       <gmap-marker
+        :icon="markerIcon"
         :position="location"
         @click="markerClick"
-        @drag="updateMarker"
+        @dragend="updateMarker"
         clickable
-        :icon="markerIcon"
         draggable
         v-if="location"
       ></gmap-marker>
@@ -31,7 +33,6 @@
 </template>
 
 <script>
-import store from '../store';
 import pawMarker from '../assets/paw-marker.png';
 
 export default {
@@ -42,10 +43,13 @@ export default {
         lat: -26.3048801,
         lng: -48.8462105,
       },
+      city: null,
       currentPlace: null,
+      formattedAddress: null,
+      geocoder: null,
       location: null,
-      places: [],
       markerIcon: null,
+      state: null,
     };
   },
   mounted() {
@@ -56,6 +60,10 @@ export default {
         lng: position.coords.longitude,
       };
     });
+    this.$refs.gmap.$mapPromise.then(() => {
+      // eslint-disable-next-line
+      this.geocoder = new google.maps.Geocoder();
+    });
   },
   methods: {
     updateMarker(mousePosition) {
@@ -63,21 +71,39 @@ export default {
         lat: mousePosition.latLng.lat(),
         lng: mousePosition.latLng.lng(),
       };
-      store.commit('updateLocation', this.location);
+      this.reverseGeocode(this.location, true);
     },
     markerClick() {
       this.center = this.location;
     },
+    reverseGeocode(latLng, updatePlace) {
+      this.geocoder.geocode({ location: latLng }, (results, status) => {
+        // eslint-disable-next-line
+        if (status === google.maps.GeocoderStatus.OK) {
+          const result = results[0];
+
+          if (updatePlace) {
+            this.formattedAddress = result.formatted_address;
+          }
+
+          const location = {
+            cidade: result.address_components[3].long_name,
+            estado: result.address_components[4].long_name,
+            latitude: latLng.lat,
+            longitude: latLng.lng,
+          };
+
+          this.$emit('input', location);
+        }
+      });
+    },
     setPlace(place) {
-      this.currentPlace = place;
       this.location = {
-        lat: this.currentPlace.geometry.location.lat(),
-        lng: this.currentPlace.geometry.location.lng(),
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
       };
-      store.commit('updateLocation', this.location);
-      this.places.push(this.currentPlace);
+      this.reverseGeocode(this.location, false);
       this.center = this.location;
-      this.currentPlace = null;
     },
   },
 };

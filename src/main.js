@@ -1,6 +1,8 @@
 import '@babel/polyfill';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
+import VeeValidate, { Validator } from 'vee-validate';
+import pt from 'vee-validate/dist/locale/pt_BR';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -17,6 +19,9 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places',
   },
 });
+
+Validator.localize('pt_BR', pt);
+Vue.use(VeeValidate, { locale: pt });
 
 new Vue({
   router,
