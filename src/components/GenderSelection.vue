@@ -9,6 +9,7 @@
           dark
           icon
           round
+          id="male"
           slot="activator"
         >
           <v-icon>mdi-gender-male</v-icon>
@@ -23,6 +24,7 @@
           dark
           icon
           round
+          id="female"
           slot="activator"
         >
           <v-icon>mdi-gender-female</v-icon>
@@ -37,6 +39,7 @@
           dark
           icon
           round
+          id="undetermined"
           slot="activator"
         >
           <v-icon>mdi-help</v-icon>
@@ -50,9 +53,12 @@
 <script>
 export default {
   name: 'GenderSelection',
-  props: [
-    'value',
-  ],
+  props: {
+    value: {
+      type: String,
+      default: 'MACHO',
+    },
+  },
   methods: {
     changeGender(newValue) {
       this.$emit('input', newValue);
