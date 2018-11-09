@@ -1,39 +1,62 @@
 <template>
   <div>
     <v-layout row>
-      <v-btn color="blue" icon round :flat="gender!==1" @click="change(1)" dark>
-        <v-icon>mdi-gender-male</v-icon>
-      </v-btn>
-      <v-btn color="pink" icon round :flat="gender!==2" @click="change(2)" dark>
-        <v-icon>mdi-gender-female</v-icon>
-      </v-btn>
-      <v-btn color="grey" icon round :flat="gender!==3" @click="change(3)" dark>
-        <v-icon>mdi-help</v-icon>
-      </v-btn>
+      <v-tooltip color="blue" top>
+        <v-btn
+          :flat="value !== 'MACHO'"
+          @click="changeGender('MACHO')"
+          color="blue"
+          dark
+          icon
+          round
+          slot="activator"
+        >
+          <v-icon>mdi-gender-male</v-icon>
+        </v-btn>
+        <span>Macho</span>
+      </v-tooltip>
+      <v-tooltip color="pink" top>
+        <v-btn
+          :flat="value !== 'FEMEA'"
+          @click="changeGender('FEMEA')"
+          color="pink"
+          dark
+          icon
+          round
+          slot="activator"
+        >
+          <v-icon>mdi-gender-female</v-icon>
+        </v-btn>
+        <span>Fêmea</span>
+      </v-tooltip>
+      <v-tooltip color="grey" top>
+        <v-btn
+          :flat="value !== 'INDETERMINADO'"
+          @click="changeGender('INDETERMINADO')"
+          color="grey"
+          dark
+          icon
+          round
+          slot="activator"
+        >
+          <v-icon>mdi-help</v-icon>
+        </v-btn>
+        <span>Indeterminado</span>
+      </v-tooltip>
     </v-layout>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ImageUpload',
-  data() {
-    return {
-      gender: 1,
-    };
-  },
+  name: 'GenderSelection',
+  props: [
+    'value',
+  ],
   methods: {
-    change(newValue) {
-      this.gender = newValue;
-
-      this.$emit('get-gender', this.gender);
+    changeGender(newValue) {
+      this.$emit('input', newValue);
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  #file {
-    display: none;
-  }
-</style>

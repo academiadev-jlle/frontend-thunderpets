@@ -1,24 +1,24 @@
 <template>
   <div>
     <v-tabs
-        centered
-        class="main-tabs"
-        color="primary"
-        grow
-        slider-color="secondary"
-        slot="extension"
-        v-model="model"
-      >
-        <v-tab href="#tab-1">
-          Achados
-        </v-tab>
-        <v-tab href="#tab-2">
-          Perdidos
-        </v-tab>
-        <v-tab href="#tab-3">
-          Adoção
-        </v-tab>
-      </v-tabs>
+      centered
+      class="main-tabs"
+      color="primary"
+      grow
+      slider-color="secondary"
+      slot="extension"
+      v-model="model"
+    >
+      <v-tab href="#tab-1">
+        Achados
+      </v-tab>
+      <v-tab href="#tab-2">
+        Perdidos
+      </v-tab>
+      <v-tab href="#tab-3">
+        Adoção
+      </v-tab>
+    </v-tabs>
     <v-container fluid grid-list-md>
       <v-tabs-items v-model="model">
         <v-tab-item

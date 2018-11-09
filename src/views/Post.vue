@@ -1,57 +1,146 @@
 <template>
-  <v-container id="container">
-    <v-layout row wrap>
-      <v-flex xs12 md5>
+  <v-container fluid grid-list-md>
+    <v-layout row wrap justify-center>
+      <v-flex xs12 md6>
         <v-card>
           <v-form refs="form">
-          <v-card-text>
-            <p class="display-1">
-              Perdi meu pet
-            </p>
-            <v-select
-              :items="petTypes"
-              label="Tipo"
-              placeholder="Selecione o tipo de animal"
-            ></v-select>
-            <v-select
-              :items="petPort"
-              label="Porte"
-              placeholder="Selecione o porte do animal"
-            ></v-select>
-            <div>
-              <v-label>Sexo</v-label>
-              <gender-selection v-on:get-gender="getGender"/>
-            </div>
-            <v-textarea
-              label="Descrição"
-              no-resize
-              placeholder="Descreva o animal em poucas palavras para que possam reconhecê-lo"
-            ></v-textarea>
-            <v-text-field
-              label="Contato"
-              mask="(##) #####-####"
-              placeholder="Forneça um telefone/celular para entrarem em contato"
-            ></v-text-field>
-            <image-upload ref="images" v-on:get-images="getImages"/>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="success">
-              Confirmar
-            </v-btn>
-            <v-btn color="error">
-              Cancelar
-            </v-btn>
-          </v-card-actions>
+            <v-card-text>
+              <p class="display-1">
+                Dados do animal
+              </p>
+              <v-select
+                :error-messages="errors.collect('category')"
+                :items="domains.category"
+                data-vv-as="categoria"
+                data-vv-name="category"
+                label="Categoria"
+                placeholder="Selecione a categoria do pet"
+                v-model="pet.categoria"
+                v-validate="'required'"
+              ></v-select>
+              <v-layout row wrap>
+                <v-flex xs12 sm6>
+                  <v-select
+                    :error-messages="errors.collect('specie')"
+                    :items="domains.specie"
+                    data-vv-as="espécie"
+                    data-vv-name="specie"
+                    label="Espécie"
+                    placeholder="Selecione a espécie de animal"
+                    v-model="pet.especie"
+                    v-validate="'required'"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-select
+                    :error-messages="errors.collect('size')"
+                    :items="domains.size"
+                    data-vv-as="porte"
+                    data-vv-name="size"
+                    label="Porte"
+                    placeholder="Selecione o porte do animal"
+                    v-model="pet.porte"
+                    v-validate="'required'"
+                  ></v-select>
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                <v-flex xs12 sm6>
+                  <v-select
+                    :error-messages="errors.collect('age')"
+                    :items="domains.age"
+                    data-vv-as="idade"
+                    data-vv-name="age"
+                    label="Idade"
+                    placeholder="Selecione a idade do animal"
+                    v-model="pet.idade"
+                    v-validate="'required'"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <div>
+                    <label class="caption label">Sexo</label>
+                    <gender-selection v-model="pet.sexo"/>
+                  </div>
+                </v-flex>
+              </v-layout>
+              <v-layout row v-if="pet.categoria != 'ADOCAO'" wrap>
+                <v-flex xs12 sm6>
+                  <v-text-field
+                    :counter="20"
+                    :error-messages="errors.collect('name')"
+                    data-vv-as="nome"
+                    data-vv-name="name"
+                    label="Nome"
+                    placeholder="Nome do animal"
+                    v-model="pet.nome"
+                    v-validate="'required|max:20'"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-menu
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    full-width
+                    lazy
+                    min-width="290px"
+                    offset-y
+                    transition="scale-transition"
+                    v-model="datePicker"
+                  >
+                    <v-text-field
+                      :error-messages="errors.collect('date')"
+                      data-vv-as="data"
+                      data-vv-name="date"
+                      label="Data"
+                      placeholder="Informe a data"
+                      prepend-icon="event"
+                      readonly
+                      slot="activator"
+                      v-model="computedDateFormatted"
+                      v-validate="'required'"
+                    ></v-text-field>
+                    <v-date-picker
+                      @input="datePicker = false"
+                      locale="pt-br"
+                      v-model="pet.data"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-flex>
+              </v-layout>
+              <v-textarea
+                :counter="500"
+                :error-messages="errors.collect('description')"
+                data-vv-as="descrição"
+                data-vv-name="description"
+                label="Descrição"
+                no-resize
+                placeholder="Descreva o animal em poucas palavras para que possam reconhecê-lo"
+                v-model="pet.descricao"
+                v-validate="'required|max:500'"
+              ></v-textarea>
+              <div class="mt-1">
+                <label class="caption label">Fotos</label>
+                <image-upload
+                  v-model="pet.fotos"
+                />
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="info" @click="submit">
+                Confirmar
+              </v-btn>
+            </v-card-actions>
           </v-form>
         </v-card>
       </v-flex>
-      <v-flex xs12 md6 offset-md1>
+      <v-flex xs12 md6 v-if="pet.categoria != 'ADOCAO'">
         <v-card>
           <v-card-text>
             <p class="display-1">
-              Selecione onde perdeu seu pet
+              Localização
             </p>
-            <google-map/>
+            <google-map v-model="pet.localizacao"/>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -63,7 +152,9 @@
 import GenderSelection from '../components/GenderSelection.vue';
 import GoogleMap from '../components/GoogleMap.vue';
 import ImageUpload from '../components/ImageUpload.vue';
-import store from '../store';
+import domains from '../domains';
+
+const USUARIO = 1;
 
 export default {
   name: 'Post',
@@ -74,44 +165,43 @@ export default {
   },
   data() {
     return {
-      email: '',
-      images: null,
-      gender: 1,
-      name: '',
-      petTypes: [
-        'Bovino',
-        'Cão',
-        'Equino',
-        'Galináceo',
-        'Gato',
-        'Pássaro',
-        'Roedor',
-      ],
-      petPort: [
-        'Pequeno',
-        'Médio',
-        'Grande',
-      ],
+      domains,
+      datePicker: false,
+      pet: {
+        categoria: null,
+        data: null,
+        descricao: null,
+        especie: null,
+        fotos: null,
+        idade: null,
+        localizacao: null,
+        nome: null,
+        porte: null,
+        sexo: 'MACHO',
+        usuario: USUARIO,
+      },
     };
   },
   computed: {
-    petLocation() {
-      return store.state.location;
+    computedDateFormatted() {
+      if (!this.pet.data) return null;
+
+      const [year, month, day] = this.pet.data.split('-');
+
+      return `${day}/${month}/${year}`;
     },
   },
   methods: {
-    getImages(images) {
-      this.images = images;
-    },
-    getGender(gender) {
-      this.gender = gender;
+    submit() {
+      this.$validator.validateAll();
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  #container {
-    max-width: 100%;
+  .label {
+    color: rgba(0,0,0,0.54);
   }
 </style>
+
