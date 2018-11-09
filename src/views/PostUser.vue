@@ -44,12 +44,12 @@
                 v-model="confirmPassword"
                 v-validate="{ is: password, required: true }"
               ></v-text-field>
-              <v-card-actions>
-                <v-btn color="info" @click="submit">
-                  Criar conta
-                </v-btn>
-              </v-card-actions>
             </v-card-text>
+            <v-card-actions>
+              <v-btn color="info" @click="submit">
+                Criar conta
+              </v-btn>
+            </v-card-actions>
           </v-form>
         </v-card>
       </v-flex>
