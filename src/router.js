@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Post from './views/Post.vue';
-import PostUser from './views/PostUser.vue';
 
 Vue.use(Router);
 
@@ -18,11 +17,6 @@ export default new Router({
       path: '/post',
       name: 'post',
       component: Post,
-    },
-    {
-      path: '/postUser',
-      name: 'postUser',
-      component: PostUser,
     },
   ],
 });
