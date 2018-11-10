@@ -32,9 +32,9 @@ describe('GenderSelection.vue', () => {
     const femaleButton = wrapper.find('#female');
     const undeterminedButton = wrapper.find('#undetermined');
 
-    expect(maleButton.attributes().flat).toBeUndefined();
-    expect(femaleButton.attributes().flat).toBeTruthy();
-    expect(undeterminedButton.attributes().flat).toBeTruthy();
+    expect(maleButton.props('flat')).toBeFalsy();
+    expect(femaleButton.props('flat')).toBeTruthy();
+    expect(undeterminedButton.props('flat')).toBeTruthy();
   });
 
   it('female button selected with FEMEA value', () => {
@@ -48,9 +48,9 @@ describe('GenderSelection.vue', () => {
     const femaleButton = wrapper.find('#female');
     const undeterminedButton = wrapper.find('#undetermined');
 
-    expect(maleButton.attributes().flat).toBeTruthy();
-    expect(femaleButton.attributes().flat).toBeUndefined();
-    expect(undeterminedButton.attributes().flat).toBeTruthy();
+    expect(maleButton.props('flat')).toBeTruthy();
+    expect(femaleButton.props('flat')).toBeFalsy();
+    expect(undeterminedButton.props('flat')).toBeTruthy();
   });
 
   it('undetermined button selected with INDETERMINADO value', () => {
@@ -64,9 +64,9 @@ describe('GenderSelection.vue', () => {
     const femaleButton = wrapper.find('#female');
     const undeterminedButton = wrapper.find('#undetermined');
 
-    expect(maleButton.attributes().flat).toBeTruthy();
-    expect(femaleButton.attributes().flat).toBeTruthy();
-    expect(undeterminedButton.attributes().flat).toBeUndefined();
+    expect(maleButton.props('flat')).toBeTruthy();
+    expect(femaleButton.props('flat')).toBeTruthy();
+    expect(undeterminedButton.props('flat')).toBeFalsy();
   });
 
   it('buttons call method that emits value properly', () => {

@@ -75,6 +75,7 @@
                     placeholder="Nome do animal"
                     v-model="pet.nome"
                     v-validate="'required|max:20'"
+                    id="name"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6>
@@ -204,4 +205,3 @@ export default {
     color: rgba(0,0,0,0.54);
   }
 </style>
-
