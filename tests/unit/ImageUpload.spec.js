@@ -22,18 +22,6 @@ describe('ImageUpload.vue', () => {
 
     expect(newImageButton.exists()).toBeTruthy();
 
-    wrapper.vm.images = ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1'];
-
-    expect(newImageButton.exists()).toBeFalsy();
-  });
-
-  it('new image button respects 10 images limit', () => {
-    const wrapper = shallowMount(ImageUpload);
-
-    const newImageButton = wrapper.find('#new-image');
-
-    expect(newImageButton.exists()).toBeTruthy();
-
     wrapper.vm.images = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     expect(newImageButton.exists()).toBeFalsy();
