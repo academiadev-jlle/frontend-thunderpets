@@ -20,7 +20,7 @@
       ref="gmap"
     >
       <gmap-marker
-        :icon="markerIcon"
+        :icon="pawMarker"
         :position="location"
         @click="markerClick"
         @dragend="updateMarker"
@@ -43,17 +43,13 @@ export default {
         lat: -26.3048801,
         lng: -48.8462105,
       },
-      city: null,
-      currentPlace: null,
       formattedAddress: null,
       geocoder: null,
       location: null,
-      markerIcon: null,
-      state: null,
+      pawMarker,
     };
   },
   mounted() {
-    this.markerIcon = pawMarker;
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -102,6 +98,7 @@ export default {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       };
+
       this.reverseGeocode(this.location, false);
       this.center = this.location;
     },

@@ -24,6 +24,7 @@
         <v-tab-item
           :key="i"
           :value="`tab-${i}`"
+          :id="`tab-${i}`"
           v-for="i in 3"
         >
           <pet-list class="mt-5"/>
