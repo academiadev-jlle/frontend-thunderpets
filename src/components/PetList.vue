@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     pets() {
-      return [...Array(200).keys()].map(number => ({
+      return [...Array(50).keys()].map(number => ({
         nome: `Pet ${number}`,
         sexo: this.petSexes[Math.floor(Math.random() * this.petSexes.length)],
         porte: this.petSizes[Math.floor(Math.random() * this.petSizes.length)],

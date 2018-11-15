@@ -1,7 +1,7 @@
 <template>
-  <v-card hover>
+  <v-card hover v-if="pet">
     <v-responsive>
-      <v-img :src="pet.foto" aspect-ratio="1.5">
+      <v-img :src="pet.foto" aspect-ratio="1.5" id="photo">
         <v-layout
           align-end
           class="mx-1"
@@ -19,7 +19,9 @@
               <v-avatar class="mr-0">
                 <v-icon>mdi-map-marker</v-icon>
               </v-avatar>
-              {{pet.distancia}} km
+              <span id="distance-text">
+                {{pet.distancia}} km
+              </span>
             </v-chip>
             <span>Distância</span>
           </v-tooltip>
@@ -32,11 +34,11 @@
                 size="24"
                 slot="activator"
               >
-                <v-icon dark v-if="pet.porte === 'PEQUENO'">mdi-alpha-p</v-icon>
-                <v-icon dark v-else-if="pet.porte === 'MEDIO'">mdi-alpha-m</v-icon>
-                <v-icon dark v-else>mdi-alpha-g</v-icon>
+                <v-icon dark id="small" v-if="pet.porte === 'PEQUENO'">mdi-alpha-p</v-icon>
+                <v-icon dark id="medium" v-else-if="pet.porte === 'MEDIO'">mdi-alpha-m</v-icon>
+                <v-icon dark id="large" v-else>mdi-alpha-g</v-icon>
               </v-avatar>
-              <span>Porte {{formatSize}}</span>
+              <span id="size-text">Porte {{formatSize}}</span>
             </v-tooltip>
             <v-tooltip :color="sexoColor" top>
               <v-avatar
@@ -45,20 +47,20 @@
                 size="36"
                 slot="activator"
               >
-                <v-icon dark v-if="pet.sexo === 'MACHO'">mdi-gender-male</v-icon>
-                <v-icon dark v-else-if="pet.sexo === 'FEMEA'">mdi-gender-female</v-icon>
-                <v-icon dark v-else>mdi-help</v-icon>
+                <v-icon dark id="male" v-if="pet.sexo === 'MACHO'">mdi-gender-male</v-icon>
+                <v-icon dark id="female" v-else-if="pet.sexo === 'FEMEA'">mdi-gender-female</v-icon>
+                <v-icon dark id="undetermined" v-else>mdi-help</v-icon>
               </v-avatar>
-              <span class="text-capitalize">{{formatSex}}</span>
+              <span class="text-capitalize" id="sex-text">{{formatSex}}</span>
             </v-tooltip>
           </v-layout>
         </v-layout>
       </v-img>
     </v-responsive>
-    <v-card-title class="headline pa-2 pb-0">
+    <v-card-title class="headline pa-2 pb-0" id="name">
       {{pet.nome}}
     </v-card-title>
-    <v-card-text class="body-1 px-2 pt-0 text-xs-justify">
+    <v-card-text class="body-1 px-2 pt-0 text-xs-justify" id="description">
       {{pet.descricao}}
     </v-card-text>
   </v-card>
