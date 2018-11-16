@@ -41,7 +41,7 @@
       </v-card>
       <v-card
         @click.native="openFileUploader"
-        class="ma-1"
+        :class="{'ma-1': true, 'no-image-margin': images.length == 0}"
         height="100px"
         hover
         id="new-image"
@@ -54,7 +54,7 @@
           fill-height
           justify-center
         >
-          <v-icon color="grey" size="50">mdi-camera</v-icon>
+          <v-icon color="grey" size="50">add_a_photo</v-icon>
           <span class="grey--text">Nova foto</span>
         </v-layout>
       </v-card>
@@ -137,5 +137,9 @@ export default {
 
   .main-image {
     border: 3px solid #ffd044;
+  }
+
+  .no-image-margin {
+    margin-top: 25px !important;
   }
 </style>
