@@ -65,7 +65,7 @@ export default {
         nome: `Pet ${number}`,
         sexo: this.petSexes[Math.floor(Math.random() * this.petSexes.length)],
         porte: this.petSizes[Math.floor(Math.random() * this.petSizes.length)],
-        foto: this.petPhotos[Math.floor(Math.random() * this.petPhotos.length)],
+        foto: `https://placedog.net/350/250?random=${number}`,
         descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nec ligula eget mauris ultricies elementum nec consectetur libero. Donec condimentum.',
         distancia: number,
       }));

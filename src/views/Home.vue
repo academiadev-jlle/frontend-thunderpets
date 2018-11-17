@@ -7,7 +7,7 @@
       grow
       slider-color="secondary"
       slot="extension"
-      v-model="model"
+      v-model="tab"
     >
       <v-tab href="#tab-1">
         Achados
@@ -20,7 +20,7 @@
       </v-tab>
     </v-tabs>
     <v-container fluid grid-list-md>
-      <v-tabs-items v-model="model">
+      <v-tabs-items v-model="tab">
         <v-tab-item
           :key="i"
           :value="`tab-${i}`"
@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      model: 'tab-2',
+      tab: 'tab-2',
     };
   },
 };
