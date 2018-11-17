@@ -1,9 +1,6 @@
-import axios from 'axios';
+import Http from './http';
 
-const getToken = () => axios.request({
-  url: '/oauth/token?grant_type=password&username=admin@mail.com&password=admin',
-  method: 'GET',
-  baseURL: 'https://thunderpets-api.herokuapp.com/',
+const getToken = () => Http.get('/oauth/token?grant_type=password&username=admin@mail.com&password=admin', {
   auth: {
     username: process.env.VUE_APP_CLIENT_ID,
     password: process.env.VUE_APP_SECRET_ID,
