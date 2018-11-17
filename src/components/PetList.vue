@@ -23,11 +23,16 @@
 </template>
 
 <script>
+import Pets from '@/services/pets';
 import PetCard from './PetCard.vue';
 
 export default {
   name: 'PetList',
+  props: {
+    status: String,
+  },
   components: {
+    Pets,
     PetCard,
   },
   data() {
@@ -70,6 +75,12 @@ export default {
         distancia: number,
       }));
     },
+  },
+  created() {
+    console.log(`Status: ${this.status}`);
+    Pets.get(this.status).then((response) => {
+      console.log(response);
+    });
   },
   methods: {
     autoScroll(pagination) {

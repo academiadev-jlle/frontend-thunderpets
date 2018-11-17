@@ -21,13 +21,14 @@
     </v-tabs>
     <v-container fluid grid-list-md>
       <v-tabs-items v-model="model">
-        <v-tab-item
-          :key="i"
-          :value="`tab-${i}`"
-          :id="`tab-${i}`"
-          v-for="i in 3"
-        >
-          <pet-list class="mt-5"/>
+        <v-tab-item value="tab-1">
+          <pet-list class="mt-5" status="PROCURANDO_DONO"/>
+        </v-tab-item>
+        <v-tab-item value="tab-2">
+          <pet-list class="mt-5" status="PROCURANDO_PET"/>
+        </v-tab-item>
+        <v-tab-item value="tab-3">
+          <pet-list class="mt-5" status="PARA_ADOTAR"/>
         </v-tab-item>
       </v-tabs-items>
     </v-container>

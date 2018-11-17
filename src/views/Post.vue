@@ -9,13 +9,13 @@
                 Dados do animal
               </p>
               <v-select
-                :error-messages="errors.collect('category')"
-                :items="domains.category"
+                :error-messages="errors.collect('status')"
+                :items="domains.status"
                 data-vv-as="categoria"
-                data-vv-name="category"
+                data-vv-name="status"
                 label="Categoria"
                 placeholder="Selecione a categoria do pet"
-                v-model="pet.categoria"
+                v-model="pet.status"
                 v-validate="'required'"
               ></v-select>
               <v-layout row wrap>
@@ -150,12 +150,14 @@
 </template>
 
 <script>
-import GenderSelection from '../components/GenderSelection.vue';
-import GoogleMap from '../components/GoogleMap.vue';
-import ImageUpload from '../components/ImageUpload.vue';
-import domains from '../domains';
+import Pets from '@/services/pets';
+import Auth from '@/services/auth';
+import GenderSelection from '@/components/GenderSelection.vue';
+import GoogleMap from '@/components/GoogleMap.vue';
+import ImageUpload from '@/components/ImageUpload.vue';
+import domains from '@/domains';
 
-const USUARIO = 1;
+const USUARIO = '3b88d61f-5b23-4831-aa95-b8e362672c8e';
 
 export default {
   name: 'Post',
@@ -169,8 +171,7 @@ export default {
       domains,
       datePicker: false,
       pet: {
-        categoria: null,
-        data: null,
+        dataAchado: null,
         descricao: null,
         especie: null,
         fotos: null,
@@ -179,9 +180,24 @@ export default {
         nome: null,
         porte: null,
         sexo: 'MACHO',
+        status: null,
         usuario: USUARIO,
       },
     };
+  },
+  created() {
+    const formData = new FormData();
+
+    formData.append('username', 'admin@mail.com');
+    formData.append('password', 'admin');
+    formData.append('grant_type', 'password');
+
+    this.$http.post('https://thunderpets-api.herokuapp.com/oauth/token', formData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: 'Basic YXBwOmFwcA==',
+      },
+    });
   },
   computed: {
     computedDateFormatted() {
@@ -194,7 +210,14 @@ export default {
   },
   methods: {
     submit() {
-      this.$validator.validateAll();
+      this.$validator.validate().then((result) => {
+        if (result) {
+          console.log(this.pet);
+          Pets.save(this.pet).then((response) => {
+            console.log(response);
+          });
+        }
+      });
     },
   },
 };

@@ -49,22 +49,22 @@ const age = [
   },
 ];
 
-const category = [
+const status = [
   {
     text: 'Achado',
-    value: 'ACHADO',
+    value: 'PROCURANDO_DONO',
   }, {
     text: 'Perdido',
-    value: 'PERDIDO',
+    value: 'PROCURANDO_PET',
   }, {
     text: 'Adoção',
-    value: 'ADOCAO',
+    value: 'PARA_ADOCAO',
   },
 ];
 
 export default {
   age,
-  category,
+  status,
   size,
   specie,
 };
