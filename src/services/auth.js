@@ -5,8 +5,8 @@ const getToken = () => axios.request({
   method: 'GET',
   baseURL: 'https://thunderpets-api.herokuapp.com/',
   auth: {
-    username: 'client-id',
-    password: 'secret-id',
+    username: process.env.VUE_APP_CLIENT_ID,
+    password: process.env.VUE_APP_SECRET_ID,
   },
 });
 
