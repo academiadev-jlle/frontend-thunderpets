@@ -20,7 +20,7 @@
       </v-tab>
     </v-tabs>
     <v-container fluid grid-list-md>
-      <v-tabs-items v-model="model">
+      <v-tabs-items v-model="tab">
         <v-tab-item value="tab-1">
           <pet-list class="mt-5" status="PROCURANDO_DONO"/>
         </v-tab-item>

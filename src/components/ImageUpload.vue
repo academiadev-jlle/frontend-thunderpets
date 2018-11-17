@@ -26,7 +26,7 @@
           <v-layout class="pa-1" justify-end row>
             <v-tooltip color="red" top>
               <v-avatar
-                @click="removePhoto(index)"
+                @click="removePhoto($event, index)"
                 class="elevation-2"
                 color="red"
                 size="20"
@@ -88,9 +88,15 @@ export default {
     setMainImage(index) {
       this.mainImage = index >= this.images.length ? 0 : index;
     },
-    removePhoto(index) {
+    removePhoto(event, index) {
+      event.stopPropagation();
       this.images.splice(index, 1);
-      this.setMainImage(index);
+
+      if (this.mainImage >= this.images.length) {
+        this.mainImage -= 1;
+      }
+
+      this.mainImage = Math.min(Math.max(this.mainImage, 0), this.images.length);
 
       this.$emit('input', this.images);
     },

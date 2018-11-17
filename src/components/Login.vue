@@ -8,7 +8,7 @@
       open-on-hover
     >
       <div slot="activator" >
-        <span class="body-2" v-if="!isXS">Stan Lee</span>
+        <span class="body-2 uppercase" v-if="!isXS">Stan Lee</span>
         <v-avatar class="ml-2" size="30">
           <v-img
             :src="defaultImage"
@@ -85,13 +85,14 @@
             </v-flex>
             <v-flex xs6>
               <div class="v-label theme--light underline mt-2 text-xs-right blue--text">
-                <span style="cursor: pointer" @click="forgotPassword">Esqueci minha senha</span>
+                <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
               </div>
             </v-flex>
           </v-layout>
         </v-card-text>
         <v-card-actions>
           <v-layout column>
+            <span class="mb-2">Não possui conta? <a class="blue--text" @click="register">Cadastre-se</a></span>
             <v-btn
               @click="submit"
               block
@@ -143,13 +144,14 @@
 
 <script>
 import defaultImage from '@/assets/defaultImage.jpeg';
+import Users from '@/services/users';
 
 export default {
   name: 'Login',
   data() {
     return {
       defaultImage,
-      dialog: false,
+      dialog: true,
       loggedIn: false,
       login: {
         email: null,
@@ -178,6 +180,19 @@ export default {
     },
     forgotPassword() {
       console.log('Esqueci Senha');
+    },
+    register() {
+      Users.save({
+        ativo: true,
+        contatos: [{
+          tipo: 'TELEFONE',
+          descricao: '(47) 3422-2222',
+        }],
+        email: 'adam@adam.com',
+        foto: null,
+        nome: 'Adam',
+        senha: 'adam@adam',
+      });
     },
   },
 };

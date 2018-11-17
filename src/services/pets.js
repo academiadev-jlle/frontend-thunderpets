@@ -1,6 +1,6 @@
 import Http from './http';
 
-const get = status => Http.get('/pet', {
+const get = status => Http.get('/pet/filtro', {
   params: {
     status,
   },

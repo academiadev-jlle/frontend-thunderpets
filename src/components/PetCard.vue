@@ -40,9 +40,9 @@
               </v-avatar>
               <span id="size-text">Porte {{formatSize}}</span>
             </v-tooltip>
-            <v-tooltip :color="sexoColor" top>
+            <v-tooltip :color="genderColor" top>
               <v-avatar
-                :color="sexoColor"
+                :color="genderColor"
                 class="elevation-2 ma-1"
                 size="36"
                 slot="activator"
@@ -51,7 +51,7 @@
                 <v-icon dark id="female" v-else-if="pet.sexo === 'FEMEA'">mdi-gender-female</v-icon>
                 <v-icon dark id="undetermined" v-else>mdi-help</v-icon>
               </v-avatar>
-              <span class="text-capitalize" id="sex-text">{{formatSex}}</span>
+              <span class="text-capitalize" id="sex-text">{{formatGender}}</span>
             </v-tooltip>
           </v-layout>
         </v-layout>
@@ -67,13 +67,14 @@
 </template>
 
 <script>
+
 export default {
   name: 'PetCard',
   props: [
     'pet',
   ],
   computed: {
-    sexoColor() {
+    genderColor() {
       if (this.pet.sexo === 'MACHO') {
         return 'blue';
       } else if (this.pet.sexo === 'FEMEA') {
@@ -85,7 +86,7 @@ export default {
     formatSize() {
       return this.pet.porte === 'MEDIO' ? 'médio' : this.pet.porte.toLowerCase();
     },
-    formatSex() {
+    formatGender() {
       return this.pet.sexo === 'FEMEA' ? 'fêmea' : this.pet.sexo.toLowerCase();
     },
   },
