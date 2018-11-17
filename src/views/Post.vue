@@ -64,7 +64,7 @@
                   </div>
                 </v-flex>
               </v-layout>
-              <v-layout row v-if="pet.categoria != 'ADOCAO'" wrap>
+              <v-layout row v-if="pet.status != 'PARA_ADOCAO'" wrap>
                 <v-flex xs12 sm6>
                   <v-text-field
                     :counter="20"
@@ -98,13 +98,13 @@
                       prepend-icon="event"
                       readonly
                       slot="activator"
-                      v-model="computedDateFormatted"
+                      :value="pet.dataAchado | formatDate"
                       v-validate="'required'"
                     ></v-text-field>
                     <v-date-picker
                       @input="datePicker = false"
                       locale="pt-br"
-                      v-model="pet.data"
+                      v-model="pet.dataAchado"
                     ></v-date-picker>
                   </v-menu>
                 </v-flex>
@@ -135,7 +135,7 @@
           </v-form>
         </v-card>
       </v-flex>
-      <v-flex xs12 md6 v-if="pet.categoria != 'ADOCAO'">
+      <v-flex xs12 md6 v-if="pet.status != 'PARA_ADOCAO'">
         <v-card>
           <v-card-text>
             <p class="display-1">
@@ -186,24 +186,15 @@ export default {
     };
   },
   created() {
-    const formData = new FormData();
-
-    formData.append('username', 'admin@mail.com');
-    formData.append('password', 'admin');
-    formData.append('grant_type', 'password');
-
-    this.$http.post('https://thunderpets-api.herokuapp.com/oauth/token', formData, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic YXBwOmFwcA==',
-      },
+    Auth.getToken().then((response) => {
+      localStorage.setItem('token', response.data.access_token);
     });
   },
-  computed: {
-    computedDateFormatted() {
-      if (!this.pet.data) return null;
+  filters: {
+    formatDate(date) {
+      if (!date) return null;
 
-      const [year, month, day] = this.pet.data.split('-');
+      const [year, month, day] = date.split('-');
 
       return `${day}/${month}/${year}`;
     },
