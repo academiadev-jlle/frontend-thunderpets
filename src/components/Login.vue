@@ -217,10 +217,10 @@ export default {
           tipo: 'TELEFONE',
           descricao: '(47) 3422-2222',
         }],
-        email: 'adam@adam.com',
+        email: 'memes@adam.com',
         foto: null,
         nome: 'Adam',
-        senha: 'adam@adam',
+        senha: 'adam@meme',
       });
     },
     logout() {
