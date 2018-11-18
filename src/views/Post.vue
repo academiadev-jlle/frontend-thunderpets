@@ -71,11 +71,11 @@
                       :error-messages="errors.collect('name')"
                       data-vv-as="nome"
                       data-vv-name="name"
+                      id="name"
                       label="Nome"
                       placeholder="Nome do animal"
                       v-model="pet.nome"
                       v-validate="'required|max:20'"
-                      id="name"
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6>
@@ -139,7 +139,12 @@
         </v-flex>
       </v-layout>
       <v-card-actions>
-        <v-btn block color="info" @click="submit">
+        <v-btn
+          :loading="loading"
+          @click="submit"
+          block
+          color="info"
+        >
           Cadastrar Pet
         </v-btn>
       </v-card-actions>
@@ -150,7 +155,6 @@
 <script>
 import Pets from '@/services/pets';
 import Users from '@/services/users';
-import Auth from '@/services/auth';
 import GenderSelection from '@/components/GenderSelection.vue';
 import GoogleMap from '@/components/GoogleMap.vue';
 import ImageUpload from '@/components/ImageUpload.vue';
@@ -167,9 +171,11 @@ export default {
     return {
       domains,
       datePicker: false,
+      loading: false,
       pet: {
         ativo: true,
         dataAchado: null,
+        dataRegistro: '2010-10-10',
         descricao: null,
         especie: null,
         fotos: [],
@@ -180,30 +186,31 @@ export default {
         sexo: 'MACHO',
         status: null,
         usuario: null,
-        dataRegistro: '2010-10-10',
       },
     };
   },
   created() {
-    Auth.getToken().then((response) => {
-      localStorage.setItem('token', response.data.access_token);
-      console.log(response.data);
-    });
     Users.get().then((response) => {
-      // eslint-disable-next-line prefer-destructuring
       this.pet.usuario = response.data.content[0];
-      console.log(this.pet.usuario);
     });
   },
   methods: {
     submit() {
       this.$validator.validate().then((result) => {
         if (result) {
-          console.log(this.pet);
-
-          Pets.save(this.pet).then((response) => {
-            console.log(response);
-          });
+          if (localStorage.getItem('user')) {
+            this.loading = true;
+            Pets.save(this.pet).then((response) => {
+              this.loading = false;
+              if (response.status === 200) {
+                alert('Sucesso');
+              }
+            }).catch(() => {
+              this.loading = false;
+            });
+          } else {
+            alert('Logaí, meu bom');
+          }
         }
       });
     },

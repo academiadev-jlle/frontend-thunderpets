@@ -4,8 +4,8 @@
       max-width="200px"
       min-width="200px"
       offset-y
-      v-if="loggedIn"
       open-on-hover
+      v-if="loggedIn"
     >
       <div slot="activator" >
         <span class="body-2 uppercase" v-if="!isXS">Stan Lee</span>
@@ -25,7 +25,7 @@
         </v-list-tile>
         <v-divider class="" />
         <v-card-actions>
-          <v-btn flat color="red" block @click="loggedIn = false">
+          <v-btn flat color="red" block @click="logout">
             Sair
           </v-btn>
         </v-card-actions>
@@ -45,7 +45,10 @@
       transition="scale-transition"
       v-model="dialog"
     >
-      <v-card class="pa-1">
+      <v-card>
+        <v-alert v-model="error" type="error" class="my-0">
+          Email e/ou senha inválido(s), por favor revise suas informações.
+        </v-alert>
         <v-card-title class="headline">
           Entrar
           <v-spacer />
@@ -53,90 +56,96 @@
             mdi-close
           </v-icon>
         </v-card-title>
-        <v-card-text>
-          <v-text-field
-            :error-messages="errors.collect('email')"
-            class="required"
-            data-vv-as="email"
-            data-vv-name="email"
-            label="Email"
-            v-model="login.email"
-            v-validate="'required|email'"
-          >
-          </v-text-field>
-          <v-text-field
-            :error-messages="errors.collect('password')"
-            data-vv-as="senha"
-            data-vv-name="password"
-            label="Senha"
-            type="password"
-            v-model="login.password"
-            v-validate="'required'"
-          >
-          </v-text-field>
-          <v-layout row wrap>
-            <v-flex xs6>
-              <v-checkbox
-                class="my-0"
-                color="primary"
-                label="Lembrar de mim"
-                v-model="login.rememberMe"
-              ></v-checkbox>
-            </v-flex>
-            <v-flex xs6>
-              <div class="v-label theme--light underline mt-2 text-xs-right blue--text">
-                <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
-              </div>
-            </v-flex>
-          </v-layout>
-        </v-card-text>
-        <v-card-actions>
-          <v-layout column>
-            <span class="mb-2">Não possui conta? <a class="blue--text" @click="register">Cadastre-se</a></span>
-            <v-btn
-              @click="submit"
-              block
-              color="primary"
+        <div class="pa-1">
+          <v-card-text>
+            <v-text-field
+              :error-messages="errors.collect('email')"
+              class="required"
+              data-vv-as="email"
+              data-vv-name="email"
+              label="Email"
+              v-model="login.email"
+              v-validate="'required|email'"
             >
-              Entrar
-            </v-btn>
-            <v-divider class="my-3" />
-            <v-container class="pa-0" fluid grid-list-md>
-              <v-layout row>
-                <v-flex xs6>
-                  <v-btn
-                    :class="{'pr-4': !isXS}"
-                    block
-                    color="#cf4332"
-                    dark
-                  >
-                    <v-icon :class="{'mr-4': !isXS}">
-                      mdi-google
-                    </v-icon>
-                    <span v-if="!isXS">
-                      Entrar com Google
-                    </span>
-                  </v-btn>
-                </v-flex>
-                <v-flex xs6>
-                  <v-btn
-                    :class="{'pr-4': !isXS}"
-                    block
-                    color="#3c66c4"
-                    dark
-                  >
-                    <v-icon :class="{'mr-3': !isXS}">
-                      mdi-facebook
-                    </v-icon>
-                    <span v-if="!isXS">
-                      Entrar com Facebook
-                    </span>
-                  </v-btn>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-layout>
-        </v-card-actions>
+            </v-text-field>
+            <v-text-field
+              :error-messages="errors.collect('password')"
+              data-vv-as="senha"
+              data-vv-name="password"
+              label="Senha"
+              type="password"
+              v-model="login.password"
+              v-validate="'required'"
+            >
+            </v-text-field>
+            <v-layout row wrap>
+              <v-flex xs6>
+                <v-checkbox
+                  class="my-0"
+                  color="primary"
+                  label="Lembrar de mim"
+                  v-model="login.rememberMe"
+                ></v-checkbox>
+              </v-flex>
+              <v-flex xs6>
+                <div class="v-label mt-2 text-xs-right">
+                  <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
+                </div>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+          <v-card-actions>
+            <v-layout column>
+              <span class="mb-2">
+                Não possui conta?
+                <a class="blue--text" @click="register">Cadastre-se</a>
+              </span>
+              <v-btn
+                @click="submit"
+                block
+                color="primary"
+                :loading="loading"
+              >
+                Entrar
+              </v-btn>
+              <v-divider class="my-3" />
+              <v-container class="pa-0" fluid grid-list-md>
+                <v-layout row>
+                  <v-flex xs6>
+                    <v-btn
+                      :class="{'pr-4': !isXS}"
+                      block
+                      color="#cf4332"
+                      dark
+                    >
+                      <v-icon :class="{'mr-4': !isXS}">
+                        mdi-google
+                      </v-icon>
+                      <span v-if="!isXS">
+                        Entrar com Google
+                      </span>
+                    </v-btn>
+                  </v-flex>
+                  <v-flex xs6>
+                    <v-btn
+                      :class="{'pr-4': !isXS}"
+                      block
+                      color="#3c66c4"
+                      dark
+                    >
+                      <v-icon :class="{'mr-3': !isXS}">
+                        mdi-facebook
+                      </v-icon>
+                      <span v-if="!isXS">
+                        Entrar com Facebook
+                      </span>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-layout>
+          </v-card-actions>
+        </div>
       </v-card>
     </v-dialog>
   </div>
@@ -145,20 +154,28 @@
 <script>
 import defaultImage from '@/assets/defaultImage.jpeg';
 import Users from '@/services/users';
+import Auth from '@/services/auth';
 
 export default {
   name: 'Login',
   data() {
     return {
       defaultImage,
-      dialog: true,
+      dialog: false,
       loggedIn: false,
+      error: false,
+      loading: false,
       login: {
         email: null,
         password: null,
         rememberMe: false,
       },
     };
+  },
+  created() {
+    if (localStorage.getItem('user')) {
+      this.loggedIn = true;
+    }
   },
   computed: {
     isXS() {
@@ -169,13 +186,25 @@ export default {
     submit() {
       this.$validator.validate().then((result) => {
         if (result) {
-          this.loggedIn = true;
-          this.dialog = false;
+          this.loading = true;
+          Auth.getToken(this.login).then((response) => {
+            if (response.status === 200) {
+              this.loggedIn = true;
+              this.dialog = false;
+              localStorage.setItem('user', true);
+              localStorage.setItem('token', response.data.access_token);
+            }
+            this.loading = false;
+          }).catch(() => {
+            this.error = true;
+            this.loading = false;
+          });
         }
       });
     },
     closeDialog() {
       this.dialog = false;
+      this.error = false;
       this.$validator.reset();
     },
     forgotPassword() {
@@ -193,6 +222,18 @@ export default {
         nome: 'Adam',
         senha: 'adam@adam',
       });
+    },
+    logout() {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      this.loggedIn = false;
+    },
+  },
+  watch: {
+    dialog(value) {
+      if (!value) {
+        this.closeDialog();
+      }
     },
   },
 };

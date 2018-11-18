@@ -1,7 +1,7 @@
 <template>
   <v-card hover v-if="pet">
     <v-responsive>
-      <v-img :src="pet.foto" aspect-ratio="1.5" id="photo">
+      <v-img :src="pet.foto | preventNoPhoto" aspect-ratio="1.5" id="photo">
         <v-layout
           align-end
           class="mx-1"
@@ -14,7 +14,7 @@
               color="primary"
               slot="activator"
               text-color="white"
-              v-if="pet.distancia !== null"
+              v-if="pet.distancia"
             >
               <v-avatar class="mr-0">
                 <v-icon>mdi-map-marker</v-icon>
@@ -38,7 +38,7 @@
                 <v-icon dark id="medium" v-else-if="pet.porte === 'MEDIO'">mdi-alpha-m</v-icon>
                 <v-icon dark id="large" v-else>mdi-alpha-g</v-icon>
               </v-avatar>
-              <span id="size-text">Porte {{formatSize}}</span>
+              <span id="size-text">Porte {{pet.porte | formatSize}}</span>
             </v-tooltip>
             <v-tooltip :color="genderColor" top>
               <v-avatar
@@ -51,7 +51,7 @@
                 <v-icon dark id="female" v-else-if="pet.sexo === 'FEMEA'">mdi-gender-female</v-icon>
                 <v-icon dark id="undetermined" v-else>mdi-help</v-icon>
               </v-avatar>
-              <span class="text-capitalize" id="sex-text">{{formatGender}}</span>
+              <span id="sex-text">{{pet.sexo | formatGender | capitalize}}</span>
             </v-tooltip>
           </v-layout>
         </v-layout>
@@ -67,12 +67,33 @@
 </template>
 
 <script>
+import noPhoto from '@/assets/noPhoto.jpg';
 
 export default {
   name: 'PetCard',
   props: [
     'pet',
   ],
+  filters: {
+    preventNoPhoto(value) {
+      if (!value) {
+        return noPhoto;
+      }
+
+      return value;
+    },
+    formatSize(value) {
+      return value === 'MEDIO' ? 'médio' : value.toLowerCase();
+    },
+    formatGender(value) {
+      return value === 'FEMEA' ? 'fêmea' : value.toLowerCase();
+    },
+    capitalize(value) {
+      if (!value) return '';
+
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+  },
   computed: {
     genderColor() {
       if (this.pet.sexo === 'MACHO') {
@@ -82,12 +103,6 @@ export default {
       }
 
       return 'grey';
-    },
-    formatSize() {
-      return this.pet.porte === 'MEDIO' ? 'médio' : this.pet.porte.toLowerCase();
-    },
-    formatGender() {
-      return this.pet.sexo === 'FEMEA' ? 'fêmea' : this.pet.sexo.toLowerCase();
     },
   },
 };

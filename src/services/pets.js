@@ -8,15 +8,11 @@ const get = status => Http.get('/pet/filtro', {
 
 const getById = id => Http.get(`/pet/${id}`);
 
-const save = (pet) => {
-  console.log(localStorage.getItem('token'));
-
-  return Http.post('/pet', pet, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-};
+const save = pet => Http.post('/pet', pet, {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
+});
 
 export default {
   get,
