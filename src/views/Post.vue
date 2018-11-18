@@ -64,7 +64,7 @@
                     </div>
                   </v-flex>
                 </v-layout>
-                <v-layout row v-if="pet.status != 'PARA_ADOCAO'" wrap>
+                <v-layout row v-if="pet.status != 'PARA_ADOTAR'" wrap>
                   <v-flex xs12 sm6>
                     <v-text-field
                       :counter="20"
@@ -129,7 +129,7 @@
               </v-card-text>
             </v-form>
         </v-flex>
-        <v-flex xs12 md6 v-if="pet.status != 'PARA_ADOCAO'">
+        <v-flex xs12 md6 v-if="pet.status != 'PARA_ADOTAR'">
           <v-card-text>
           <p class="display-1">
             Localização

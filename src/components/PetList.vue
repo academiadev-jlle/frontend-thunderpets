@@ -2,13 +2,12 @@
   <div>
     <v-data-iterator
       :items="pets"
-      :pagination.sync="pagination"
-      :rows-per-page-items="rowsPerPageItems"
-      @update:pagination="autoScroll"
       content-tag="v-layout"
       row
-      v-if="pets.length > 0"
+      v-if="pets"
       wrap
+      :total-items="1000"
+      hide-actions
     >
       <v-flex
         slot-scope="props"
@@ -51,7 +50,7 @@ export default {
   },
   data() {
     return {
-      pets: [],
+      pets: null,
       loading: false,
       currentPageSize: 8,
       currentPage: 1,

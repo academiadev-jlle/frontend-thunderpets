@@ -3,6 +3,7 @@ import Http from './http';
 const get = status => Http.get('/pet/filtro', {
   params: {
     status,
+    tamanho: 1000,
   },
 });
 

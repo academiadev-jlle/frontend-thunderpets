@@ -58,7 +58,7 @@ const status = [
     value: 'PROCURANDO_PET',
   }, {
     text: 'Adoção',
-    value: 'PARA_ADOCAO',
+    value: 'PARA_ADOTAR',
   },
 ];
 
