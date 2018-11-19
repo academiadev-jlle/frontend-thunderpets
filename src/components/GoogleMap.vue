@@ -1,16 +1,11 @@
 <template>
   <div>
-    <div>
-      <v-layout row align-center>
-        <v-flex xs12>
-          <gmap-autocomplete
-            :value="formattedAddress"
-            @place_changed="setPlace"
-            id="autocomplete"
-          ></gmap-autocomplete>
-        </v-flex>
-      </v-layout>
-    </div>
+    <gmap-autocomplete
+      :value="formattedAddress"
+      @place_changed="setPlace"
+      id="autocomplete"
+    ></gmap-autocomplete>
+    <br>
     <br>
     <gmap-map
       :center="center"
@@ -115,7 +110,7 @@ export default {
   }
 
   #gmap {
-    height: 400px;
+    height: 520px;
     width:100%;
   }
 </style>
