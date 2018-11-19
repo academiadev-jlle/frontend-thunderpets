@@ -23,6 +23,8 @@
           Cadastrar Usuário
         </v-btn>
       </v-toolbar-items>
+      <v-spacer />
+      <login />
     </v-toolbar>
     <v-navigation-drawer
       app
@@ -40,15 +42,23 @@
 
 <script>
 import DrawerMenu from './components/DrawerMenu.vue';
+import Login from './components/Login.vue';
 
 export default {
   name: 'App',
   components: {
     DrawerMenu,
+    Login,
   },
   data() {
     return {
       drawer: false,
+      dialog: false,
+      login: {
+        email: null,
+        password: null,
+        rememberMe: false,
+      },
     };
   },
   computed: {
@@ -56,6 +66,17 @@ export default {
       return this.$vuetify.breakpoint.xsOnly;
     },
   },
+  methods: {
+    submit() {
+      this.$validator.validateAll();
+    },
+  },
 };
 </script>
 
+<style lang="scss" scoped>
+  .v-dialog__content {
+    align-items: center;
+    justify-content: center;
+  }
+</style>

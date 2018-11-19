@@ -26,7 +26,7 @@
           <v-layout class="pa-1" justify-end row>
             <v-tooltip color="red" top>
               <v-avatar
-                @click="removePhoto(index)"
+                @click="removePhoto($event, index)"
                 class="elevation-2"
                 color="red"
                 size="20"
@@ -41,7 +41,7 @@
       </v-card>
       <v-card
         @click.native="openFileUploader"
-        class="ma-1"
+        :class="{'ma-1': true, 'no-image-margin': images.length == 0}"
         height="100px"
         hover
         id="new-image"
@@ -54,7 +54,7 @@
           fill-height
           justify-center
         >
-          <v-icon color="grey" size="50">mdi-camera</v-icon>
+          <v-icon color="grey" size="50">add_a_photo</v-icon>
           <span class="grey--text">Nova foto</span>
         </v-layout>
       </v-card>
@@ -88,9 +88,15 @@ export default {
     setMainImage(index) {
       this.mainImage = index >= this.images.length ? 0 : index;
     },
-    removePhoto(index) {
+    removePhoto(event, index) {
+      event.stopPropagation();
       this.images.splice(index, 1);
-      this.setMainImage(index);
+
+      if (this.mainImage >= this.images.length) {
+        this.mainImage -= 1;
+      }
+
+      this.mainImage = Math.min(Math.max(this.mainImage, 0), this.images.length);
 
       this.$emit('input', this.images);
     },
@@ -137,5 +143,9 @@ export default {
 
   .main-image {
     border: 3px solid #ffd044;
+  }
+
+  .no-image-margin {
+    margin-top: 25px !important;
   }
 </style>
