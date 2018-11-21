@@ -1,16 +1,11 @@
 <template>
   <div>
-    <div>
-      <v-layout row align-center>
-        <v-flex xs12>
-          <gmap-autocomplete
-            :value="formattedAddress"
-            @place_changed="setPlace"
-            id="autocomplete"
-          ></gmap-autocomplete>
-        </v-flex>
-      </v-layout>
-    </div>
+    <gmap-autocomplete
+      :value="formattedAddress"
+      @place_changed="setPlace"
+      id="autocomplete"
+    ></gmap-autocomplete>
+    <br>
     <br>
     <gmap-map
       :center="center"
@@ -20,7 +15,7 @@
       ref="gmap"
     >
       <gmap-marker
-        :icon="markerIcon"
+        :icon="pawMarker"
         :position="location"
         @click="markerClick"
         @dragend="updateMarker"
@@ -43,17 +38,13 @@ export default {
         lat: -26.3048801,
         lng: -48.8462105,
       },
-      city: null,
-      currentPlace: null,
       formattedAddress: null,
       geocoder: null,
       location: null,
-      markerIcon: null,
-      state: null,
+      pawMarker,
     };
   },
   mounted() {
-    this.markerIcon = pawMarker;
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -102,6 +93,7 @@ export default {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       };
+
       this.reverseGeocode(this.location, false);
       this.center = this.location;
     },
@@ -118,7 +110,7 @@ export default {
   }
 
   #gmap {
-    height: 400px;
+    height: 520px;
     width:100%;
   }
 </style>
