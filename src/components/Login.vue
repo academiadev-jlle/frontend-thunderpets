@@ -35,7 +35,6 @@
       @click="dialog = true"
       exact
       flat
-      id="login-button"
       v-else
     >
       Entrar
