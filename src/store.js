@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -5,12 +6,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    location: null,
+    loggedIn: false,
   },
   mutations: {
-    updateLocation(state, newLocation) {
-      // eslint-disable-next-line
-      state.location = newLocation;
+    login(state) {
+      state.loggedIn = true;
+    },
+    logout(state) {
+      state.loggedIn = false;
     },
   },
   actions: {

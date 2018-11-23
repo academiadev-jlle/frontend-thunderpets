@@ -17,13 +17,13 @@
         </v-avatar>
       </div>
       <v-card>
-        <v-list-tile>
+        <v-list-tile to="user">
           <v-icon class="mr-3">
             mdi-account
           </v-icon>
           Minha conta
         </v-list-tile>
-        <v-divider class="" />
+        <v-divider />
         <v-card-actions>
           <v-btn flat color="red" block @click="logout">
             Sair
@@ -162,7 +162,6 @@ export default {
     return {
       defaultImage,
       dialog: false,
-      loggedIn: false,
       error: false,
       loading: false,
       login: {
@@ -174,12 +173,15 @@ export default {
   },
   created() {
     if (localStorage.getItem('user')) {
-      this.loggedIn = true;
+      this.$store.commit('login');
     }
   },
   computed: {
     isXS() {
       return this.$vuetify.breakpoint.xsOnly;
+    },
+    loggedIn() {
+      return this.$store.state.loggedIn;
     },
   },
   methods: {
@@ -189,7 +191,7 @@ export default {
           this.loading = true;
           Auth.getToken(this.login).then((response) => {
             if (response.status === 200) {
-              this.loggedIn = true;
+              this.$store.commit('login');
               this.dialog = false;
               localStorage.setItem('user', true);
               localStorage.setItem('token', response.data.access_token);
@@ -226,7 +228,7 @@ export default {
     logout() {
       localStorage.removeItem('user');
       localStorage.removeItem('token');
-      this.loggedIn = false;
+      this.$store.commit('logout');
     },
   },
   watch: {
