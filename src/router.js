@@ -7,7 +7,7 @@ import PetDetail from '@/views/PetDetail.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -32,3 +32,15 @@ export default new Router({
     },
   ],
 });
+
+router.beforeResolve((to, from, next) => {
+  setTimeout(() => {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, 100);
+  next();
+});
+
+export default router;
