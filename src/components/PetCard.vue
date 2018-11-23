@@ -1,5 +1,5 @@
 <template>
-  <v-card hover v-if="pet">
+  <v-card hover v-if="pet" @click.native="clickCard()">
     <v-responsive>
       <v-img :src="pet.foto | preventNoPhoto" aspect-ratio="1.5" id="photo">
         <v-layout
@@ -103,6 +103,11 @@ export default {
       }
 
       return 'grey';
+    },
+  },
+  methods: {
+    clickCard() {
+      this.$router.push({ name: 'petDetail', params: { id: this.pet.id } });
     },
   },
 };

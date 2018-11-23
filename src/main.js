@@ -1,5 +1,6 @@
 import '@babel/polyfill';
 import * as VueGoogleMaps from 'vue2-google-maps';
+import VueDisqus from 'vue-disqus';
 import Vue from 'vue';
 import VeeValidate, { Validator } from 'vee-validate';
 import VueResource from 'vue-resource';
@@ -20,6 +21,8 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places',
   },
 });
+
+Vue.use(VueDisqus);
 
 Validator.localize('pt_BR', pt);
 Vue.use(VeeValidate, { locale: pt });

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="!readOnly">
     <gmap-autocomplete
       :value="formattedAddress"
       @place_changed="setPlace"
@@ -7,20 +8,22 @@
     ></gmap-autocomplete>
     <br>
     <br>
+    </div>
     <gmap-map
       :center="center"
+      :style="cssHeight"
       :zoom="15"
       @click="updateMarker"
       id="gmap"
       ref="gmap"
     >
       <gmap-marker
+        :draggable="!readOnly"
         :icon="pawMarker"
         :position="location"
         @click="markerClick"
         @dragend="updateMarker"
         clickable
-        draggable
         v-if="location"
       ></gmap-marker>
     </gmap-map>
@@ -32,6 +35,17 @@ import pawMarker from '../assets/paw-marker.png';
 
 export default {
   name: 'GoogleMap',
+  props: {
+    value: Object,
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
+    height: {
+      type: Number,
+      default: 523,
+    },
+  },
   data() {
     return {
       center: {
@@ -45,6 +59,8 @@ export default {
     };
   },
   mounted() {
+    if (this.readOnly) return;
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -56,8 +72,27 @@ export default {
       this.geocoder = new google.maps.Geocoder();
     });
   },
+  created() {
+    if (this.value) {
+      this.location = {
+        lat: this.value.latitude,
+        lng: this.value.longitude,
+      };
+
+      this.center = this.location;
+    }
+  },
+  computed: {
+    cssHeight() {
+      return {
+        '--height': `${this.height}px`,
+      };
+    },
+  },
   methods: {
     updateMarker(mousePosition) {
+      if (this.readOnly) return;
+
       this.location = {
         lat: mousePosition.latLng.lat(),
         lng: mousePosition.latLng.lng(),
@@ -66,6 +101,7 @@ export default {
     },
     markerClick() {
       this.center = this.location;
+      this.$refs.gmap.panTo(this.center);
     },
     reverseGeocode(latLng, updatePlace) {
       this.geocoder.geocode({ location: latLng }, (results, status) => {
@@ -110,8 +146,8 @@ export default {
   }
 
   #gmap {
-    height: 520px;
-    width:100%;
+    height: var(--height);
+    width: 100%;
   }
 </style>
 
