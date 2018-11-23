@@ -46,7 +46,11 @@
               ></v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="info" @click="submit">
+              <v-btn 
+                color="info" 
+                @click="submit"
+                block
+              >
                 Criar conta
               </v-btn>
             </v-card-actions>
