@@ -31,16 +31,13 @@ const router = new Router({
       component: PetDetail,
     },
   ],
-});
-
-router.beforeResolve((to, from, next) => {
-  setTimeout(() => {
-    window.scroll({
-      top: 0,
-      behavior: 'smooth',
+  scrollBehavior() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ x: 0, y: 0 });
+      }, 300);
     });
-  }, 100);
-  next();
+  },
 });
 
 export default router;
