@@ -35,9 +35,9 @@
       <drawer-menu @close-drawer="drawer = false"/>
     </v-navigation-drawer>
     <v-content>
-      <v-fade-transition>
+      <!-- <v-fade-transition> -->
         <router-view class="view"></router-view>
-      </v-fade-transition>
+      <!-- </v-fade-transition> -->
     </v-content>
   </v-app>
 </template>

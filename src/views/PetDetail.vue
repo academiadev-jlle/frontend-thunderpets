@@ -2,8 +2,8 @@
   <v-container fluid grid-list-md v-if="this.pet">
     <v-layout row wrap justify-center>
       <v-flex xs12 md6>
-        <v-card>
-          <v-carousel class="black white--text" interval="600000">
+        <v-card >
+          <v-carousel class="black test" interval="6000" :height="carouselHeight">
             <v-carousel-item
               :key="index"
               v-for="(photo, index) in pet.fotos"
@@ -89,16 +89,16 @@
               <v-icon class="mr-2">
                 mdi-map-marker-outline
               </v-icon>
-              <span class="subheading text-truncate">
+              <span class="subheading">
                 Rua Paraná, 272 - Anita Garibaldi, Joinville - SC
               </span>
             </v-chip>
           </v-layout>
           <google-map
+            :height="331"
+            read-only
             v-if="pet.localizacao"
             v-model="pet.localizacao"
-            read-only
-            :height="331"
           />
         </v-card>
       </v-flex>
@@ -145,7 +145,7 @@ export default {
         fotos: [
           'http://deceth.com/wp-content/uploads/2015/07/weird-chihuahua-face.jpg',
           'https://i.imgur.com/rx1vQpQ.jpg',
-          'https://memestatic1.fjcdn.com/comments/Chihuahua+discus+me+i+was+in+dat+soup+sauce+_9ac6a0dcd80476bf7c70bda4e943ca63.jpg',
+          'https://static1.fjcdn.com/comments/I+couldnt+find+a+reaction+image+to+describe+my+reaction+_131a3f01cd9911c5ae7421bc945d0ef3.jpg',
           'https://upload.wikimedia.org/wikipedia/commons/f/fc/Do_not_take_his_bone.jpg',
           'https://img.buzzfeed.com/buzzfeed-static/static/2017-01/3/11/campaign_images/buzzfeed-prod-fastlane-01/youre-wrong-if-you-dont-think-chihuahuas-are-the--2-14193-1483460117-0_dblbig.jpg',
           'http://www.rantpets.com/wp-content/uploads/2015/10/chihuahua-7.jpg',
@@ -208,6 +208,11 @@ export default {
       return value.charAt(0).toUpperCase() + value.slice(1, value.length).toLowerCase();
     },
   },
+  computed: {
+    carouselHeight() {
+      return this.$vuetify.breakpoint.smAndDown ? (10 * window.innerWidth) / 16 : 500;
+    },
+  },
   methods: {
     setPet(pet) {
       this.pet = pet;
@@ -223,14 +228,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .floating-location-chip {
+  /deep/ .floating-location-chip {
     max-width: 100%;
     position: absolute;
     top: -20px;
     z-index: 1;
+
+    .v-chip__content {
+      height: fit-content;
+
+      span {
+        white-space: normal;
+      }
+    }
   }
 
   .map-card {
     margin-top: 30px !important;
+  }
+
+  /deep/ .test .v-carousel__controls .v-item-group{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-around;
+    button {
+      margin: 0 !important;
+    }
   }
 </style>
