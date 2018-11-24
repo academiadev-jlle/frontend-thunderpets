@@ -53,23 +53,8 @@
               <v-chip class="body-1" color="grey" text-color="black" >
                 {{pet.especie | capitalize}}
               </v-chip>
-              <v-chip class="body-1" color="pink" text-color="white" >
-                <v-avatar color="pink darken-3">
-                  <v-icon>mdi-gender-female</v-icon>
-                </v-avatar>
-                {{pet.sexo | petGender}}
-              </v-chip>
-              <v-chip
-                class="body-1"
-                color="green darken-1"
-                dark
-                text-color="white"
-              >
-                <v-avatar color="green darken-3">
-                  <v-icon>mdi-alpha-m</v-icon>
-                </v-avatar>
-                Porte {{pet.porte | petSize}}
-              </v-chip>
+              <gender-chip v-model="pet.sexo" />
+              <size-chip v-model="pet.porte" />
               <v-chip class="body-1 lower" color="blue darken-3" text-color="white" >
                 {{pet.idade | capitalize}}
               </v-chip>
@@ -123,6 +108,8 @@
 <script>
 import ContactInfo from '@/components/ContactInfo.vue';
 import GoogleMap from '@/components/GoogleMap.vue';
+import GenderChip from '@/components/GenderChip.vue';
+import SizeChip from '@/components/SizeChip.vue';
 import Pets from '@/services/pets';
 
 export default {
@@ -130,6 +117,8 @@ export default {
   components: {
     ContactInfo,
     GoogleMap,
+    GenderChip,
+    SizeChip,
   },
   data() {
     return {
@@ -195,12 +184,12 @@ export default {
     petGender(value) {
       if (!value) return '';
 
-      return 'Fêmea';
+      return value === 'FEMEA' ? 'fêmea' : value.toLowerCase();
     },
     petSize(value) {
       if (!value) return '';
 
-      return 'médio';
+      return value === 'MEDIO' ? 'médio' : value.toLowerCase();
     },
     capitalize(value) {
       if (!value) return '';
