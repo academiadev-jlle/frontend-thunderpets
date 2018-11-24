@@ -14,9 +14,9 @@ export default {
     value: String,
   },
   computed: {
-    genderColor(value) {
-      if (value === 'FEMEA') return 'pink';
-      else if (value === 'MACHO') return 'blue';
+    genderColor() {
+      if (this.value === 'FEMEA') return 'pink';
+      else if (this.value === 'MACHO') return 'blue';
 
       return 'grey';
     },
