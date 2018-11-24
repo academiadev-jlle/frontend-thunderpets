@@ -180,23 +180,6 @@ export default {
       });
     });
   },
-  filters: {
-    petGender(value) {
-      if (!value) return '';
-
-      return value === 'FEMEA' ? 'fêmea' : value.toLowerCase();
-    },
-    petSize(value) {
-      if (!value) return '';
-
-      return value === 'MEDIO' ? 'médio' : value.toLowerCase();
-    },
-    capitalize(value) {
-      if (!value) return '';
-
-      return value.charAt(0).toUpperCase() + value.slice(1, value.length).toLowerCase();
-    },
-  },
   computed: {
     carouselHeight() {
       return this.$vuetify.breakpoint.smAndDown ? (10 * window.innerWidth) / 16 : 500;

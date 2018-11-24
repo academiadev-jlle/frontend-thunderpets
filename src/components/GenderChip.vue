@@ -1,21 +1,9 @@
 <template>
-  <v-chip class="body-1" color="pink" text-color="white" v-if="value=='FEMEA'">
-    <v-avatar color="pink darken-3">
-      <v-icon>mdi-gender-female</v-icon>
+  <v-chip class="body-1" :color="genderColor" text-color="white">
+    <v-avatar :color="`${genderColor} darken-3`">
+      <v-icon>{{value | genderIcon}}</v-icon>
     </v-avatar>
-    {{value | petGender | capitalize}}
-  </v-chip>
-  <v-chip class="body-1" color="blue" text-color="white" v-else-if="value=='MACHO'">
-    <v-avatar color="blue darken-3">
-      <v-icon>mdi-gender-male</v-icon>
-    </v-avatar>
-    {{value | petGender | capitalize}}
-  </v-chip>
-  <v-chip class="body-1" color="grey" text-color="white" v-else>
-    <v-avatar color="grey darken-3">
-      <v-icon>mdi-help</v-icon>
-    </v-avatar>
-    {{value | petGender | capitalize}}
+    {{value | genderText | capitalize}}
   </v-chip>
 </template>
 
@@ -25,16 +13,12 @@ export default {
   props: {
     value: String,
   },
-  filters: {
-    petGender(value) {
-      if (!value) return '';
+  computed: {
+    genderColor(value) {
+      if (value === 'FEMEA') return 'pink';
+      else if (value === 'MACHO') return 'blue';
 
-      return value === 'FEMEA' ? 'fêmea' : value.toLowerCase();
-    },
-    capitalize(value) {
-      if (!value) return '';
-
-      return value.charAt(0).toUpperCase() + value.slice(1, value.length).toLowerCase();
+      return 'grey';
     },
   },
 };

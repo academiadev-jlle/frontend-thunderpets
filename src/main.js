@@ -10,6 +10,7 @@ import router from './router';
 import store from './store';
 import './plugins/vuetify';
 import './registerServiceWorker';
+import './filters';
 
 Vue.config.productionTip = false;
 
