@@ -67,7 +67,7 @@
                 <v-flex xs12 md4>
                   <v-btn
                     color="success"
-                    @click="addRow" 
+                    @click="addRow"
                   >
                     Adicionar
                   </v-btn>
@@ -87,7 +87,9 @@
                         >
                           <v-list-tile-content>
                             <v-list-tile-title>{{ contact.type }}</v-list-tile-title>
-                            <v-list-tile-sub-title class="text--primary">{{ contact.description }}</v-list-tile-sub-title>
+                            <v-list-tile-sub-title class="text--primary">
+                              {{ contact.description }}
+                            </v-list-tile-sub-title>
                           </v-list-tile-content>
                         </v-list-tile>
                         <v-divider
@@ -102,11 +104,11 @@
             </v-card-text>
             <v-card-actions>
               <v-btn
-                color="info" 
+                color="info"
                 @click="submit"
                 block
               >
-                Criar conta 
+                Criar conta
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -125,8 +127,8 @@ export default {
       email: null,
       name: null,
       password: null,
-      contacts:[ ],
-      types: ["Email", "Telefone"],
+      contacts: [],
+      types: ['Email', 'Telefone'],
     };
   },
   methods: {
@@ -136,7 +138,7 @@ export default {
     addRow() {
       this.contacts.push({
         type: this.contacts.type,
-        description: this.contacts.description
+        description: this.contacts.description,
       });
     },
   },
