@@ -1,7 +1,7 @@
 <template>
   <v-container fluid grid-list-md>
     <v-layout row wrap justify-center>
-      <v-flex xs12 md6>
+      <v-flex xs1 md6>
         <v-card>
           <v-form refs="form">
             <v-card-text>
@@ -44,14 +44,69 @@
                 v-model="confirmPassword"
                 v-validate="{ is: password, required: true }"
               ></v-text-field>
+              <v-text-field
+                label="Contato"
+                placeholder="Digite seu meio de contato"
+              ></v-text-field>
+              <v-layout row wrap>
+                <v-flex xs12 md4>
+                  <v-select
+                    :items="types"
+                    label="Tipo de Contato"
+                    placeholder="Selecione o tipo de contato"
+                    v-model="contacts.type"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field
+                    label="Contato"
+                    placeholder="Digite aqui seu contato"
+                    v-model="contacts.description"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-btn
+                    color="success"
+                    @click="addRow" 
+                  >
+                    Adicionar
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+              <v-layout row>
+                <v-flex xs12>
+                  <v-card>
+                    <v-toolbar color="primary">
+                      <v-toolbar-title>Seus contatos</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                    </v-toolbar>
+                    <v-list two-line>
+                      <template v-for="(contact, index) in contacts">
+                        <v-list-tile
+                          :key="contact.name"
+                        >
+                          <v-list-tile-content>
+                            <v-list-tile-title>{{ contact.type }}</v-list-tile-title>
+                            <v-list-tile-sub-title class="text--primary">{{ contact.description }}</v-list-tile-sub-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider
+                          v-if="index + 1 < contacts.length"
+                          :key="index"
+                        ></v-divider>
+                      </template>
+                    </v-list>
+                  </v-card>
+                </v-flex>
+              </v-layout>
             </v-card-text>
             <v-card-actions>
-              <v-btn 
+              <v-btn
                 color="info" 
                 @click="submit"
                 block
               >
-                Criar conta
+                Criar conta 
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -70,13 +125,20 @@ export default {
       email: null,
       name: null,
       password: null,
+      contacts:[ ],
+      types: ["Email", "Telefone"],
     };
   },
   methods: {
     submit() {
       this.$validator.validateAll();
     },
+    addRow() {
+      this.contacts.push({
+        type: this.contacts.type,
+        description: this.contacts.description
+      });
+    },
   },
 };
-
 </script>
