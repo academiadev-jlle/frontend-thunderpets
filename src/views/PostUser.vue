@@ -81,23 +81,27 @@
                       <v-spacer></v-spacer>
                     </v-toolbar>
                     <v-list two-line>
-                      <template v-for="(contact, index) in contacts">
+                      <template v-for="contact in contacts">
                         <v-list-tile
                           :key="contact.name"
                         >
                           <v-list-tile-content>
-                            <v-list-tile-title>{{ contact.type }}</v-list-tile-title>
+                            <v-list-tile-title default>
+                              {{ contact.type }}</v-list-tile-title>
                             <v-list-tile-sub-title
                               class="text--primary"
                             >
                               {{ contact.description }}
                             </v-list-tile-sub-title>
                           </v-list-tile-content>
+                          <v-btn
+                            flat
+                            icon color="red lighten-2"
+                            @click="deleteRow"
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
                         </v-list-tile>
-                        <v-divider
-                          v-if="index + 1 < contacts.length"
-                          :key="index"
-                        ></v-divider>
                       </template>
                     </v-list>
                   </v-card>
@@ -139,9 +143,14 @@ export default {
     },
     addRow() {
       this.contacts.push({
-        type: this.contacts.type,
         description: this.contacts.description,
+        type: this.contacts.type,
       });
+      console.log(this.contacts);
+    },
+    deleteRow() {
+      this.contacts.splice(this.index, 1);
+      console.log(this.contacts);
     },
   },
 };
