@@ -147,6 +147,7 @@ export default {
         description: this.contacts.description,
         type: this.contacts.type,
       });
+      this.contacts.description= "";
     },
     deleteRow() {
       this.contacts.splice(this.index, 1);
