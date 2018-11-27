@@ -78,17 +78,6 @@ export default {
 
       return value;
     },
-    formatSize(value) {
-      return value === 'MEDIO' ? 'médio' : value.toLowerCase();
-    },
-    formatGender(value) {
-      return value === 'FEMEA' ? 'fêmea' : value.toLowerCase();
-    },
-    capitalize(value) {
-      if (!value) return '';
-
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    },
   },
   computed: {
     genderColor() {
