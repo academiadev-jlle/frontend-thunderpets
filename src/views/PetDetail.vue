@@ -134,7 +134,7 @@ export default {
         fotos: [
           'http://deceth.com/wp-content/uploads/2015/07/weird-chihuahua-face.jpg',
           'https://i.imgur.com/rx1vQpQ.jpg',
-          'https://static1.fjcdn.com/comments/I+couldnt+find+a+reaction+image+to+describe+my+reaction+_131a3f01cd9911c5ae7421bc945d0ef3.jpg',
+          'https://i.imgur.com/vlJLL62.jpg',
           'https://upload.wikimedia.org/wikipedia/commons/f/fc/Do_not_take_his_bone.jpg',
           'https://img.buzzfeed.com/buzzfeed-static/static/2017-01/3/11/campaign_images/buzzfeed-prod-fastlane-01/youre-wrong-if-you-dont-think-chihuahuas-are-the--2-14193-1483460117-0_dblbig.jpg',
           'http://www.rantpets.com/wp-content/uploads/2015/10/chihuahua-7.jpg',

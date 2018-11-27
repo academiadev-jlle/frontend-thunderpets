@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="!readOnly">
-    <gmap-autocomplete
-      :value="formattedAddress"
-      @place_changed="setPlace"
-      id="autocomplete"
-    ></gmap-autocomplete>
-    <br>
-    <br>
+      <gmap-autocomplete
+        :value="formattedAddress"
+        @place_changed="setPlace"
+        id="autocomplete"
+      ></gmap-autocomplete>
+      <br>
+      <br>
     </div>
     <gmap-map
       :center="center"

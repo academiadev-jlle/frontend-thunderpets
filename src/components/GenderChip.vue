@@ -15,8 +15,11 @@ export default {
   },
   computed: {
     genderColor() {
-      if (this.value === 'FEMEA') return 'pink';
-      else if (this.value === 'MACHO') return 'blue';
+      if (this.value === 'FEMEA') {
+        return 'pink';
+      } else if (this.value === 'MACHO') {
+        return 'blue';
+      }
 
       return 'grey';
     },
