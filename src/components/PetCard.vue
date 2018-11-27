@@ -1,5 +1,5 @@
 <template>
-  <v-card hover v-if="pet">
+  <v-card hover v-if="pet" @click.native="clickCard()">
     <v-responsive>
       <v-img :src="pet.foto | preventNoPhoto" aspect-ratio="1.5" id="photo">
         <v-layout
@@ -34,11 +34,9 @@
                 size="24"
                 slot="activator"
               >
-                <v-icon dark id="small" v-if="pet.porte === 'PEQUENO'">mdi-alpha-p</v-icon>
-                <v-icon dark id="medium" v-else-if="pet.porte === 'MEDIO'">mdi-alpha-m</v-icon>
-                <v-icon dark id="large" v-else>mdi-alpha-g</v-icon>
+                <v-icon dark id="small" >{{pet.porte | sizeIcon}}</v-icon>
               </v-avatar>
-              <span id="size-text">Porte {{pet.porte | formatSize}}</span>
+              <span id="size-text">Porte {{pet.porte | sizeText}}</span>
             </v-tooltip>
             <v-tooltip :color="genderColor" top>
               <v-avatar
@@ -47,11 +45,9 @@
                 size="36"
                 slot="activator"
               >
-                <v-icon dark id="male" v-if="pet.sexo === 'MACHO'">mdi-gender-male</v-icon>
-                <v-icon dark id="female" v-else-if="pet.sexo === 'FEMEA'">mdi-gender-female</v-icon>
-                <v-icon dark id="undetermined" v-else>mdi-help</v-icon>
+                <v-icon dark>{{pet.sexo | genderIcon}}</v-icon>
               </v-avatar>
-              <span id="sex-text">{{pet.sexo | formatGender | capitalize}}</span>
+              <span id="sex-text">{{pet.sexo | genderText | capitalize}}</span>
             </v-tooltip>
           </v-layout>
         </v-layout>
@@ -82,17 +78,6 @@ export default {
 
       return value;
     },
-    formatSize(value) {
-      return value === 'MEDIO' ? 'médio' : value.toLowerCase();
-    },
-    formatGender(value) {
-      return value === 'FEMEA' ? 'fêmea' : value.toLowerCase();
-    },
-    capitalize(value) {
-      if (!value) return '';
-
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    },
   },
   computed: {
     genderColor() {
@@ -103,6 +88,11 @@ export default {
       }
 
       return 'grey';
+    },
+  },
+  methods: {
+    clickCard() {
+      this.$router.push({ name: 'petDetail', params: { id: this.pet.id } });
     },
   },
 };

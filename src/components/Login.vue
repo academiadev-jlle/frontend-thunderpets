@@ -46,16 +46,18 @@
       v-model="dialog"
     >
       <v-card>
+        <v-toolbar color="primary">
+          <v-toolbar-title>
+            Entrar
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="dialog = false">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
         <v-alert v-model="error" type="error" class="my-0">
           Email e/ou senha inválido(s), por favor revise suas informações.
         </v-alert>
-        <v-card-title class="headline">
-          Entrar
-          <v-spacer />
-          <v-icon size="40" @click="closeDialog">
-            mdi-close
-          </v-icon>
-        </v-card-title>
         <div class="pa-1">
           <v-card-text>
             <v-text-field
