@@ -7,12 +7,12 @@
       color="primary"
       height="50px"
     >
-      <v-toolbar-side-icon v-if="isXS" @click="drawer = true">
+      <v-toolbar-side-icon v-if="isSmAndDown" @click="drawer = true">
       </v-toolbar-side-icon>
       <v-toolbar-title class="headline mr-4">
         <span>ThunderPets</span>
       </v-toolbar-title>
-      <v-toolbar-items v-if="!isXS">
+      <v-toolbar-items v-if="!isSmAndDown">
         <v-btn flat to="/" exact>
           Inicial
         </v-btn>
@@ -29,13 +29,15 @@
     <v-navigation-drawer
       app
       clipped
-      v-if="isXS"
+      v-if="isSmAndDown"
       v-model="drawer"
     >
       <drawer-menu @close-drawer="drawer = false"/>
     </v-navigation-drawer>
     <v-content>
-      <router-view/>
+      <v-fade-transition>
+        <router-view class="view"></router-view>
+      </v-fade-transition>
     </v-content>
   </v-app>
 </template>
@@ -62,8 +64,8 @@ export default {
     };
   },
   computed: {
-    isXS() {
-      return this.$vuetify.breakpoint.xsOnly;
+    isSmAndDown() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
   methods: {
@@ -73,10 +75,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .v-dialog__content {
-    align-items: center;
-    justify-content: center;
-  }
-</style>

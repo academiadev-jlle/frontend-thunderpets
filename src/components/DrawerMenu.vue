@@ -20,7 +20,13 @@
     <v-divider />
     <v-list-tile to='/post'>
       <v-list-tile-content>
-        <v-list-tile-title>CADASTRAR</v-list-tile-title>
+        <v-list-tile-title>CADASTRAR PET</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+    <v-divider />
+    <v-list-tile to='/postUser'>
+      <v-list-tile-content>
+        <v-list-tile-title>CADASTRAR USUÁRIO</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
     <v-divider />
