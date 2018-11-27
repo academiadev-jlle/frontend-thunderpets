@@ -61,6 +61,7 @@
           <v-card-text>
             <v-text-field
               :error-messages="errors.collect('email')"
+              @keyup.enter="submit"
               class="required"
               data-vv-as="email"
               data-vv-name="email"
@@ -71,6 +72,7 @@
             </v-text-field>
             <v-text-field
               :error-messages="errors.collect('password')"
+              @keyup.enter="submit"
               data-vv-as="senha"
               data-vv-name="password"
               label="Senha"
