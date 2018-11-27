@@ -19,10 +19,15 @@ export default {
   },
   filters: {
     contactIcon(value) {
-      if (value === 'TELEFONE') return 'mdi-phone';
-      if (value === 'CELULAR') return 'mdi-cellphone';
-      if (value === 'EMAIL') return 'mdi-email';
-      if (value === 'REDE_SOCIAL') return 'mdi-at';
+      if (value === 'TELEFONE') {
+        return 'mdi-phone';
+      } else if (value === 'CELULAR') {
+        return 'mdi-cellphone';
+      } else if (value === 'EMAIL') {
+        return 'mdi-email';
+      } else if (value === 'REDE_SOCIAL') {
+        return 'mdi-at';
+      }
 
       return '';
     },
