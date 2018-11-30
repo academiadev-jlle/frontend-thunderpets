@@ -176,9 +176,9 @@ export default {
   },
   created() {
     if (localStorage.getItem('token')) {
-      Auth.whoAmI(localStorage.getItem('token')).then((response) => {
-        Users.getById(response.data.id).then((response2) => {
-          this.$store.commit('login', response2.data);
+      Auth.whoAmI(localStorage.getItem('token')).then((whoAmIResponse) => {
+        Users.getById(whoAmIResponse.data.id).then((getUserResponse) => {
+          this.$store.commit('login', getUserResponse.data);
         });
       });
     }
