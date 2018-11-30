@@ -53,17 +53,27 @@
             <v-layout row wrap>
               <v-flex xs12 md4>
                 <v-select
+                  :error-messages="errors.collect('contactType')"
+                  data-vv-as="tipo de contato"
+                  data-vv-name="contactType"
                   :items="types"
-                  label="Tipo de Contato"
+                  label="Tipo de contato"
                   placeholder="Selecione o tipo de contato"
+                  type="type"
                   v-model="contacts.type"
+                  v-validate="{ is: contacts.type, required: true }"
                 ></v-select>
               </v-flex>
               <v-flex xs12 md4>
                 <v-text-field
+                  :error-messages="errors.collect('contactDescription')"
+                  data-vv-as="contato"
+                  data-vv-name="contactDescription"
                   label="Contato"
                   placeholder="Digite aqui seu contato"
+                  type="contactDescription"
                   v-model="contacts.description"
+                  v-validate="{ is: contacts.description, required: true }"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
@@ -79,7 +89,7 @@
               <v-flex xs12 sm6 offset-sm3>
                 <v-card>
                   <v-toolbar color="primary">
-                    <v-toolbar-title>Seus contatos</v-toolbar-title>
+                    <v-toolbar-title>Seus contatos (máximo: 5)</v-toolbar-title>
                     <v-spacer></v-spacer>
                   </v-toolbar>
                   <v-list two-line>
@@ -113,13 +123,15 @@
         </v-flex>
       </v-layout>
       <v-card-actions>
-        <v-btn
-          color="info"
-          @click="submit"
-          block
-        >
-          Criar conta
-        </v-btn>
+        <v-layout justify-center>
+          <v-btn
+            :loading="loading"
+            color="info"
+            @click="submit"
+          >
+            Criar conta
+          </v-btn>
+        </v-layout>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -143,11 +155,13 @@ export default {
       this.$validator.validateAll();
     },
     addRow() {
-      this.contacts.push({
-        description: this.contacts.description,
-        type: this.contacts.type,
-      });
-      this.contacts.description= "";
+      if (this.contacts.length < 5) {
+        this.contacts.push({
+          description: this.contacts.description,
+          type: this.contacts.type,
+        });
+      }
+      this.contacts.description = '';
     },
     deleteRow() {
       this.contacts.splice(this.index, 1);
