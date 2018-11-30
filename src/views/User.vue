@@ -1,45 +1,23 @@
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid grid-list-md v-if="user">
     <v-layout row>
       <v-flex xs12>
         <v-card>
-          <v-layout align-center class="ma-0" row>
-            <v-flex>
+          <v-layout class="ma-0" row>
+            <v-flex >
               <v-avatar tile size="100">
                 <v-img aspect-ratio="1" :src="defaultImage" />
               </v-avatar>
             </v-flex>
             <v-flex xs12>
-              <h2 class="display-1">Adam Mews dos Santos</h2>
+              <h2 class="display-1">{{user.nome}}</h2>
               <a class="blue--text">
-                baldinhomeme@gmail.com
+                {{user.email}}
               </a>
-              <v-dialog v-model="contactDialog" width="400">
-                <v-btn color="blue" dark slot="activator">
-                  Contatos
-                </v-btn>
-                <v-card>
-                  <v-toolbar color="primary">
-                    <v-toolbar-title>
-                      Contatos
-                      <v-tooltip top color="brown">
-                        <v-icon slot="activator" @click="editContacts">
-                          mdi-pencil
-                        </v-icon>
-                        Editar
-                      </v-tooltip>
-                    </v-toolbar-title>
-                    <v-spacer />
-                    <v-icon @click="contactDialog = false">
-                      mdi-close
-                    </v-icon>
-                  </v-toolbar>
-                  <v-card-text>
-                    Substituir pelo componente de contatos desenvolvido na branch feature/17
-                  </v-card-text>
-                </v-card>
-              </v-dialog>
             </v-flex>
+            <v-btn color="blue" dark slot="activator" @click="contactDialog = true">
+              Contatos
+            </v-btn>
           </v-layout>
         </v-card>
       </v-flex>
@@ -58,8 +36,8 @@
                   <v-list-tile-title>{{ pet.nome }}</v-list-tile-title>
                   <v-list-tile-sub-title>
                     {{pet.especie | capitalize}} -
-                    {{pet.sexo | petGender | capitalize}} -
-                    Porte {{pet.porte | petSize}} -
+                    {{pet.sexo | genderText | capitalize}} -
+                    Porte {{pet.porte | sizeText}} -
                     {{pet.idade | capitalize}}
                   </v-list-tile-sub-title>
                   <v-list-tile-sub-title class="caption">
@@ -82,23 +60,51 @@
               </v-layout>
             </v-list-tile>
           </v-list>
-          <v-card-text class="text-xs-center headline grey--text text--darken-2" v-else>
+          <v-card-text class="text-xs-center headline grey--text" v-else>
             Nenhum pet cadastrado
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="contactDialog" width="400">
+      <v-card>
+        <v-toolbar color="primary">
+          <v-toolbar-title>
+            Contatos
+            <v-tooltip top color="brown">
+              <v-icon slot="activator" @click="editContacts">
+                mdi-pencil
+              </v-icon>
+              Editar
+            </v-tooltip>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="contactDialog = false">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-card-text>
+          <contact-info v-model="user.contatos"/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import defaultImage from '@/assets/defaultImage.jpeg';
+import ContactInfo from '@/components/ContactInfo.vue';
 
 export default {
+  name: 'User',
+  components: {
+    ContactInfo,
+  },
   data() {
     return {
       contactDialog: false,
       defaultImage,
+      foto: null,
       pets: [
         {
           descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque leo. Cras fermentum tortor magna, a molestie enim bibendum non. Praesent viverra mi in lacus sagittis, in venenatis nulla tempus. Mauris lorem leo, sodales sit amet lorem vitae, porttitor laoreet odio. Sed lectus justo, eleifend sit amet viverra eget, varius ut ligula. Suspendisse feugiat, sapien vel pretium fringilla, enim sem volutpat magna, nec auctor ligula orci et urna  volutpat magna, nec auctor ligula orci et urna.',
@@ -129,25 +135,14 @@ export default {
     };
   },
   beforeRouteEnter(to, from, next) {
-    if (localStorage.getItem('user')) {
+    if (localStorage.getItem('token')) {
       next();
     } else {
       // eslint-disable-next-line no-restricted-globals
       history.back();
     }
   },
-  filters: {
-    petSize(value) {
-      return value === 'MEDIO' ? 'médio' : value.toLowerCase();
-    },
-    petGender(value) {
-      return value === 'FEMEA' ? 'fêmea' : value.toLowerCase();
-    },
-    capitalize(value) {
-      if (!value) return '';
-
-      return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    },
+  created() {
   },
   computed: {
     isSM() {
@@ -155,6 +150,9 @@ export default {
     },
     loggedIn() {
       return this.$store.state.loggedIn;
+    },
+    user() {
+      return this.$store.state.loggedUser;
     },
   },
   watch: {

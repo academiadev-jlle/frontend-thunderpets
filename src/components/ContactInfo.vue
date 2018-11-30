@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list v-if="value && value.length > 0">
     <v-list-tile v-for="(contact, index) in value" :key="index">
       <v-icon class="mr-3">
         {{contact.tipo | contactIcon}}
@@ -7,6 +7,9 @@
       {{contact.descricao}}
     </v-list-tile>
   </v-list>
+  <div class="text-xs-center headline grey--text " v-else>
+    Nenhum contato cadastrado
+  </div>
 </template>
 
 <script>

@@ -36,7 +36,7 @@
     </v-navigation-drawer>
     <v-content>
       <v-fade-transition>
-        <router-view class="view"></router-view>
+        <router-view class="router-view"></router-view>
       </v-fade-transition>
     </v-content>
   </v-app>
@@ -75,3 +75,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .router-view {
+    height: 100%;
+  }
+</style>

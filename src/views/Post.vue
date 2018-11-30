@@ -191,14 +191,14 @@ export default {
   },
   created() {
     Users.get().then((response) => {
-      this.pet.usuario = response.data.content[0];
+      this.pet.usuarioId = response.data.content[0].id;
     });
   },
   methods: {
     submit() {
       this.$validator.validate().then((result) => {
         if (result) {
-          if (localStorage.getItem('user')) {
+          if (this.$store.state.loggedIn) {
             this.loading = true;
             Pets.save(this.pet).then((response) => {
               this.loading = false;

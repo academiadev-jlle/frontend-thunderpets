@@ -1,7 +1,7 @@
 <template>
   <v-card hover v-if="pet" @click.native="clickCard()">
     <v-responsive>
-      <v-img :src="pet.foto | preventNoPhoto" aspect-ratio="1.5" id="photo">
+      <v-img :src="pet.fotos[0] | preventNoPhoto" aspect-ratio="1.5" id="photo">
         <v-layout
           align-end
           class="mx-1"
@@ -76,7 +76,7 @@ export default {
         return noPhoto;
       }
 
-      return value;
+      return `data:image/png;base64,${value}`;
     },
   },
   computed: {

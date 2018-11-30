@@ -7,8 +7,8 @@
       open-on-hover
       v-if="loggedIn"
     >
-      <div slot="activator" >
-        <span class="body-2 uppercase" v-if="!isXS">Stan Lee</span>
+      <div slot="activator">
+        <span class="body-2 uppercase" v-if="!isXS">{{user.nome}}</span>
         <v-avatar class="ml-2" size="30">
           <v-img
             :src="defaultImage"
@@ -17,7 +17,7 @@
         </v-avatar>
       </div>
       <v-card>
-        <v-list-tile to="user">
+        <v-list-tile to="/user">
           <v-icon class="mr-3">
             mdi-account
           </v-icon>
@@ -175,8 +175,12 @@ export default {
     };
   },
   created() {
-    if (localStorage.getItem('user')) {
-      this.$store.commit('login');
+    if (localStorage.getItem('token')) {
+      Auth.whoAmI(localStorage.getItem('token')).then((response) => {
+        Users.getById(response.data.id).then((response2) => {
+          this.$store.commit('login', response2.data);
+        });
+      });
     }
   },
   computed: {
@@ -186,20 +190,25 @@ export default {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    user() {
+      return this.$store.state.loggedUser;
+    },
   },
   methods: {
     submit() {
       this.$validator.validate().then((result) => {
         if (result) {
           this.loading = true;
+          this.error = false;
           Auth.getToken(this.login).then((response) => {
-            if (response.status === 200) {
-              this.$store.commit('login');
-              this.dialog = false;
-              localStorage.setItem('user', true);
-              localStorage.setItem('token', response.data.access_token);
-            }
-            this.loading = false;
+            Auth.whoAmI(response.data.access_token).then((response2) => {
+              Users.getById(response2.data.id).then((response3) => {
+                localStorage.setItem('token', response.data.access_token);
+                this.$store.commit('login', response3.data);
+                this.dialog = false;
+                this.loading = false;
+              });
+            });
           }).catch(() => {
             this.error = true;
             this.loading = false;
@@ -222,14 +231,13 @@ export default {
           tipo: 'TELEFONE',
           descricao: '(47) 3422-2222',
         }],
-        email: 'memes@adam.com',
+        email: 'adam@adam.com',
         foto: null,
         nome: 'Adam',
         senha: 'adam@meme',
       });
     },
     logout() {
-      localStorage.removeItem('user');
       localStorage.removeItem('token');
       this.$store.commit('logout');
     },

@@ -27,10 +27,15 @@
       justify-center
       v-else
     >
-      <v-progress-circular color="primary" indeterminate size="60"/>
-      <h1 class="display-1 mt-3">
-        Buscando pets
-      </h1>
+      <div v-if="loading" class="text-xs-center">
+        <v-progress-circular color="primary" indeterminate size="60"/>
+        <h1 class="display-1 mt-3">
+          Buscando pets
+        </h1>
+      </div>
+      <div v-else class="text-xs-center headline">
+        Não foi possível se conectar com o servidor.
+      </div>
     </v-layout>
   </div>
 </template>
@@ -51,7 +56,7 @@ export default {
   data() {
     return {
       pets: null,
-      loading: false,
+      loading: true,
       currentPageSize: 8,
       currentPage: 1,
       rowsPerPageItems: [8, 16, 32],
@@ -61,9 +66,11 @@ export default {
     };
   },
   created() {
-    this.loading = true;
     Pets.get(this.status).then((response) => {
       this.pets = response.data.content;
+      this.loading = false;
+    }).catch((error) => {
+      console.log(error);
       this.loading = false;
     });
   },
