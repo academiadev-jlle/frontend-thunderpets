@@ -15,7 +15,12 @@
                 {{user.email}}
               </a>
             </v-flex>
-            <v-btn color="blue" dark slot="activator" @click="contactDialog = true">
+            <v-btn
+              @click="contactDialog = true"
+              color="blue"
+              dark
+              slot="activator"
+            >
               Contatos
             </v-btn>
           </v-layout>
@@ -24,10 +29,10 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <v-card style="padding: 2px 0">
+        <v-card class="py-1">
           <v-list class="py-0" two-line v-if="pets.length > 0">
             <v-list-tile v-for="(pet, index) in pets" :key="index">
-              <v-layout row align-center>
+              <v-layout align-center row>
                 <v-list-tile-avatar tile>
                   <!-- <v-img :src="defaultImage"/> -->
                   <v-icon size="40">mdi-dog</v-icon>
@@ -45,15 +50,15 @@
                   </v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-spacer />
-                <v-btn color="info" :icon="isSM">
-                  <v-icon :left="!isSM" dark>mdi-pencil</v-icon>
-                  <span v-if="!isSM">
+                <v-btn color="info" :icon="isSmAndDown">
+                  <v-icon :left="!isSmAndDown" dark>mdi-pencil</v-icon>
+                  <span v-if="!isSmAndDown">
                     Editar
                   </span>
                 </v-btn>
-                <v-btn color="error" :icon="isSM" @click="inactivatePet(pet.id, index)">
-                  <v-icon :left="!isSM" dark>mdi-trash-can</v-icon>
-                  <span v-if="!isSM">
+                <v-btn color="error" :icon="isSmAndDown" @click="inactivatePet(pet.id, index)">
+                  <v-icon :left="!isSmAndDown" dark>mdi-trash-can</v-icon>
+                  <span v-if="!isSmAndDown">
                     Apagar
                   </span>
                 </v-btn>
@@ -145,7 +150,7 @@ export default {
   created() {
   },
   computed: {
-    isSM() {
+    isSmAndDown() {
       return this.$vuetify.breakpoint.smAndDown;
     },
     loggedIn() {
