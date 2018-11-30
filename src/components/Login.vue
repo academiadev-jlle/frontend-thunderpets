@@ -200,11 +200,11 @@ export default {
         if (result) {
           this.loading = true;
           this.error = false;
-          Auth.getToken(this.login).then((response) => {
-            Auth.whoAmI(response.data.access_token).then((response2) => {
-              Users.getById(response2.data.id).then((response3) => {
-                localStorage.setItem('token', response.data.access_token);
-                this.$store.commit('login', response3.data);
+          Auth.getToken(this.login).then((tokenResponse) => {
+            Auth.whoAmI(tokenResponse.data.access_token).then((whoAmIResponse) => {
+              Users.getById(whoAmIResponse.data.id).then((getUserResponse) => {
+                localStorage.setItem('token', tokenResponse.data.access_token);
+                this.$store.commit('login', getUserResponse.data);
                 this.dialog = false;
                 this.loading = false;
               });
