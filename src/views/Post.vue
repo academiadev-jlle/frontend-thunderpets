@@ -200,10 +200,8 @@ export default {
         if (result) {
           if (this.$store.state.loggedIn) {
             this.loading = true;
-            Pets.save(this.pet).then((response) => {
-              if (response.status === 200) {
-                alert('Sucesso');
-              }
+            Pets.save(this.pet).then(() => {
+              alert('Sucesso');
             }).finally(() => {
               this.loading = false;
             });
