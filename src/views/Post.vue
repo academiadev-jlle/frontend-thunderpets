@@ -201,11 +201,10 @@ export default {
           if (this.$store.state.loggedIn) {
             this.loading = true;
             Pets.save(this.pet).then((response) => {
-              this.loading = false;
               if (response.status === 200) {
                 alert('Sucesso');
               }
-            }).catch(() => {
+            }).finally(() => {
               this.loading = false;
             });
           } else {
