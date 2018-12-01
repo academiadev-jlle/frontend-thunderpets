@@ -118,6 +118,7 @@ export default {
             estado: result.address_components[4].long_name,
             latitude: latLng.lat,
             longitude: latLng.lng,
+            descricao: result.formatted_address,
           };
 
           this.$emit('input', location);

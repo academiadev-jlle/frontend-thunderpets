@@ -3,7 +3,13 @@
     <v-layout row wrap justify-center>
       <v-flex xs12 md6>
         <v-card >
-          <v-carousel class="black test" interval="6000" :height="carouselHeight">
+          <v-carousel
+            :height="carouselHeight"
+            :hide-controls="pet.fotos.length <= 1"
+            :hide-delimiters="pet.fotos.length <= 1"
+            class="black test"
+            interval="6000"
+          >
             <v-carousel-item
               :key="index"
               v-for="(photo, index) in pet.fotos"
@@ -11,7 +17,7 @@
             <v-layout fill-height>
               <v-img
                 :alt="`${pet.nome} - ${index}`"
-                :src="photo"
+                :src="`data:image/png;base64,${photo}`"
                 class="black"
                 contain
               >
@@ -75,7 +81,7 @@
                 mdi-map-marker-outline
               </v-icon>
               <span class="subheading">
-                Rua Paraná, 272 - Anita Garibaldi, Joinville - SC
+                {{pet.localizacao.descricao}}
               </span>
             </v-chip>
           </v-layout>
@@ -96,7 +102,7 @@
               :identifier="pet.id"
               :title="`Thunderpets - ${pet.nome}`"
               language="pt-BR"
-              shortname="thunderpets"
+              :shortname="disqusShortname"
             />
           </v-card-text>
         </v-card>
@@ -123,6 +129,7 @@ export default {
   data() {
     return {
       contactDialog: false,
+      disqusShortname: process.env.VUE_APP_DISQUS_SHORTNAME,
       datePicker: false,
       loading: false,
       pet: null,
@@ -131,18 +138,6 @@ export default {
         dataAchado: '2010-10-10',
         dataRegistro: '2010-10-10',
         descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras efficitur ullamcorper ipsum in viverra. Fusce vel rhoncus ipsum, et vulputate ex. Sed egestas lectus vitae accumsan tincidunt. Sed ullamcorper dui urna, aliquam fringilla leo hendrerit vitae. Cras malesuada, nisi non semper posuere, magna felis sagittis felis, ut tempus diam magna in mi. Quisque eu turpis ut lectus eleifend elementum a sed eros. Phasellus feugiat ex eu velit aliquam aliquam. Ut scelerisque tempor enim, sit amet sceler',
-        fotos: [
-          'http://deceth.com/wp-content/uploads/2015/07/weird-chihuahua-face.jpg',
-          'https://i.imgur.com/rx1vQpQ.jpg',
-          'https://i.imgur.com/vlJLL62.jpg',
-          'https://upload.wikimedia.org/wikipedia/commons/f/fc/Do_not_take_his_bone.jpg',
-          'https://img.buzzfeed.com/buzzfeed-static/static/2017-01/3/11/campaign_images/buzzfeed-prod-fastlane-01/youre-wrong-if-you-dont-think-chihuahuas-are-the--2-14193-1483460117-0_dblbig.jpg',
-          'http://www.rantpets.com/wp-content/uploads/2015/10/chihuahua-7.jpg',
-          'https://i.imgflip.com/1ihajv.jpg',
-          'http://images2.fanpop.com/image/photos/8600000/Chihuahua-joined-the-Beetles-funny-chihuahuas-8686589-350-450.jpg',
-          'https://i.ytimg.com/vi/o0LTdDZcrrQ/maxresdefault.jpg',
-          'https://i.ytimg.com/vi/efcLsg8QPjc/maxresdefault.jpg',
-        ],
         idade: 'ADULTO',
         localizacao: {
           cidade: 'Joinville',
@@ -180,6 +175,9 @@ export default {
       });
     });
   },
+  created() {
+    this.disqusShortname = process.env.VUE_APP_DISQUS_SHORTNAME;
+  },
   computed: {
     carouselHeight() {
       return this.$vuetify.breakpoint.smAndDown ? (10 * window.innerWidth) / 16 : 500;
@@ -191,8 +189,6 @@ export default {
       /* For the sake of tests and having something to show, some values are set by hand.
       This may be removed when some problems with the api are fixed */
       this.pet.descricao = this.pseudoPet.descricao;
-      this.pet.fotos = this.pseudoPet.fotos;
-      this.pet.localizacao = this.pseudoPet.localizacao;
       this.pet.usuario = this.pseudoPet.usuario;
     },
   },
