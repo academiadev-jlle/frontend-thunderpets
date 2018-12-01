@@ -49,11 +49,12 @@
         </v-flex>
         <v-flex xs12 md6>
           <v-card-text>
+            <form data-vv-scope="contact">
             <p class="display-1">Contatos do Usuário</p>
             <v-layout row wrap>
               <v-flex xs12 md4>
                 <v-select
-                  :error-messages="errors.collect('contactType')"
+                  :error-messages="errors.collect('contact.contactType')"
                   data-vv-as="tipo de contato"
                   data-vv-name="contactType"
                   :items="types"
@@ -66,14 +67,16 @@
               </v-flex>
               <v-flex xs12 md4>
                 <v-text-field
-                  :error-messages="errors.collect('contactDescription')"
+                  :error-messages="errors.collect('contact.contactDescription')"
                   data-vv-as="contato"
                   data-vv-name="contactDescription"
                   label="Contato"
                   placeholder="Digite aqui seu contato"
                   type="contactDescription"
                   v-model="contactDescription"
-                  v-validate="{ required: true }"
+                  return-masked-value
+                  :mask="maskType"
+                  v-validate="{ required: true, email: (contactType === 'Email'), min: sizeType}"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
@@ -90,15 +93,12 @@
                 <v-card>
                   <v-toolbar color="primary">
                     <v-toolbar-title>Seus contatos (máx: 5)</v-toolbar-title>
-                    <v-spacer></v-spacer>
                   </v-toolbar>
                   <v-list two-line>
                     <template v-for="contact in contacts">
-                      <v-list-tile
-                        :key="contact.name"
-                      >
+                      <v-list-tile :key="contact.name">
                         <v-list-tile-content>
-                          <v-list-tile-title default>
+                          <v-list-tile-title>
                             {{ contact.type }}
                           </v-list-tile-title>
                           <v-list-tile-sub-title
@@ -120,14 +120,15 @@
                 </v-card>
               </v-flex>
             </v-layout>
+            </form>
           </v-card-text>
         </v-flex>
       </v-layout>
       <v-card-actions>
         <v-btn
+          @click="submit"
           block
           color="info"
-          @click="submit"
         >
           Criar conta
         </v-btn>
@@ -156,18 +157,37 @@ export default {
       this.$validator.validateAll();
     },
     addRow() {
-      if (this.contacts.length < 5 && this.contactType !== null &&
-          this.contactDescription !== null) {
-        this.contacts.push({
-          description: this.contactDescription,
-          type: this.contactType,
+      if (this.contacts.length < 5) {
+        this.$validator.validateAll('contact').then((result) => {
+          if (result) {
+            this.contacts.push({
+              description: this.contactDescription,
+              type: this.contactType,
+            });
+            this.contactDescription = null;
+            this.$validator.reset('contact');
+          }
         });
       }
-      this.contactDescription = null;
-      this.$validator.reset();
     },
     deleteRow() {
       this.contacts.splice(this.index, 1);
+    },
+  },
+  computed: {
+    sizeType() {
+      if (this.contactType === 'Telefone') {
+        return 15;
+      }
+
+      return null;
+    },
+    maskType() {
+      if (this.contactType === 'Telefone') {
+        return '(##)# ####-####';
+      }
+
+      return '';
     },
   },
 };
