@@ -12,6 +12,13 @@ const getToken = login => Http.get('/oauth/token', {
   },
 });
 
+const whoAmI = token => Http.get('/oauth/whoAmI', {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
 export default {
   getToken,
+  whoAmI,
 };

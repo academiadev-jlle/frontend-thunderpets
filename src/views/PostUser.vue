@@ -61,7 +61,7 @@
                   placeholder="Selecione o tipo de contato"
                   type="type"
                   v-model="contacts.type"
-                  v-validate="{ is: contacts.type, required: true }"
+                  v-validate="{ required: true }"
                 ></v-select>
               </v-flex>
               <v-flex xs12 md4>
@@ -73,7 +73,7 @@
                   placeholder="Digite aqui seu contato"
                   type="contactDescription"
                   v-model="contacts.description"
-                  v-validate="{ is: contacts.description, required: true }"
+                  v-validate="{ required: true }"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
@@ -89,7 +89,7 @@
               <v-flex xs12 sm6 offset-sm3>
                 <v-card>
                   <v-toolbar color="primary">
-                    <v-toolbar-title>Seus contatos (máximo: 5)</v-toolbar-title>
+                    <v-toolbar-title>Seus contatos (máx: 5)</v-toolbar-title>
                     <v-spacer></v-spacer>
                   </v-toolbar>
                   <v-list two-line>
@@ -123,15 +123,13 @@
         </v-flex>
       </v-layout>
       <v-card-actions>
-        <v-layout justify-center>
-          <v-btn
-            :loading="loading"
-            color="info"
-            @click="submit"
-          >
-            Criar conta
-          </v-btn>
-        </v-layout>
+        <v-btn
+          block
+          color="info"
+          @click="submit"
+        >
+          Criar conta
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -162,6 +160,7 @@ export default {
         });
       }
       this.contacts.description = '';
+      this.$validator.reset();
     },
     deleteRow() {
       this.contacts.splice(this.index, 1);
