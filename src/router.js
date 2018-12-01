@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/views/Home.vue';
 import Post from '@/views/Post.vue';
 import PostUser from '@/views/PostUser.vue';
+import User from '@/views/User.vue';
 import PetDetail from '@/views/PetDetail.vue';
 
 Vue.use(Router);
@@ -24,6 +25,11 @@ const router = new Router({
       path: '/postUser',
       name: 'postUser',
       component: PostUser,
+    },
+    {
+      path: '/user',
+      name: 'User',
+      component: User,
     },
     {
       path: '/pet/:id',
