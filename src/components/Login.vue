@@ -31,14 +31,22 @@
         </v-card-actions>
       </v-card>
     </v-menu>
-    <v-btn
-      @click="dialog = true"
-      exact
-      flat
-      v-else
-    >
-      Entrar
-    </v-btn>
+    <v-layout row v-else>
+      <v-btn
+        @click="registerDialog = true"
+        exact
+        flat
+      >
+        Cadastrar-se
+      </v-btn>
+      <v-btn
+        @click="dialog = true"
+        exact
+        flat
+      >
+        Entrar
+      </v-btn>
+    </v-layout>
     <v-dialog
       max-width="500"
       transition="scale-transition"
@@ -50,7 +58,7 @@
             Entrar
           </v-toolbar-title>
           <v-spacer />
-          <v-icon @click="dialog = false">
+          <v-icon @click="closeLoginDialog">
             mdi-close
           </v-icon>
         </v-toolbar>
@@ -58,96 +66,213 @@
           Email e/ou senha inválido(s), por favor revise suas informações.
         </v-alert>
         <div class="pa-1">
-          <v-card-text>
-            <v-text-field
-              :error-messages="errors.collect('email')"
-              @keyup.enter="submit"
-              class="required"
-              data-vv-as="email"
-              data-vv-name="email"
-              label="Email"
-              v-model="login.email"
-              v-validate="'required|email'"
-            >
-            </v-text-field>
-            <v-text-field
-              :error-messages="errors.collect('password')"
-              @keyup.enter="submit"
-              data-vv-as="senha"
-              data-vv-name="password"
-              label="Senha"
-              type="password"
-              v-model="login.password"
-              v-validate="'required'"
-            >
-            </v-text-field>
-            <v-layout row wrap>
-              <v-flex xs6>
-                <v-checkbox
-                  class="my-0"
-                  color="primary"
-                  label="Lembrar de mim"
-                  v-model="login.rememberMe"
-                ></v-checkbox>
-              </v-flex>
-              <v-flex xs6>
-                <div class="v-label mt-2 text-xs-right">
-                  <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-card-text>
-          <v-card-actions>
-            <v-layout column>
-              <span class="mb-2">
-                Não possui conta?
-                <a class="blue--text" @click="register">Cadastre-se</a>
-              </span>
-              <v-btn
-                @click="submit"
-                block
-                color="primary"
-                :loading="loading"
+          <form data-vv-scope="login">
+            <v-card-text>
+              <v-text-field
+                :error-messages="errors.collect('login.email')"
+                @keyup.enter="submitLogin"
+                class="required"
+                data-vv-as="email"
+                data-vv-name="email"
+                label="Email"
+                v-model="login.email"
+                v-validate="'required|email'"
               >
-                Entrar
-              </v-btn>
-              <v-divider class="my-3" />
-              <v-container class="pa-0" fluid grid-list-md>
-                <v-layout row>
-                  <v-flex xs6>
-                    <v-btn
-                      :class="{'pr-4': !isXS}"
-                      block
-                      color="#cf4332"
-                      dark
-                    >
-                      <v-icon :class="{'mr-4': !isXS}">
-                        mdi-google
-                      </v-icon>
-                      <span v-if="!isXS">
-                        Entrar com Google
-                      </span>
-                    </v-btn>
-                  </v-flex>
-                  <v-flex xs6>
-                    <v-btn
-                      :class="{'pr-4': !isXS}"
-                      block
-                      color="#3c66c4"
-                      dark
-                    >
-                      <v-icon :class="{'mr-3': !isXS}">
-                        mdi-facebook
-                      </v-icon>
-                      <span v-if="!isXS">
-                        Entrar com Facebook
-                      </span>
-                    </v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-layout>
-          </v-card-actions>
+              </v-text-field>
+              <v-text-field
+                :error-messages="errors.collect('login.password')"
+                @keyup.enter="submitLogin"
+                data-vv-as="senha"
+                data-vv-name="password"
+                label="Senha"
+                type="password"
+                v-model="login.password"
+                v-validate="'required'"
+              >
+              </v-text-field>
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <v-checkbox
+                    class="my-0"
+                    color="primary"
+                    label="Lembrar de mim"
+                    v-model="login.rememberMe"
+                  ></v-checkbox>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="v-label mt-2 text-xs-right">
+                    <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-card-text>
+            <v-card-actions>
+              <v-layout column>
+                <span class="mb-2">
+                  Não possui conta?
+                  <a class="blue--text" @click="loginToRegister">Cadastre-se</a>
+                </span>
+                <v-btn
+                  @click="submitLogin"
+                  block
+                  color="primary"
+                  :loading="loading"
+                >
+                  Entrar
+                </v-btn>
+                <v-divider class="my-3" />
+                <v-container class="pa-0" fluid grid-list-md>
+                  <v-layout row>
+                    <v-flex xs6>
+                      <v-btn
+                        :class="{'pr-4': !isXS}"
+                        block
+                        color="#cf4332"
+                        dark
+                      >
+                        <v-icon :class="{'mr-4': !isXS}">
+                          mdi-google
+                        </v-icon>
+                        <span v-if="!isXS">
+                          Entrar com Google
+                        </span>
+                      </v-btn>
+                    </v-flex>
+                    <v-flex xs6>
+                      <v-btn
+                        :class="{'pr-4': !isXS}"
+                        block
+                        color="#3c66c4"
+                        dark
+                      >
+                        <v-icon :class="{'mr-3': !isXS}">
+                          mdi-facebook
+                        </v-icon>
+                        <span v-if="!isXS">
+                          Entrar com Facebook
+                        </span>
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </v-layout>
+            </v-card-actions>
+          </form>
+        </div>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      max-width="500"
+      transition="scale-transition"
+      v-model="registerDialog"
+    >
+      <v-card>
+        <v-toolbar color="primary">
+          <v-toolbar-title>
+            Cadastrar-se
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="registerDialog = false">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-alert v-model="error" type="error" class="my-0">
+          Outro usuário já existe com esse email.
+        </v-alert>
+        <div class="pa-1">
+          <form data-vv-scope="register">
+            <v-card-text>
+              <v-text-field
+                :error-messages="errors.collect('register.name')"
+                @keyup.enter="submitRegister"
+                data-vv-as="nome"
+                data-vv-name="name"
+                label="Nome completo"
+                v-model="register.nome"
+                v-validate="'required|min:3'"
+              ></v-text-field>
+              <v-text-field
+                :error-messages="errors.collect('register.email')"
+                @keyup.enter="submitRegister"
+                data-vv-as="email"
+                data-vv-name="email"
+                label="E-mail"
+                v-model="register.email"
+                v-validate="'required|email'"
+              ></v-text-field>
+              <v-text-field
+                :error-messages="errors.collect('register.password')"
+                @keyup.enter="submitRegister"
+                data-vv-as="senha"
+                data-vv-name="password"
+                label="Senha"
+                type="password"
+                v-model="register.senha"
+                v-validate="'required|min:8'"
+              ></v-text-field>
+              <v-text-field
+                :error-messages="errors.collect('register.confirmPassword')"
+                @keyup.enter="submitRegister"
+                data-vv-as="confirmação de senha"
+                data-vv-name="confirmPassword"
+                label="Confirmação de senha"
+                type="password"
+                v-model="register.confirmaSenha"
+                v-validate="{ is: register.senha, required: true }"
+              ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-layout column>
+                <span class="mb-2">
+                  Já possui conta?
+                  <a class="blue--text" @click="registerToLogin">Entrar</a>
+                </span>
+                <v-btn
+                  @click="submitRegister"
+                  block
+                  color="primary"
+                  :loading="loading"
+                >
+                  Cadastrar
+                </v-btn>
+                <v-divider class="my-3" />
+                <v-container class="pa-0" fluid grid-list-md>
+                  <v-layout row>
+                    <v-flex xs6>
+                      <v-btn
+                        :class="{'pr-4': !isXS}"
+                        block
+                        color="#cf4332"
+                        dark
+                      >
+                        <v-icon :class="{'mr-4': !isXS}">
+                          mdi-google
+                        </v-icon>
+                        <span v-if="!isXS">
+                          Entrar com Google
+                        </span>
+                      </v-btn>
+                    </v-flex>
+                    <v-flex xs6>
+                      <v-btn
+                        :class="{'pr-4': !isXS}"
+                        block
+                        color="#3c66c4"
+                        dark
+                      >
+                        <v-icon :class="{'mr-3': !isXS}">
+                          mdi-facebook
+                        </v-icon>
+                        <span v-if="!isXS">
+                          Entrar com Facebook
+                        </span>
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </v-layout>
+            </v-card-actions>
+          </form>
         </div>
       </v-card>
     </v-dialog>
@@ -165,22 +290,31 @@ export default {
     return {
       defaultImage,
       dialog: false,
+      registerDialog: false,
       error: false,
       loading: false,
+      token: null,
       login: {
         email: null,
         password: null,
         rememberMe: false,
       },
+      register: {
+        email: null,
+        senha: null,
+        confirmaSenha: null,
+        nome: null,
+        contatos: [],
+      },
     };
   },
   created() {
     if (localStorage.getItem('token')) {
-      Auth.whoAmI(localStorage.getItem('token')).then((whoAmIResponse) => {
-        Users.getById(whoAmIResponse.data.id).then((getUserResponse) => {
+      Auth.whoAmI(localStorage.getItem('token'))
+        .then(whoAmIResponse => Users.getById(whoAmIResponse.data.id))
+        .then((getUserResponse) => {
           this.$store.commit('login', getUserResponse.data);
         });
-      });
     }
   },
   computed: {
@@ -195,46 +329,85 @@ export default {
     },
   },
   methods: {
-    submit() {
-      this.$validator.validate().then((result) => {
+    submitLogin() {
+      let token = null;
+
+      this.$validator.validateAll('login').then((result) => {
         if (result) {
           this.loading = true;
           this.error = false;
-          Auth.getToken(this.login).then((tokenResponse) => {
-            Auth.whoAmI(tokenResponse.data.access_token).then((whoAmIResponse) => {
-              Users.getById(whoAmIResponse.data.id).then((getUserResponse) => {
-                localStorage.setItem('token', tokenResponse.data.access_token);
-                this.$store.commit('login', getUserResponse.data);
-                this.dialog = false;
-                this.loading = false;
-              });
+          Auth.getToken(this.login)
+            .then((tokenResponse) => {
+              token = tokenResponse.data.access_token;
+
+              return Auth.whoAmI(token);
+            })
+            .then(whoAmIResponse => Users.getById(whoAmIResponse.data.id))
+            .then((getUserResponse) => {
+              localStorage.setItem('token', token);
+              this.$store.commit('login', getUserResponse.data);
+              this.dialog = false;
+            })
+            .catch(() => {
+              this.error = true;
+            })
+            .finally(() => {
+              this.loading = false;
             });
-          }).catch(() => {
-            this.error = true;
-            this.loading = false;
-          });
         }
       });
     },
-    closeDialog() {
+    closeLoginDialog() {
       this.dialog = false;
       this.error = false;
       this.$validator.reset();
     },
+    closeRegisterDialog() {
+      this.registerDialog = false;
+      this.error = false;
+      this.$validator.reset();
+    },
+    loginToRegister() {
+      this.closeLoginDialog();
+      this.registerDialog = true;
+    },
+    registerToLogin() {
+      this.closeRegisterDialog();
+      this.dialog = true;
+    },
     forgotPassword() {
       console.log('Esqueci Senha');
     },
-    register() {
-      Users.save({
-        ativo: true,
-        contatos: [{
-          tipo: 'TELEFONE',
-          descricao: '(47) 3422-2222',
-        }],
-        email: 'adam@adam.com',
-        foto: null,
-        nome: 'Adam',
-        senha: 'adam@meme',
+    submitRegister() {
+      let token = null;
+
+      this.$validator.validateAll('register').then((result) => {
+        if (result) {
+          this.loading = true;
+          this.error = false;
+          Users.save(this.register)
+            .then(() => Auth.getToken({
+              email: this.register.email,
+              password: this.register.senha,
+            }))
+            .then((tokenResponse) => {
+              token = tokenResponse.data.access_token;
+
+              return Auth.whoAmI(token);
+            })
+            .then(whoAmIResponse => Users.getById(whoAmIResponse.data.id))
+            .then((getUserResponse) => {
+              localStorage.setItem('token', token);
+              this.$store.commit('login', getUserResponse.data);
+              this.registerDialog = false;
+            })
+            .catch(() => {
+              this.error = true;
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        }
       });
     },
     logout() {
@@ -245,7 +418,7 @@ export default {
   watch: {
     dialog(value) {
       if (!value) {
-        this.closeDialog();
+        this.closeLoginDialog();
       }
     },
   },

@@ -196,7 +196,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$validator.validate().then((result) => {
+      this.$validator.validateAll().then((result) => {
         if (result) {
           if (this.$store.state.loggedIn) {
             this.loading = true;
