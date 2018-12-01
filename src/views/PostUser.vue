@@ -8,7 +8,7 @@
               <p class="display-1">Cadastro de Usuário</p>
               <v-text-field
                 :error-messages="errors.collect('name')"
-                data-vv-as="nome"
+                data-vv-as="nome completo"
                 data-vv-name="name"
                 label="Nome completo"
                 placeholder="Digite seu nome completo"
@@ -60,7 +60,7 @@
                   label="Tipo de contato"
                   placeholder="Selecione o tipo de contato"
                   type="type"
-                  v-model="contacts.type"
+                  v-model="contactType"
                   v-validate="{ required: true }"
                 ></v-select>
               </v-flex>
@@ -72,7 +72,7 @@
                   label="Contato"
                   placeholder="Digite aqui seu contato"
                   type="contactDescription"
-                  v-model="contacts.description"
+                  v-model="contactDescription"
                   v-validate="{ required: true }"
                 ></v-text-field>
               </v-flex>
@@ -99,7 +99,8 @@
                       >
                         <v-list-tile-content>
                           <v-list-tile-title default>
-                            {{ contact.type }}</v-list-tile-title>
+                            {{ contact.type }}
+                          </v-list-tile-title>
                           <v-list-tile-sub-title
                             class="text--primary"
                           >
@@ -144,6 +145,8 @@ export default {
       email: null,
       name: null,
       password: null,
+      contactType: null,
+      contactDescription: null,
       contacts: [],
       types: ['Email', 'Telefone'],
     };
@@ -153,13 +156,14 @@ export default {
       this.$validator.validateAll();
     },
     addRow() {
-      if (this.contacts.length < 5) {
+      if (this.contacts.length < 5 && this.contactType !== null &&
+          this.contactDescription !== null) {
         this.contacts.push({
-          description: this.contacts.description,
-          type: this.contacts.type,
+          description: this.contactDescription,
+          type: this.contactType,
         });
       }
-      this.contacts.description = '';
+      this.contactDescription = null;
       this.$validator.reset();
     },
     deleteRow() {
