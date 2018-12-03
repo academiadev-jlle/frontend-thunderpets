@@ -201,12 +201,12 @@ export default {
           if (this.$store.state.loggedIn) {
             this.loading = true;
             Pets.save(this.pet).then(() => {
-              alert('Sucesso');
+              this.$toast.success('Pet cadastrado com sucesso');
             }).finally(() => {
               this.loading = false;
             });
           } else {
-            alert('Logaí, meu bom');
+            this.$toast.error('Por favor entre na aplicação para prosseguir com o cadastro.');
           }
         }
       });
