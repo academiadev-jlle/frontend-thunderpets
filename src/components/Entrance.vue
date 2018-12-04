@@ -6,16 +6,18 @@
     open-on-hover
     v-if="loggedIn"
   >
-    <div slot="activator">
-      <span class="body-2 uppercase" v-if="!isXS">{{user.nome}}</span>
-      <v-avatar class="ml-2" size="30">
+    <v-layout align-center slot="activator" >
+      <v-avatar class="mr-2" size="30">
         <v-img
           :src="defaultImage"
         >
         </v-img>
       </v-avatar>
-    </div>
-    <v-card>
+      <span class="subheading uppercase" v-if="!isXS || drawerStyled">
+        Olá, <span class="font-weight-bold">{{user.nome}}</span>
+      </span>
+    </v-layout>
+    <v-card v-if="!drawerStyled">
       <v-list-tile to="/user">
         <v-icon class="mr-3">
           mdi-account
@@ -30,9 +32,19 @@
       </v-card-actions>
     </v-card>
   </v-menu>
-  <v-layout v-else row justify-end>
-    <login ref="login" :open-register="openRegister"/>
-    <register ref="register" :open-login="openLogin"/>
+  <v-layout
+    :justify-center="drawerStyled"
+    :justify-end="!drawerStyled"
+    row
+    v-else
+  >
+    <login :drawer-styled="drawerStyled" :open-register="openRegister" ref="login"/>
+    <register
+      :drawer-styled="drawerStyled"
+      :open-login="openLogin"
+      ref="register"
+      v-show="!isXS || drawerStyled"
+    />
   </v-layout>
 </template>
 
@@ -45,6 +57,12 @@ import Auth from '@/services/auth';
 
 export default {
   name: 'Entrance',
+  props: {
+    drawerStyled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     Login,
     Register,

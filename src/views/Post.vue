@@ -206,7 +206,7 @@ export default {
               this.loading = false;
             });
           } else {
-            this.$toast.error('Por favor entre na aplicação para prosseguir com o cadastro.');
+            this.$toast.error('Por favor realize o login em sua conta para prosseguir com o cadastro do pet.');
           }
         }
       });

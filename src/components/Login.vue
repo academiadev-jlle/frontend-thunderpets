@@ -135,6 +135,10 @@ export default {
       type: Function,
       required: true,
     },
+    drawerStyled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
