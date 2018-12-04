@@ -70,12 +70,13 @@
             </span>
           </v-card-text>
         </v-card>
-        <v-card class="map-card">
+        <v-card class="map-card" v-if="pet.localizacao">
           <v-layout align-center justify-center>
             <v-chip
               class="elevation-2 floating-location-chip"
               color="red ligthen-1"
               text-color="white"
+              v-if="pet.localizacao.descricao"
             >
               <v-icon class="mr-2">
                 mdi-map-marker-outline
@@ -169,11 +170,17 @@ export default {
     };
   },
   beforeRouteEnter(to, from, next) {
-    Pets.getById(to.params.id).then((response) => {
-      next((vm) => {
-        vm.setPet(response.data);
+    Pets.getById(to.params.id)
+      .then((response) => {
+        next((vm) => {
+          vm.setPet(response.data);
+        });
+      }).catch((error) => {
+        if (error.response.status === 404) {
+        // eslint-disable-next-line no-restricted-globals
+          history.back();
+        }
       });
-    });
   },
   created() {
     this.disqusShortname = process.env.VUE_APP_DISQUS_SHORTNAME;
