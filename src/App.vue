@@ -24,8 +24,6 @@
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <!-- <login /> -->
-      <!-- <register /> -->
       <entrance />
     </v-toolbar>
     <v-navigation-drawer
