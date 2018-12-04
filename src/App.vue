@@ -24,7 +24,7 @@
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <login />
+      <entrance />
     </v-toolbar>
     <v-navigation-drawer
       app
@@ -45,12 +45,16 @@
 <script>
 import DrawerMenu from './components/DrawerMenu.vue';
 import Login from './components/Login.vue';
+import Register from './components/Register.vue';
+import Entrance from './components/Entrance.vue';
 
 export default {
   name: 'App',
   components: {
     DrawerMenu,
+    Entrance,
     Login,
+    Register,
   },
   data() {
     return {

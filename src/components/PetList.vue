@@ -69,8 +69,7 @@ export default {
     Pets.get(this.status).then((response) => {
       this.pets = response.data.content;
       this.loading = false;
-    }).catch((error) => {
-      console.log(error);
+    }).catch(() => {
       this.loading = false;
     });
   },
