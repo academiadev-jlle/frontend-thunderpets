@@ -196,20 +196,17 @@ export default {
   },
   methods: {
     submit() {
-      this.$validator.validate().then((result) => {
+      this.$validator.validateAll().then((result) => {
         if (result) {
           if (this.$store.state.loggedIn) {
             this.loading = true;
-            Pets.save(this.pet).then((response) => {
-              this.loading = false;
-              if (response.status === 200) {
-                alert('Sucesso');
-              }
-            }).catch(() => {
+            Pets.save(this.pet).then(() => {
+              this.$toast.success('Pet cadastrado com sucesso');
+            }).finally(() => {
               this.loading = false;
             });
           } else {
-            alert('Logaí, meu bom');
+            this.$toast.error('Por favor realize o login em sua conta para prosseguir com o cadastro do pet.');
           }
         }
       });

@@ -1,3 +1,4 @@
+import 'izitoast/dist/css/iziToast.min.css';
 import '@babel/polyfill';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import VueDisqus from 'vue-disqus';
@@ -5,6 +6,7 @@ import Vue from 'vue';
 import VeeValidate, { Validator } from 'vee-validate';
 import VueResource from 'vue-resource';
 import pt from 'vee-validate/dist/locale/pt_BR';
+import VueIziToast from 'vue-izitoast';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -13,6 +15,8 @@ import './registerServiceWorker';
 import './filters';
 
 Vue.config.productionTip = false;
+
+Vue.use(VueIziToast);
 
 Vue.use(VueGoogleMaps, {
   load: {

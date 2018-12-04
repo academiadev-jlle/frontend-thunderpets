@@ -34,7 +34,6 @@
             <v-list-tile v-for="(pet, index) in pets" :key="index">
               <v-layout align-center row>
                 <v-list-tile-avatar tile>
-                  <!-- <v-img :src="defaultImage"/> -->
                   <v-icon size="40">mdi-dog</v-icon>
                 </v-list-tile-avatar>
                 <v-list-tile-content>
