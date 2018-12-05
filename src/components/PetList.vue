@@ -57,7 +57,9 @@ import PetCard from './PetCard.vue';
 export default {
   name: 'PetList',
   props: {
-    status: String,
+    status: {
+      type: String,
+    },
   },
   components: {
     PetCard,
@@ -68,16 +70,18 @@ export default {
       empty: false,
       pets: null,
       loading: true,
-      dataFetchPage: 1,
+      dataFetchPage: 0,
     };
   },
   created() {
     Pets.get({
+      paginaAtual: this.dataFetchPage,
       status: this.status,
     }).then((response) => {
       this.pets = response.data.content;
     }).finally(() => {
       this.loading = false;
+      this.dataFetchPage += 1;
     });
   },
   methods: {
@@ -92,10 +96,10 @@ export default {
             this.empty = true;
           } else {
             this.pets = this.pets.concat(response.data.content);
+            this.dataFetchPage += 1;
           }
         }).finally(() => {
           this.busy = false;
-          this.dataFetchPage += 1;
         });
       }
     },
