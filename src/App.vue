@@ -27,7 +27,6 @@
           Cadastrar Usuário
         </v-btn>
       </v-toolbar-items>
-      <v-spacer />
       <entrance />
     </v-toolbar>
     <v-navigation-drawer
@@ -47,28 +46,21 @@
 </template>
 
 <script>
+import logo from '@/assets/logo.png';
 import DrawerMenu from './components/DrawerMenu.vue';
-import Login from './components/Login.vue';
-import Register from './components/Register.vue';
 import Entrance from './components/Entrance.vue';
+
 
 export default {
   name: 'App',
   components: {
     DrawerMenu,
     Entrance,
-    Login,
-    Register,
   },
   data() {
     return {
+      logo,
       drawer: false,
-      dialog: false,
-      login: {
-        email: null,
-        password: null,
-        rememberMe: false,
-      },
     };
   },
   computed: {

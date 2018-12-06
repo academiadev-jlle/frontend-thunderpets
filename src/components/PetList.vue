@@ -108,14 +108,14 @@ export default {
       this.busy = true;
 
       Pets.get(this.filters).then((response) => {
-        console.log('Katchau', response);
+        console.log(response);
         this.pets = response.data.content;
         this.filters.paginaAtual += 1;
       }).finally(() => {
         this.loading = false;
         this.busy = false;
       });
-    }
+    },
   },
 };
 </script>

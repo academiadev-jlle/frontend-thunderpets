@@ -32,7 +32,7 @@ export default {
   methods: {
     filter() {
       this.$refs.petList.filter(this.filters);
-    }
+    },
   },
 };
 </script>

@@ -46,6 +46,22 @@
         </v-btn>
         <span>Indeterminado</span>
       </v-tooltip>
+      <v-spacer />
+      <v-tooltip color="red" top v-if="clearable">
+        <v-btn
+          @click="changeGender(null)"
+          color="red"
+          dark
+          icon
+          round
+          flat
+          id="male"
+          slot="activator"
+        >
+          <v-icon>close</v-icon>
+        </v-btn>
+        <span>Apagar</span>
+      </v-tooltip>
     </v-layout>
   </div>
 </template>
@@ -58,11 +74,17 @@ export default {
       type: String,
       default: 'MACHO',
     },
+    clearable: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     changeGender(newValue) {
-      this.$emit('input', newValue);
-      this.$emit('change');
+      if (this.value !== newValue) {
+        this.$emit('input', newValue);
+        this.$emit('change');
+      }
     },
   },
 };
