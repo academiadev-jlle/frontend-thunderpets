@@ -112,7 +112,6 @@ export default {
       this.busy = true;
 
       Pets.get(this.filters).then((response) => {
-        console.log(response);
         this.pets = response.data.content;
         this.filters.paginaAtual += 1;
       }).finally(() => {

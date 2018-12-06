@@ -83,6 +83,7 @@
           min="0"
           suffix="km"
           type="number"
+          v-debounce:1s="updateFilters"
           v-model="filters.raioDistancia"
         >
         </v-text-field>
@@ -104,12 +105,14 @@
         </v-text-field>
       </div>
     </v-navigation-drawer>
-    <v-btn @click="drawer = !drawer">
-      <v-icon left>
-        mdi-filter
-      </v-icon>
-      Filtros
-    </v-btn>
+    <v-layout justify-end class="mx-4">
+      <v-btn @click="drawer = !drawer" flat block>
+        <v-icon left>
+          mdi-filter
+        </v-icon>
+        Filtros
+      </v-btn>
+    </v-layout>
   </div>
 </template>
 
@@ -119,12 +122,6 @@ import GenderSelection from '@/components/GenderSelection.vue';
 
 export default {
   name: 'Filters',
-  props: {
-    value: {
-      type: Object,
-      required: true,
-    },
-  },
   components: {
     GenderSelection,
   },
@@ -132,13 +129,10 @@ export default {
     return {
       domains,
       drawer: false,
-      filters: null,
-      inputDelay: false,
-      location: null,
+      filters: {
+        raioDistancia: 1,
+      },
     };
-  },
-  created() {
-    this.filters = this.value;
   },
   computed: {
     isSmAndDown() {
@@ -148,6 +142,7 @@ export default {
   methods: {
     updateFilters() {
       const filters = {
+        buscarPorLocalidade: this.filters.useLocation ? 'RAIO_DISTANCIA' : 'CIDADE_ESTADO',
         cidade: this.filters.useLocation ? null : this.filters.cidade,
         especie: this.filters.especie,
         estado: this.filters.useLocation ? null : this.filters.estado,
@@ -159,11 +154,9 @@ export default {
         raioDistancia: this.filters.useLocation ? this.filters.raioDistancia : NaN,
         sexo: this.filters.sexo,
         status: this.filters.status,
-        useLocation: this.filters.useLocation,
       };
 
-      this.$emit('input', filters);
-      this.$emit('change');
+      this.$emit('filter', filters);
     },
     handleLocation() {
       if (this.filters.useLocation) {
