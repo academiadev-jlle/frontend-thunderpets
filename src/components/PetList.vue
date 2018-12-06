@@ -1,6 +1,5 @@
 <template>
   <div v-infinite-scroll="loadMore" infinite-scroll-distance="1000">
-    {{filters}}
     <div v-if="pets && !loading">
       <v-data-iterator
         :items="pets"

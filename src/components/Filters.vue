@@ -64,26 +64,26 @@
           v-model="filters.sexo"
         />
         <v-switch
+          @change="handleLocation"
+          color="primary"
           label="Usar localização"
           v-model="filters.useLocation"
-          color="primary"
-          @change="handleLocation"
         ></v-switch>
         <v-slider
+          :disabled="!filters.useLocation"
+          @change="updateFilters"
+          class="mb-0"
           label="Distância de você"
           v-model="filters.raioDistancia"
-          @change="updateFilters"
-          :disabled="!filters.useLocation"
-          class="mb-0"
         ></v-slider>
         <v-text-field
-        class="pt-0"
-          type="number"
+          :disabled="!filters.useLocation"
+          class="pt-0"
           max="100"
           min="0"
-          v-model="filters.raioDistancia"
-          :disabled="!filters.useLocation"
           suffix="km"
+          type="number"
+          v-model="filters.raioDistancia"
         >
         </v-text-field>
         <v-select
@@ -132,9 +132,9 @@ export default {
     return {
       domains,
       drawer: false,
+      filters: null,
       inputDelay: false,
       location: null,
-      filters: null,
     };
   },
   created() {
@@ -149,16 +149,16 @@ export default {
     updateFilters() {
       const filters = {
         cidade: this.filters.useLocation ? null : this.filters.cidade,
-        estado: this.filters.useLocation ? null : this.filters.estado,
         especie: this.filters.especie,
-        porte: this.filters.porte,
-        sexo: this.filters.sexo,
-        nome: this.filters.nome,
-        status: this.filters.status,
+        estado: this.filters.useLocation ? null : this.filters.estado,
         idade: this.filters.idade,
         latitudeUsuario: this.filters.useLocation ? this.filters.latitudeUsuario : null,
         longitudeUsuario: this.filters.useLocation ? this.filters.longitudeUsuario : null,
+        nome: this.filters.nome,
+        porte: this.filters.porte,
         raioDistancia: this.filters.useLocation ? this.filters.raioDistancia : NaN,
+        sexo: this.filters.sexo,
+        status: this.filters.status,
         useLocation: this.filters.useLocation,
       };
 

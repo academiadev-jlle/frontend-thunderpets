@@ -52,10 +52,9 @@
           @click="changeGender(null)"
           color="red"
           dark
+          flat
           icon
           round
-          flat
-          id="male"
           slot="activator"
         >
           <v-icon>close</v-icon>
