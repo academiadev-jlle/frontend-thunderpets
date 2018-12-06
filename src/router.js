@@ -5,6 +5,7 @@ import Post from '@/views/Post.vue';
 import PostUser from '@/views/PostUser.vue';
 import User from '@/views/User.vue';
 import PetDetail from '@/views/PetDetail.vue';
+import MainPage from '@/views/MainPage.vue';
 
 Vue.use(Router);
 
@@ -13,6 +14,11 @@ const router = new Router({
   routes: [
     {
       path: '',
+      name: 'mainPage',
+      component: MainPage,
+    },
+    {
+      path: '/pets',
       name: 'home',
       component: Home,
     },
