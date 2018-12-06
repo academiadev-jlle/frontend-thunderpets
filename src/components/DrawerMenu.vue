@@ -20,6 +20,7 @@
         <v-list-tile-title>MINHA CONTA</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
+    <v-divider v-if="loggedIn"/>
     <v-list-tile to='/'>
       <v-list-tile-content>
         <v-list-tile-title>PRINCIPAL</v-list-tile-title>

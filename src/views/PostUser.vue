@@ -72,55 +72,18 @@ export default {
   components: {
     UserContacts,
   },
-
   data() {
     return {
       confirmPassword: null,
       email: null,
       name: null,
       password: null,
-      contactType: null,
-      contactDescription: null,
       contacts: [],
-      types: ['Email', 'Telefone'],
     };
   },
   methods: {
     submit() {
       this.$validator.validateAll();
-    },
-    addRow() {
-      if (this.contacts.length < 5) {
-        this.$validator.validateAll('contact').then((result) => {
-          if (result) {
-            this.contacts.push({
-              description: this.contactDescription,
-              type: this.contactType,
-            });
-            this.contactDescription = null;
-            this.$validator.reset('contact');
-          }
-        });
-      }
-    },
-    deleteRow() {
-      this.contacts.splice(this.index, 1);
-    },
-  },
-  computed: {
-    sizeType() {
-      if (this.contactType === 'Telefone') {
-        return 15;
-      }
-
-      return null;
-    },
-    maskType() {
-      if (this.contactType === 'Telefone') {
-        return '(##)# ####-####';
-      }
-
-      return '';
     },
   },
 };
