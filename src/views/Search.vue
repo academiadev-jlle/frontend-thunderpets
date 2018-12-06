@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid grid-list-md>
-      <pet-list/>
+      <pet-list />
     </v-container>
   </div>
 </template>
