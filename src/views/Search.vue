@@ -12,7 +12,7 @@ import PetList from '../components/PetList.vue';
 import Filters from '../components/Filters.vue';
 
 export default {
-  name: 'Home',
+  name: 'Search',
   components: {
     PetList,
     Filters,

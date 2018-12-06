@@ -27,7 +27,12 @@
         column
         v-if="busy || empty"
       >
-        <v-progress-circular color="primary" indeterminate size="60" v-if="busy" />
+        <v-progress-circular
+          color="primary"
+          indeterminate
+          size="60"
+          v-if="busy"
+        />
         <span v-if="empty">Felizmente, não possuímos mais pets precisando de ajuda.</span>
       </v-layout>
     </div>
