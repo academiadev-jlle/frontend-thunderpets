@@ -62,6 +62,7 @@ export default {
   methods: {
     changeGender(newValue) {
       this.$emit('input', newValue);
+      this.$emit('change');
     },
   },
 };

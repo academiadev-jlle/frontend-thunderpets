@@ -7,6 +7,7 @@ import VeeValidate, { Validator } from 'vee-validate';
 import VueResource from 'vue-resource';
 import pt from 'vee-validate/dist/locale/pt_BR';
 import VueIziToast from 'vue-izitoast';
+import VueDebounce from 'vue-debounce'
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -15,12 +16,13 @@ import './plugins/vuetify';
 import './registerServiceWorker';
 import './filters';
 
+Vue.prototype.$smAndDown = Vue.prototype.$vuetify.breakpoint.smAndDown;
 
 Vue.config.productionTip = false;
 
+Vue.use(VueDebounce)
 Vue.use(InfiniteScroll);
-
-Vue.use(VueIziToast);
+Vue.use(VueIziToast); 
 
 Vue.use(VueGoogleMaps, {
   load: {

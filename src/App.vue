@@ -4,6 +4,7 @@
       app
       class="elevation-0"
       clipped-left
+      clipped-right
       color="primary"
       height="50px"
     >

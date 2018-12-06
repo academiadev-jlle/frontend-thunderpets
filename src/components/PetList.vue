@@ -1,6 +1,7 @@
 <template>
   <div v-infinite-scroll="loadMore" infinite-scroll-distance="1000">
-    <div v-if="pets">
+    {{filters}}
+    <div v-if="pets && !loading">
       <v-data-iterator
         :items="pets"
         content-tag="v-layout"
@@ -67,42 +68,54 @@ export default {
   data() {
     return {
       busy: false,
+      filters: {
+        paginaAtual: 0,
+      },
       empty: false,
       pets: null,
       loading: true,
-      dataFetchPage: 0,
     };
   },
   created() {
-    Pets.get({
-      paginaAtual: this.dataFetchPage,
-      status: this.status,
-    }).then((response) => {
+    Pets.get(this.filters).then((response) => {
       this.pets = response.data.content;
+      this.filters.paginaAtual += 1;
     }).finally(() => {
       this.loading = false;
-      this.dataFetchPage += 1;
     });
   },
   methods: {
     loadMore() {
-      if (this.pets && !this.busy && !this.empty) {
+      if (this.pets && !this.busy && !this.empty && !this.loading) {
         this.busy = true;
-        Pets.get({
-          status: this.status,
-          paginaAtual: this.dataFetchPage,
-        }).then((response) => {
+        Pets.get(this.filters).then((response) => {
           if (response.data.empty) {
             this.empty = true;
           } else {
             this.pets = this.pets.concat(response.data.content);
-            this.dataFetchPage += 1;
+            this.filters.paginaAtual += 1;
           }
         }).finally(() => {
           this.busy = false;
         });
       }
     },
+    filter(filters) {
+      this.filters = filters;
+      this.filters.paginaAtual = 0;
+      this.loading = true;
+      this.empty = false;
+      this.busy = true;
+
+      Pets.get(this.filters).then((response) => {
+        console.log('Katchau', response);
+        this.pets = response.data.content;
+        this.filters.paginaAtual += 1;
+      }).finally(() => {
+        this.loading = false;
+        this.busy = false;
+      });
+    }
   },
 };
 </script>
