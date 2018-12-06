@@ -126,11 +126,10 @@ export default {
       Pets.getById(this.pet.id).then((response) => {
         this.$refs.dialog.openDialog(response.data);
       }).catch(() => {
-        this.$toast.error('Deu ruim');
+        this.$toast.error('Algum problema ocorreu, tente novamente');
       }).finally(() => {
         this.loading = false;
       });
-      // this.$router.push({ name: 'petDetail', params: { id: this.pet.id } });
     },
   },
 };

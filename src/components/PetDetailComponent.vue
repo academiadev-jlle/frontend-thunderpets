@@ -18,9 +18,9 @@
                 <v-img
                   :alt="`${pet.nome} - ${index}`"
                   :src="`data:image/png;base64,${photo}`"
+                  aspect-ratio="1"
                   class="black"
                   contain
-                  aspect-ratio="1"
                 >
                 </v-img>
               </v-layout>
@@ -103,9 +103,9 @@
           <v-card-text>
             <vue-disqus
               :identifier="pet.id"
+              :shortname="disqusShortname"
               :title="`Thunderpets - ${pet.nome}`"
               language="pt-BR"
-              :shortname="disqusShortname"
             />
           </v-card-text>
         </v-card>
@@ -116,8 +116,8 @@
 
 <script>
 import ContactInfo from '@/components/ContactInfo.vue';
-import GoogleMap from '@/components/GoogleMap.vue';
 import GenderChip from '@/components/GenderChip.vue';
+import GoogleMap from '@/components/GoogleMap.vue';
 import SizeChip from '@/components/SizeChip.vue';
 import Users from '@/services/users';
 
@@ -131,57 +131,20 @@ export default {
   },
   components: {
     ContactInfo,
-    GoogleMap,
     GenderChip,
+    GoogleMap,
     SizeChip,
   },
   data() {
     return {
       contactDialog: false,
       disqusShortname: process.env.VUE_APP_DISQUS_SHORTNAME,
-      datePicker: false,
       loading: false,
-      teste: 'lixo',
       contatos: [],
-      pseudoPet: {
-        ativo: true,
-        dataAchado: '2010-10-10',
-        dataRegistro: '2010-10-10',
-        descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras efficitur ullamcorper ipsum in viverra. Fusce vel rhoncus ipsum, et vulputate ex. Sed egestas lectus vitae accumsan tincidunt. Sed ullamcorper dui urna, aliquam fringilla leo hendrerit vitae. Cras malesuada, nisi non semper posuere, magna felis sagittis felis, ut tempus diam magna in mi. Quisque eu turpis ut lectus eleifend elementum a sed eros. Phasellus feugiat ex eu velit aliquam aliquam. Ut scelerisque tempor enim, sit amet sceler',
-        idade: 'ADULTO',
-        localizacao: {
-          cidade: 'Joinville',
-          estado: 'SC',
-          latitude: -26.31341,
-          longitude: -48.84802,
-        },
-        usuario: {
-          contatos: [
-            {
-              tipo: 'TELEFONE',
-              descricao: '(47) 3422-2222',
-            },
-            {
-              tipo: 'CELULAR',
-              descricao: '(47) 98407-6666',
-            },
-            {
-              tipo: 'EMAIL',
-              descricao: 'baldinhomeme@gmail.com',
-            },
-            {
-              tipo: 'REDE_SOCIAL',
-              descricao: '@baldinho',
-            },
-          ],
-        },
-      },
     };
   },
   created() {
-    this.disqusShortname = process.env.VUE_APP_DISQUS_SHORTNAME;
     Users.getById(this.pet.usuarioId).then((response) => {
-      console.log(response);
       this.contatos = response.data.contatos;
     });
   },

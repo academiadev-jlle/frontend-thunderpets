@@ -10,7 +10,7 @@
 import PetList from '../components/PetList.vue';
 
 export default {
-  name: 'Home',
+  name: 'Search',
   components: {
     PetList,
   },
