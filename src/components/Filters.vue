@@ -151,7 +151,7 @@ export default {
         longitudeUsuario: this.filters.useLocation ? this.filters.longitudeUsuario : null,
         nome: this.filters.nome,
         porte: this.filters.porte,
-        raioDistancia: this.filters.useLocation ? this.filters.raioDistancia : NaN,
+        raioDistancia: this.filters.useLocation ? this.filters.raioDistancia : null,
         sexo: this.filters.sexo,
         status: this.filters.status,
       };

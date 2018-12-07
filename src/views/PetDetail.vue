@@ -29,6 +29,22 @@ export default {
         }
       });
   },
+  // created() {
+  //   if (!this.pet) {
+  //     console.log('Meu deus', this.$route.params.id);
+  //     Pets.getById(this.$route.params.id)
+  //       .then((response) => {
+  //         console.log('AHHHHHHHHHHHHH', response);
+  //         this.pet = response.data;
+  //       })
+  //       .catch((error) => {
+  //         if (error.response.status === 404) {
+  //         // eslint-disable-next-line no-restricted-globals
+  //           history.back();
+  //         }
+  //       });
+  //   }
+  // },
   methods: {
     setPet(pet) {
       this.pet = pet;

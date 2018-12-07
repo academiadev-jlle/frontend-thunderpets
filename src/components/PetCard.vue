@@ -1,20 +1,19 @@
 <template>
   <div>
+    <a :href="`/pet/${pet.id}`" @click.prevent="clickCard()">
     <v-card hover v-if="pet" @click.native="clickCard()">
       <v-responsive>
         <v-img :src="pet.fotos[0] | preventNoPhoto" aspect-ratio="1.5" id="photo">
-          <!-- <v-scale-transition> -->
-            <v-layout
-              align-center
-              fill-height
-              justify-center
-              v-if="loading"
-              class="primary display-3 loading white--text ma-0 pa-0"
-            >
-              <v-progress-circular indeterminate size="75">
-              </v-progress-circular>
-            </v-layout>
-          <!-- </v-scale-transition> -->
+          <v-layout
+            align-center
+            fill-height
+            justify-center
+            v-if="loading"
+            class="primary display-3 loading white--text ma-0 pa-0"
+          >
+            <v-progress-circular indeterminate size="75">
+            </v-progress-circular>
+          </v-layout>
           <v-layout
             align-end
             class="mx-1 my-0"
@@ -75,6 +74,7 @@
         {{pet.descricao}}
       </v-card-text>
     </v-card>
+    </a>
     <pet-detail-dialog ref="dialog" />
   </div>
 </template>
@@ -136,14 +136,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.loading {
-  align-items: center;
-  bottom: 0;
-  justify-content: center;
-  opacity: .8;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-}
+  .loading {
+    align-items: center;
+    bottom: 0;
+    justify-content: center;
+    opacity: .8;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+  }
+
+  a {
+    text-decoration: none;
+  }
 </style>
 
