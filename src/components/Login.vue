@@ -141,9 +141,6 @@ export default {
       default: false,
     },
   },
-  components: {
-    FacebookFrame,
-  },
   data() {
     return {
       dialog: false,
@@ -161,17 +158,6 @@ export default {
     isXS() {
       return this.$vuetify.breakpoint.xsOnly;
     },
-  },
-  created() {
-    window.fbAsyncInit = function() {
-      window.FB.init({
-        appId      : '1136188899888117',
-        cookie     : true,
-        xfbml      : true,
-        version    : 'v3.2',
-      });
-      FB.AppEvents.logPageView();
-    }
   },
   methods: {
     openDialog() {
