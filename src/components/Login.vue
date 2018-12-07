@@ -100,6 +100,7 @@
                     </v-flex>
                     <v-flex xs6>
                       <v-btn
+                        @click="submitFacebook"
                         :class="{'pr-4': !isXS}"
                         block
                         color="#3c66c4"
@@ -121,12 +122,14 @@
         </div>
       </v-card>
     </v-dialog>
+    <!-- <facebook-frame v-if="facebookUri" :uri="facebookUri"></facebook-frame> -->
   </div>
 </template>
 
 <script>
 import Users from '@/services/users';
 import Auth from '@/services/auth';
+import FacebookFrame from './FacebookFrame';
 
 export default {
   name: 'Login',
@@ -140,6 +143,9 @@ export default {
       default: false,
     },
   },
+  components: {
+    FacebookFrame,
+  },
   data() {
     return {
       dialog: false,
@@ -150,12 +156,24 @@ export default {
         password: null,
         rememberMe: false,
       },
+      facebookUri: null,
     };
   },
   computed: {
     isXS() {
       return this.$vuetify.breakpoint.xsOnly;
     },
+  },
+  created() {
+    window.fbAsyncInit = function() {
+      window.FB.init({
+        appId      : '1136188899888117',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v3.2',
+      });
+      FB.AppEvents.logPageView();
+    }
   },
   methods: {
     openDialog() {
@@ -201,6 +219,12 @@ export default {
         }
       });
     },
+    submitFacebook() {
+      this.$auth.authenticate('facebook').then((r) => {
+        this.$toast.success("foi");
+        console.log(r);
+      });
+    },
   },
   watch: {
     dialog(value) {
@@ -211,4 +235,3 @@ export default {
   },
 };
 </script>
-
