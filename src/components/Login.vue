@@ -122,14 +122,12 @@
         </div>
       </v-card>
     </v-dialog>
-    <!-- <facebook-frame v-if="facebookUri" :uri="facebookUri"></facebook-frame> -->
   </div>
 </template>
 
 <script>
 import Users from '@/services/users';
 import Auth from '@/services/auth';
-import FacebookFrame from './FacebookFrame';
 
 export default {
   name: 'Login',
