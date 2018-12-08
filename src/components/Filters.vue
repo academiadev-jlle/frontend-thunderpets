@@ -106,7 +106,7 @@
       </div>
     </v-navigation-drawer>
     <v-layout justify-end class="mx-4">
-      <v-btn @click="drawer = !drawer" flat block>
+      <v-btn @click="drawer = !drawer" block color="grey lighten-2">
         <v-icon left>
           mdi-filter
         </v-icon>

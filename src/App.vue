@@ -27,6 +27,7 @@
           Cadastrar Usuário
         </v-btn>
       </v-toolbar-items>
+      <v-spacer />
       <entrance />
     </v-toolbar>
     <v-navigation-drawer
