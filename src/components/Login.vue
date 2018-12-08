@@ -204,11 +204,22 @@ export default {
       });
     },
     submitFacebook() {
-      console.log(this.$auth);
+      this.$auth.authenticate('facebook').then((token) => {
+        token = token.body.access_token;
 
-      this.$auth.authenticate('facebook').then(() => {
-        console.log(this.$auth);
-      });
+        Auth.whoAmI(token).then(whoAmI => Users.getById(whoAmIResponse.data.id))
+          .then((me) => {
+            localStorage.setItem('token', token);
+            this.$store.commit('login', getUserResponse.data);
+            this.dialog = false;
+          })
+          .catch(() => {
+            this.error = true;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      })
     },
   },
   watch: {
