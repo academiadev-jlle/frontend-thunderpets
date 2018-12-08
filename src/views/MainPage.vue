@@ -1,13 +1,16 @@
 <template>
   <v-container fluid grid-list-md>
-    <v-layout justify-center>
+    <v-layout row wrap justify-center>
       <v-flex xs12 md6>
-        <v-img
-          :src="logo"
-          height="300px"
-          max-width="300px"
-        >
-        </v-img>
+        <v-layout justify-center>
+          <v-img
+            :src="logo"
+            class="text-xs-center"
+            height="200px"
+            max-width="200px"
+          >
+          </v-img>
+        </v-layout>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit,
           sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

@@ -42,6 +42,7 @@
         <router-view class="router-view"></router-view>
       </v-fade-transition>
     </v-content>
+    <footer-app />
   </v-app>
 </template>
 
@@ -50,12 +51,14 @@ import DrawerMenu from './components/DrawerMenu.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 import Entrance from './components/Entrance.vue';
+import FooterApp from './components/FooterApp.vue';
 
 export default {
   name: 'App',
   components: {
     DrawerMenu,
     Entrance,
+    FooterApp,
     Login,
     Register,
   },
