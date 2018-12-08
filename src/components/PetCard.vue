@@ -70,7 +70,7 @@
         {{pet.nome}}
       </v-card-title>
       <v-card-text class="body-1 px-2 pt-0 text-xs-justify" id="description">
-        {{pet.descricao | max200}}
+        {{pet.descricao | max100}}
       </v-card-text>
     </v-card>
     <pet-detail-dialog ref="dialog" />
@@ -106,7 +106,7 @@ export default {
 
       return `data:image/png;base64,${value}`;
     },
-    max200(value) {
+    max100(value) {
       if (!value) {
         return noPhoto;
       }
