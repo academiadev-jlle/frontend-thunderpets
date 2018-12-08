@@ -7,8 +7,11 @@ Vue.use(VueAuthenticate, {
 
   providers: {
     facebook: {
-      clientId: '1136188899888117',
-      redirectUri: 'https://thunderpets-api.herokuapp.com/oauth/facebook/login',
+      login: '/oauth/facebook/login',
+      clientId: process.env.VUE_APP_FACEBOOK_CLIENT,
+      loginUrl: 'https://thunderpets-api.herokuapp.com/oauth/facebook/login',
+      url: 'https://thunderpets-api.herokuapp.com/oauth/facebook/login',
+      redirectUri: 'https://thunderpets-test.netlify.com',
       scope: ['email', 'public_profile'],
     },
   },

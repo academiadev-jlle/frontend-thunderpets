@@ -204,9 +204,10 @@ export default {
       });
     },
     submitFacebook() {
-      this.$auth.authenticate('facebook').then((r) => {
-        this.$toast.success("foi");
-        console.log(r);
+      console.log(this.$auth);
+
+      this.$auth.authenticate('facebook').then(() => {
+        console.log(this.$auth);
       });
     },
   },
