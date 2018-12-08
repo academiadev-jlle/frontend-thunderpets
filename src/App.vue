@@ -10,7 +10,13 @@
       <v-toolbar-side-icon v-if="isSmAndDown" @click="drawer = true">
       </v-toolbar-side-icon>
       <v-toolbar-title class="headline mr-4">
-        <span>ThunderPets</span>
+        <a
+          class="black--text"
+          href="/"
+          style="text-decoration: none"
+        >
+          <span>ThunderPets</span>
+        </a>
       </v-toolbar-title>
       <v-toolbar-items v-if="!isSmAndDown">
         <v-btn flat to="/" exact>

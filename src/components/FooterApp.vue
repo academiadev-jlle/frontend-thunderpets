@@ -15,7 +15,6 @@
         xs12
       >
         <members-info />
-        &copy;2018 — <strong>Vuetify</strong>
       </v-flex>
     </v-layout>
   </v-footer>

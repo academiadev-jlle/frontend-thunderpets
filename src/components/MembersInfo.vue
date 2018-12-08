@@ -7,7 +7,13 @@
         v-for="membro in membros"
         :key="membro.nome"
       >
-        <a :href="membro.github" class="black--text"> {{ membro.nome }}</a>
+        <a
+          :href="membro.github"
+          class="black--text"
+          style="text-decoration: none"
+        >
+          {{ membro.nome }}
+        </a>
       </v-flex>
     </v-layout>
   </ul>
