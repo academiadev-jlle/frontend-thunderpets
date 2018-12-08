@@ -29,6 +29,14 @@ export default {
       },
     };
   },
+  created() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.filters.latitudeUsuario = position.coords.latitude;
+      this.filters.longitudeUsuario = position.coords.longitude;
+
+      this.$refs.petList.filter(this.filters);
+    });
+  },
   methods: {
     filter(values) {
       console.log(values);

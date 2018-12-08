@@ -42,7 +42,7 @@
       justify-center
       v-else
     >
-      <div v-if="loading" class="text-xs-center">
+      <div v-if="loading" class="text-xs-center mt-5">
         <v-progress-circular color="primary" indeterminate size="60"/>
         <h1 class="display-1 mt-3">
           Buscando pets

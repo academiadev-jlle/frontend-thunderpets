@@ -134,6 +134,12 @@ export default {
       },
     };
   },
+  created() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.filters.latitudeUsuario = position.coords.latitude;
+      this.filters.longitudeUsuario = position.coords.longitude;
+    });
+  },
   computed: {
     isSmAndDown() {
       return this.$vuetify.breakpoint.smAndDown;
@@ -147,8 +153,8 @@ export default {
         especie: this.filters.especie,
         estado: this.filters.useLocation ? null : this.filters.estado,
         idade: this.filters.idade,
-        latitudeUsuario: this.filters.useLocation ? this.filters.latitudeUsuario : null,
-        longitudeUsuario: this.filters.useLocation ? this.filters.longitudeUsuario : null,
+        latitudeUsuario: this.filters.latitudeUsuario,
+        longitudeUsuario: this.filters.longitudeUsuario,
         nome: this.filters.nome,
         porte: this.filters.porte,
         raioDistancia: this.filters.useLocation ? this.filters.raioDistancia : null,

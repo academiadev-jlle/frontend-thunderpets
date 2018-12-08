@@ -71,7 +71,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: 'MACHO',
+      default: null,
     },
     clearable: {
       type: Boolean,

@@ -1,22 +1,22 @@
 <template>
   <div>
     <a :href="`/pet/${pet.id}`" @click.prevent="clickCard()">
-    <v-card hover v-if="pet" @click.native="clickCard()">
+    <v-card hover v-if="pet">
       <v-responsive>
         <v-img :src="pet.fotos[0] | preventNoPhoto" aspect-ratio="1.5" id="photo">
           <v-layout
             align-center
+            class="primary display-3 loading white--text ma-0 pa-0"
             fill-height
             justify-center
             v-if="loading"
-            class="primary display-3 loading white--text ma-0 pa-0"
           >
             <v-progress-circular indeterminate size="75">
             </v-progress-circular>
           </v-layout>
           <v-layout
             align-end
-            class="mx-1 my-0"
+            class="mx-1 my-0 pb-1"
             fill-height
             row
           >
@@ -32,20 +32,20 @@
                   <v-icon>mdi-map-marker</v-icon>
                 </v-avatar>
                 <span id="distance-text">
-                  {{pet.distancia}} km
+                  {{parseFloat(pet.distancia).toFixed(2)}} km
                 </span>
               </v-chip>
               <span>Distância</span>
             </v-tooltip>
             <v-spacer />
-            <v-layout row align-center justify-end class="pb-1">
+            <v-layout row align-center justify-end>
               <v-tooltip color="green" top>
                 <v-avatar
+                  @click.stop=""
                   class="elevation-2"
                   color="green"
                   size="24"
                   slot="activator"
-                  @click.stop=""
                 >
                   <v-icon dark id="small" >{{pet.porte | sizeIcon}}</v-icon>
                 </v-avatar>
@@ -54,10 +54,10 @@
               <v-tooltip :color="genderColor" top>
                 <v-avatar
                   :color="genderColor"
+                  @click.stop=""
                   class="elevation-2 ma-1"
                   size="36"
                   slot="activator"
-                  @click.stop=""
                 >
                   <v-icon dark>{{pet.sexo | genderIcon}}</v-icon>
                 </v-avatar>
@@ -143,7 +143,7 @@ export default {
     opacity: .8;
     position: absolute;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
   }
 
   a {
