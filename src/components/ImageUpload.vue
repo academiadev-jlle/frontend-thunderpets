@@ -12,7 +12,7 @@
         color="primary"
         height="fit-content"
         hover
-        v-for="(item, index) in images"
+        v-for="(item, index) in value"
         width="100px"
       >
         <p class="body-2 ma-0 text-xs-center" v-if="index === mainImage">Foto Principal</p>
@@ -41,11 +41,11 @@
       </v-card>
       <v-card
         @click.native="openFileUploader"
-        :class="{'ma-1': true, 'no-image-margin': images.length == 0}"
+        :class="{'ma-1': true, 'no-image-margin': value.length == 0}"
         height="100px"
         hover
         id="new-image"
-        v-if="images.length < 10"
+        v-if="value.length < 10"
         width="100px"
       >
         <v-layout
@@ -75,29 +75,35 @@ const MAX_PHOTOS = 10;
 
 export default {
   name: 'ImageUpload',
+  props: {
+    value: {
+      type: Array,
+    },
+  },
   data() {
     return {
-      images: [],
       mainImage: 0,
     };
+  },
+  created() {
   },
   methods: {
     validate() {
       this.$validator.validateAll();
     },
     setMainImage(index) {
-      this.mainImage = index >= this.images.length ? 0 : index;
+      this.mainImage = index >= this.value.length ? 0 : index;
     },
     removePhoto(event, index) {
-      this.images.splice(index, 1);
+      this.value.splice(index, 1);
 
-      if (this.mainImage >= this.images.length) {
+      if (this.mainImage >= this.value.length) {
         this.mainImage -= 1;
       }
 
-      this.mainImage = Math.min(Math.max(this.mainImage, 0), this.images.length);
+      this.mainImage = Math.min(Math.max(this.mainImage, 0), this.value.length);
 
-      this.$emit('input', this.images);
+      this.$emit('input', this.value);
     },
     openFileUploader() {
       this.$refs.file.click();
@@ -117,9 +123,9 @@ export default {
             binaryString = `${binaryString}${String.fromCharCode(array[j])}`;
           }
 
-          if (this.images.length < MAX_PHOTOS) {
-            this.images.push(btoa(binaryString));
-            this.$emit('input', this.images);
+          if (this.value.length < MAX_PHOTOS) {
+            this.value.push(btoa(binaryString));
+            this.$emit('input', this.value);
           }
         };
 

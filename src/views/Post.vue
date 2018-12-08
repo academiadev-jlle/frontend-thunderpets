@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid grid-list-md v-if="!preLoad">
     <v-card>
       <v-layout row wrap justify-center>
         <v-flex xs12 md6>
@@ -145,7 +145,7 @@
           block
           color="info"
         >
-          Cadastrar Pet
+          Salvar Pet
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -154,7 +154,6 @@
 
 <script>
 import Pets from '@/services/pets';
-import Users from '@/services/users';
 import GenderSelection from '@/components/GenderSelection.vue';
 import GoogleMap from '@/components/GoogleMap.vue';
 import ImageUpload from '@/components/ImageUpload.vue';
@@ -172,6 +171,7 @@ export default {
       domains,
       datePicker: false,
       loading: false,
+      preLoad: true,
       pet: {
         ativo: true,
         dataAchado: null,
@@ -190,15 +190,25 @@ export default {
     };
   },
   created() {
-    Users.get().then((response) => {
-      this.pet.usuarioId = response.data.content[0].id;
-    });
+    const petId = this.$route.params.id;
+
+    if (petId) {
+      Pets.getById(petId).then((response) => {
+        console.log(response);
+        this.pet = response.data;
+        this.preLoad = false;
+      });
+    } else {
+      this.preLoad = false;
+    }
   },
   methods: {
     submit() {
       this.$validator.validateAll().then((result) => {
         if (result) {
           if (this.$store.state.loggedIn) {
+            this.pet.usuarioId = this.$store.state.loggedUser.id;
+
             this.loading = true;
             Pets.save(this.pet).then(() => {
               this.$toast.success('Pet cadastrado com sucesso');
@@ -210,6 +220,9 @@ export default {
           }
         }
       });
+    },
+    setPet() {
+
     },
   },
   computed: {

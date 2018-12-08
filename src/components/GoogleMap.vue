@@ -74,6 +74,8 @@ export default {
   },
   created() {
     if (this.value) {
+      this.formattedAddress = this.value.descricao;
+
       this.location = {
         lat: this.value.latitude,
         lng: this.value.longitude,

@@ -1,20 +1,18 @@
 <template>
   <div>
-    <v-card hover v-if="pet" @click.native="clickCard()">
+    <v-card hover v-if="pet" @click.native="clickCard()" class="truncate">
       <v-responsive>
         <v-img :src="pet.fotos[0] | preventNoPhoto" aspect-ratio="1.5" id="photo">
-          <!-- <v-scale-transition> -->
-            <v-layout
-              align-center
-              fill-height
-              justify-center
-              v-if="loading"
-              class="primary display-3 loading white--text ma-0 pa-0"
-            >
-              <v-progress-circular indeterminate size="75">
-              </v-progress-circular>
-            </v-layout>
-          <!-- </v-scale-transition> -->
+          <v-layout
+            align-center
+            fill-height
+            justify-center
+            v-if="loading"
+            class="primary display-3 loading white--text ma-0 pa-0"
+          >
+            <v-progress-circular indeterminate size="75">
+            </v-progress-circular>
+          </v-layout>
           <v-layout
             align-end
             class="mx-1 my-0"
@@ -72,7 +70,7 @@
         {{pet.nome}}
       </v-card-title>
       <v-card-text class="body-1 px-2 pt-0 text-xs-justify" id="description">
-        {{pet.descricao}}
+        {{pet.descricao | max200}}
       </v-card-text>
     </v-card>
     <pet-detail-dialog ref="dialog" />
@@ -107,6 +105,13 @@ export default {
       }
 
       return `data:image/png;base64,${value}`;
+    },
+    max200(value) {
+      if (!value) {
+        return noPhoto;
+      }
+
+      return value.length > 100 ? `${value.slice(0, 100)}...` : value;
     },
   },
   computed: {
