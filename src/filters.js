@@ -18,6 +18,22 @@ Vue.filter('genderIcon', (value) => {
   return 'mdi-help';
 });
 
+Vue.filter('statusText', (value) => {
+  if (value === 'PROCURANDO_DONO') {
+    return 'Achado';
+  } else if (value === 'PROCURANDO_PET') {
+    return 'Perdido';
+  } else if (value === 'MACHO') {
+    return 'mdi-gender-male';
+  } else if (value === 'MACHO') {
+    return 'mdi-gender-male';
+  } else if (value === 'MACHO') {
+    return 'mdi-gender-male';
+  }
+
+  return '';
+});
+
 Vue.filter('sizeText', (value) => {
   if (!value) {
     return '';

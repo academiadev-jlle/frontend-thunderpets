@@ -40,7 +40,7 @@
             <v-list class="py-0" two-line v-if="pets && pets.length > 0">
               <v-list-tile v-for="(pet, index) in pets" :key="index">
                 <v-layout align-center row>
-                  <v-list-tile-avatar tile size="70" class="mr-3">
+                  <v-list-tile-avatar tile size="70" class="mr-4">
                     <v-img :src="pet.fotos[0] | preventNoPhoto">
                     </v-img>
                   </v-list-tile-avatar>
@@ -109,6 +109,7 @@ import defaultImage from '@/assets/defaultImage.jpeg';
 import noPhoto from '@/assets/noPhoto.jpg';
 import ContactInfo from '@/components/ContactInfo.vue';
 import Users from '@/services/users';
+import Auth from '@/services/auth';
 import Pets from '@/services/pets';
 
 export default {
@@ -134,10 +135,12 @@ export default {
     }
   },
   created() {
-    Users.getPetsById(this.$store.state.loggedUser.id).then((response) => {
-      this.pets = response.data;
-      this.loading = false;
-    });
+    Auth.whoAmI(localStorage.getItem('token'))
+      .then(response => Users.getPetsById(response.data.id))
+      .then((response) => {
+        this.pets = response.data;
+        this.loading = false;
+      });
   },
   computed: {
     isSmAndDown() {

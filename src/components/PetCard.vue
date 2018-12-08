@@ -3,6 +3,9 @@
     <v-card hover v-if="pet" @click.native="clickCard()" class="truncate">
       <v-responsive>
         <v-img :src="pet.fotos[0] | preventNoPhoto" aspect-ratio="1.5" id="photo">
+          <div class="pet-status elevation-2 blue">
+            {{pet.status | statusText}}
+          </div>
           <v-layout
             align-center
             fill-height
@@ -148,6 +151,18 @@ export default {
   opacity: .8;
   position: absolute;
   width: 100%;
+  z-index: 1;
+}
+
+.pet-status {
+  // transform: rotateZ(45deg);
+  transform-origin: 0;
+  width: 100px;
+  text-align: center;
+  transform: rotateZ(45deg);
+  position: absolute;
+  right: -37px;
+  top: -18px;
   z-index: 1;
 }
 </style>
