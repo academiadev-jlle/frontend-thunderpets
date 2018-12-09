@@ -6,7 +6,7 @@
           <v-layout class="ma-0" row>
             <v-flex >
               <v-avatar tile size="100">
-                <v-img aspect-ratio="1" :src="defaultImage" />
+                <v-img aspect-ratio="1" :src="userPhoto" />
               </v-avatar>
             </v-flex>
             <v-flex xs12>
@@ -157,6 +157,9 @@ export default {
     },
     user() {
       return this.$store.state.loggedUser;
+    },
+    userPhoto() {
+      return this.user.foto ? `data:image/png;base64,${this.user.foto}` : this.defaultImage;
     },
   },
   watch: {

@@ -84,34 +84,16 @@
                 <v-container class="pa-0" fluid grid-list-md>
                   <v-layout row>
                     <v-flex xs6>
-                      <v-btn
-                        :class="{'pr-4': !isXS}"
-                        block
-                        color="#cf4332"
-                        dark
-                      >
-                        <v-icon :class="{'mr-4': !isXS}">
-                          mdi-google
-                        </v-icon>
-                        <span v-if="!isXS">
-                          Entrar com Google
-                        </span>
-                      </v-btn>
+                      <google-button
+                        @error="error = true"
+                        @login="dialog = false"
+                      ></google-button>
                     </v-flex>
                     <v-flex xs6>
-                      <v-btn
-                        :class="{'pr-4': !isXS}"
-                        block
-                        color="#3c66c4"
-                        dark
-                      >
-                        <v-icon :class="{'mr-3': !isXS}">
-                          mdi-facebook
-                        </v-icon>
-                        <span v-if="!isXS">
-                          Entrar com Facebook
-                        </span>
-                      </v-btn>
+                      <facebook-button
+                        @error="error = true"
+                        @login="dialog = false"
+                      ></facebook-button>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -127,6 +109,8 @@
 <script>
 import Users from '@/services/users';
 import Auth from '@/services/auth';
+import FacebookButton from './FacebookButton.vue';
+import GoogleButton from './GoogleButton.vue';
 
 export default {
   name: 'Login',
@@ -139,6 +123,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    FacebookButton,
+    GoogleButton,
   },
   data() {
     return {
@@ -211,4 +199,3 @@ export default {
   },
 };
 </script>
-
