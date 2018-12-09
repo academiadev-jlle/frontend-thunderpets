@@ -3,23 +3,23 @@ import Vue from 'vue';
 import VueAuthenticate from 'vue-authenticate';
 
 Vue.use(VueAuthenticate, {
-  baseUrl: process.env.API_URL,
+  baseUrl: process.env.VUE_APP_API_URL,
 
   providers: {
     facebook: {
-      login: process.env.FACEBOOK_LOGIN_URL,
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      authorizationEndpoint: process.env.FACEBOOK_AUTH_ENDPOINT,
+      login: process.env.VUE_APP_FACEBOOK_LOGIN_URL,
+      clientId: process.env.VUE_APP_FACEBOOK_CLIENT_ID,
+      authorizationEndpoint: process.env.VUE_APP_FACEBOOK_AUTH_ENDPOINT,
       optionalUrlParameters: [],
-      url: process.env.FACEBOOK_URL,
-      redirectUri: process.env.FACEBOOK_REDIRECT_URI,
+      url: process.env.VUE_APP_FACEBOOK_URL,
+      redirectUri: process.env.VUE_APP_FACEBOOK_REDIRECT_URI,
       scope: ['email', 'public_profile'],
     },
     google: {
-      login: process.env.GOOGLE_LOGIN_URL,
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      url: process.env.GOOGLE_URL,
-      redirectUri: process.env.GOOGLE_REDIRECT_URI,
+      login: process.env.VUE_APP_GOOGLE_LOGIN_URL,
+      clientId: process.env.VUE_APP_GOOGLE_CLIENT_ID,
+      url: process.env.VUE_APP_GOOGLE_URL,
+      redirectUri: process.env.VUE_APP_GOOGLE_REDIRECT_URI,
       scopeDelimiter: ' ',
       scope: ['profile', 'email'],
     },
@@ -29,7 +29,7 @@ Vue.use(VueAuthenticate, {
 });
 
 const http = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.VUE_APP_API_URL,
 });
 
 export default http;
