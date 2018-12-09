@@ -2,6 +2,11 @@
   <v-container fluid grid-list-md>
     <v-layout row wrap justify-center>
       <v-flex xs12 md6>
+        <p class="display-1">
+          Procurando um animalzinho?
+        </p>
+      </v-flex>
+      <v-flex xs12 md6>
         <v-layout justify-center>
           <v-img
             :src="logo"
@@ -11,17 +16,12 @@
           >
           </v-img>
         </v-layout>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          Elit ullamcorper dignissim cras tincidunt. Bibendum enim facilisis gravida neque.
-          Sagittis eu volutpat odio facilisis mauris sit amet massa. Auctor augue mauris
-          augue neque gravida in fermentum. Blandit massa enim nec dui nunc mattis.
+        <p class="display-1 text-xs-center font-weight-bold">
+          Sua visão além do AU-AUcance
         </p>
-      </v-flex>
-      <v-flex xs12 md6>
-        <p class="display-1">
-          Procurando um animalzinho?
+        <p class="headline" align="justify">
+          ThunderPets é uma aplicação perfeita para pessoas que precisam
+          adotar pet's, anunciar pet's para adoção ou anunciar que há pet's perdidos.
         </p>
       </v-flex>
     </v-layout>

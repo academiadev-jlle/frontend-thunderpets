@@ -28,8 +28,5 @@ export default {
   components: {
     MembersInfo,
   },
-  data() {
-
-  },
 };
 </script>
