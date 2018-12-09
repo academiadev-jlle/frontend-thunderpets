@@ -52,6 +52,9 @@ export default {
             this.loading = false;
             this.$emit('login');
           });
+      }).catch((e) => {
+        this.$emit('error');
+        this.$toast.error(e.body.message);
       });
     },
   },
