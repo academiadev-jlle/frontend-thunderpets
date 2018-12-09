@@ -4,6 +4,7 @@
     min-width="200px"
     offset-y
     open-on-hover
+    nudge-right="3"
     v-if="loggedIn"
   >
     <v-layout align-center slot="activator" >

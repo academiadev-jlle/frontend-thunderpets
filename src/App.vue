@@ -16,6 +16,9 @@
         <v-btn flat to="/" exact>
           Inicial
         </v-btn>
+        <v-btn flat to="/search" exact>
+          Buscar
+        </v-btn>
         <v-btn flat to="/post" exact>
           Cadastrar Pet
         </v-btn>

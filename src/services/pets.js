@@ -1,10 +1,7 @@
 import Http from './http';
 
-const get = status => Http.get('/pet', {
-  params: {
-    status,
-    tamanho: 1000,
-  },
+const get = options => Http.get('/pet', {
+  params: options,
 });
 
 const getById = id => Http.get(`/pet/${id}`);

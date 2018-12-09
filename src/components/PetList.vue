@@ -1,26 +1,41 @@
 <template>
-  <div>
-    <v-data-iterator
-      :items="pets"
-      content-tag="v-layout"
-      row
-      v-if="pets"
-      wrap
-      :total-items="1000"
-      hide-actions
-    >
-      <v-flex
-        slot-scope="props"
-        slot="item"
-        xs12
-        sm6
-        md4
-        lg3
-        xl2
+  <div v-infinite-scroll="loadMore" infinite-scroll-distance="1000">
+    <div v-if="pets">
+      <v-data-iterator
+        :items="pets"
+        content-tag="v-layout"
+        hide-actions
+        row
+        v-if="pets"
+        wrap
       >
-        <pet-card :pet="props.item"/>
-      </v-flex>
-    </v-data-iterator>
+        <v-flex
+          slot-scope="props"
+          slot="item"
+          xs12
+          sm6
+          md4
+          lg3
+          xl2
+        >
+          <pet-card :pet="props.item"/>
+        </v-flex>
+      </v-data-iterator>
+      <v-layout
+        align-center
+        class="mt-5 mb-4 text-xs-center"
+        column
+        v-if="busy || empty"
+      >
+        <v-progress-circular
+          color="primary"
+          indeterminate
+          size="60"
+          v-if="busy"
+        />
+        <span v-if="empty">Felizmente, não possuímos mais pets precisando de ajuda.</span>
+      </v-layout>
+    </div>
     <v-layout
       align-center
       column
@@ -47,43 +62,51 @@ import PetCard from './PetCard.vue';
 export default {
   name: 'PetList',
   props: {
-    status: String,
+    status: {
+      type: String,
+    },
   },
   components: {
-    Pets,
     PetCard,
   },
   data() {
     return {
+      busy: false,
+      empty: false,
       pets: null,
       loading: true,
-      currentPageSize: 8,
-      currentPage: 1,
-      rowsPerPageItems: [8, 16, 32],
-      pagination: {
-        rowsPerPage: 8,
-      },
+      dataFetchPage: 0,
     };
   },
   created() {
-    Pets.get(this.status).then((response) => {
+    Pets.get({
+      paginaAtual: this.dataFetchPage,
+      status: this.status,
+    }).then((response) => {
       this.pets = response.data.content;
+    }).finally(() => {
       this.loading = false;
-    }).catch(() => {
-      this.loading = false;
+      this.dataFetchPage += 1;
     });
   },
   methods: {
-    autoScroll(pagination) {
-      if (pagination.rowsPerPage === this.currentPageSize && pagination.page > this.currentPage) {
-        window.scroll({
-          top: 0,
-          behavior: 'smooth',
+    loadMore() {
+      if (this.pets && !this.busy && !this.empty) {
+        this.busy = true;
+        Pets.get({
+          status: this.status,
+          paginaAtual: this.dataFetchPage,
+        }).then((response) => {
+          if (response.data.empty) {
+            this.empty = true;
+          } else {
+            this.pets = this.pets.concat(response.data.content);
+            this.dataFetchPage += 1;
+          }
+        }).finally(() => {
+          this.busy = false;
         });
       }
-
-      this.currentPage = pagination.page;
-      this.currentPageSize = pagination.rowsPerPage;
     },
   },
 };
