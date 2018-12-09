@@ -3,7 +3,7 @@ import Vue from 'vue';
 import VueAuthenticate from 'vue-authenticate';
 
 Vue.use(VueAuthenticate, {
-  baseUrl: process.env.BASE_URL,
+  baseUrl: process.env.API_URL,
 
   providers: {
     facebook: {
@@ -29,7 +29,7 @@ Vue.use(VueAuthenticate, {
 });
 
 const http = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: process.env.API_URL,
 });
 
 export default http;
