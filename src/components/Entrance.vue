@@ -8,10 +8,7 @@
   >
     <v-layout align-center slot="activator" >
       <v-avatar class="mr-2" size="30">
-        <v-img
-          :src="defaultImage"
-        >
-        </v-img>
+        <v-img :src="userPhoto"></v-img>
       </v-avatar>
       <span class="subheading uppercase" v-if="!isXS || drawerStyled">
         Olá, <span class="font-weight-bold">{{user.nome}}</span>
@@ -90,6 +87,9 @@ export default {
     },
     user() {
       return this.$store.state.loggedUser;
+    },
+    userPhoto() {
+      return this.user.foto ? `data:image/png;base64,${this.user.foto}` : this.defaultImage;
     },
   },
   methods: {
