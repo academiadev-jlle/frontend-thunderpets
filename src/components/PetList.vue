@@ -1,6 +1,6 @@
 <template>
   <div v-infinite-scroll="loadMore" infinite-scroll-distance="1000">
-    <div v-if="pets">
+    <div v-if="pets && !loading">
       <v-data-iterator
         :items="pets"
         content-tag="v-layout"
@@ -45,7 +45,7 @@
       justify-center
       v-else
     >
-      <div v-if="loading" class="text-xs-center">
+      <div v-if="loading" class="text-xs-center mt-5">
         <v-progress-circular color="primary" indeterminate size="60"/>
         <h1 class="display-1 mt-3">
           Buscando pets
@@ -75,41 +75,44 @@ export default {
   data() {
     return {
       busy: false,
+      filters: {
+        paginaAtual: 0,
+      },
       empty: false,
       pets: null,
       loading: true,
-      dataFetchPage: 0,
     };
-  },
-  created() {
-    Pets.get({
-      paginaAtual: this.dataFetchPage,
-      status: this.status,
-    }).then((response) => {
-      this.pets = response.data.content;
-    }).finally(() => {
-      this.loading = false;
-      this.dataFetchPage += 1;
-    });
   },
   methods: {
     loadMore() {
-      if (this.pets && !this.busy && !this.empty) {
+      if (this.pets && !this.busy && !this.empty && !this.loading) {
         this.busy = true;
-        Pets.get({
-          status: this.status,
-          paginaAtual: this.dataFetchPage,
-        }).then((response) => {
+        Pets.get(this.filters).then((response) => {
           if (response.data.empty) {
             this.empty = true;
           } else {
             this.pets = this.pets.concat(response.data.content);
-            this.dataFetchPage += 1;
+            this.filters.paginaAtual += 1;
           }
         }).finally(() => {
           this.busy = false;
         });
       }
+    },
+    filter(filters) {
+      this.filters = filters;
+      this.filters.paginaAtual = 0;
+      this.loading = true;
+      this.empty = false;
+      this.busy = true;
+
+      Pets.get(this.filters).then((response) => {
+        this.pets = response.data.content;
+        this.filters.paginaAtual = 1;
+      }).finally(() => {
+        this.loading = false;
+        this.busy = false;
+      });
     },
   },
 };

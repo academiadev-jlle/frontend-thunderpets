@@ -1,31 +1,38 @@
 <template>
   <div>
-    <v-container fluid grid-list-md>
-      <pet-list />
+    <filters v-model="filters" @filter="filter($event)"/>
+    <v-container fluid grid-list-md class="pt-0" >
+      <pet-list ref="petList"/>
     </v-container>
   </div>
 </template>
 
 <script>
+import Filters from '../components/Filters.vue';
 import PetList from '../components/PetList.vue';
 
 export default {
   name: 'Search',
   components: {
+    Filters,
     PetList,
   },
   data() {
     return {
-      tab: 'tab-2',
+      filters: {
+        especie: null,
+        idade: null,
+        nome: null,
+        porte: null,
+        sexo: null,
+        status: null,
+      },
     };
+  },
+  methods: {
+    filter(values) {
+      this.$refs.petList.filter(values);
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .main-tabs {
-    position: fixed;
-    z-index: 2;
-    width: 100%;
-  }
-</style>

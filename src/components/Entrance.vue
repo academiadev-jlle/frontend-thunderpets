@@ -81,6 +81,7 @@ export default {
           this.$store.commit('login', getUserResponse.data);
         })
         .catch(() => {
+          localStorage.removeItem('token');
           this.$store.commit('logout');
         });
     }
