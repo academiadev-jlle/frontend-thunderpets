@@ -110,8 +110,8 @@
 <script>
 import Users from '@/services/users';
 import Auth from '@/services/auth';
-import FacebookButton from './FacebookButton';
-import GoogleButton from './GoogleButton';
+import FacebookButton from './FacebookButton.vue';
+import GoogleButton from './GoogleButton.vue';
 
 export default {
   name: 'Register',

@@ -2,14 +2,17 @@
   <v-menu
     max-width="200px"
     min-width="200px"
+    nudge-right="3"
     offset-y
     open-on-hover
-    nudge-right="3"
     v-if="loggedIn"
   >
     <v-layout align-center slot="activator" >
       <v-avatar class="mr-2" size="30">
-        <v-img :src="userPhoto"></v-img>
+        <v-img
+          :src="user.foto | preventNoPhoto"
+        >
+        </v-img>
       </v-avatar>
       <span class="subheading uppercase" v-if="!isXS || drawerStyled">
         Olá, <span class="font-weight-bold">{{user.nome}}</span>
@@ -76,6 +79,9 @@ export default {
         .then(whoAmIResponse => Users.getById(whoAmIResponse.data.id))
         .then((getUserResponse) => {
           this.$store.commit('login', getUserResponse.data);
+        })
+        .catch(() => {
+          this.$store.commit('logout');
         });
     }
   },
@@ -89,9 +95,6 @@ export default {
     user() {
       return this.$store.state.loggedUser;
     },
-    userPhoto() {
-      return this.user.foto ? `data:image/png;base64,${this.user.foto}` : this.defaultImage;
-    },
   },
   methods: {
     logout() {
@@ -103,6 +106,15 @@ export default {
     },
     openRegister() {
       this.$refs.register.openDialog();
+    },
+  },
+  filters: {
+    preventNoPhoto(value) {
+      if (!value) {
+        return defaultImage;
+      }
+
+      return `data:image/png;base64,${value}`;
     },
   },
 };

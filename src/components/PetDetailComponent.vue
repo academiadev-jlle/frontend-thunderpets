@@ -99,6 +99,7 @@
     </v-layout>
     <v-layout row wrap justify-center>
       <v-flex xs12>
+      <sharing-menu :pet="pet"></sharing-menu>
         <v-card>
           <v-card-text>
             <vue-disqus
@@ -118,6 +119,7 @@
 import ContactInfo from '@/components/ContactInfo.vue';
 import GenderChip from '@/components/GenderChip.vue';
 import GoogleMap from '@/components/GoogleMap.vue';
+import SharingMenu from '@/components/SharingMenu.vue';
 import SizeChip from '@/components/SizeChip.vue';
 import Users from '@/services/users';
 
@@ -133,6 +135,7 @@ export default {
     ContactInfo,
     GenderChip,
     GoogleMap,
+    SharingMenu,
     SizeChip,
   },
   data() {

@@ -29,13 +29,13 @@ const router = new Router({
       component: Search,
     },
     {
-      path: '/post',
+      path: '/post/:id?',
       name: 'post',
       component: Post,
     },
     {
-      path: '/postUser',
-      name: 'postUser',
+      path: '/edit',
+      name: 'edit',
       component: PostUser,
     },
     {
