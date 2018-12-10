@@ -6,11 +6,21 @@
           <v-layout class="ma-0" row>
             <v-flex >
               <v-avatar tile size="100">
-                <v-img aspect-ratio="1" :src="userPhoto" />
+                <v-img aspect-ratio="1" :src="user.foto | preventNoImage" />
               </v-avatar>
             </v-flex>
             <v-flex xs12>
-              <h2 class="display-1">{{user.nome}}</h2>
+              <v-layout row align-center>
+                <h2 class="display-1">
+                  {{user.nome}}
+                </h2>
+                <v-tooltip top color="brown" class="ml-3">
+                  <v-icon slot="activator" @click="edit">
+                    mdi-pencil
+                  </v-icon>
+                  Editar
+                </v-tooltip>
+              </v-layout>
               <a class="blue--text">
                 {{user.email}}
               </a>
@@ -30,43 +40,54 @@
     <v-layout row>
       <v-flex xs12>
         <v-card class="py-1">
-          <v-list class="py-0" two-line v-if="pets.length > 0">
-            <v-list-tile v-for="(pet, index) in pets" :key="index">
-              <v-layout align-center row>
-                <v-list-tile-avatar tile>
-                  <v-icon size="40">mdi-dog</v-icon>
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ pet.nome }}</v-list-tile-title>
-                  <v-list-tile-sub-title>
-                    {{pet.especie | capitalize}} -
-                    {{pet.sexo | genderText | capitalize}} -
-                    Porte {{pet.porte | sizeText}} -
-                    {{pet.idade | capitalize}}
-                  </v-list-tile-sub-title>
-                  <v-list-tile-sub-title class="caption">
-                    {{pet.descricao}}
-                  </v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-spacer />
-                <v-btn color="info" :icon="isSmAndDown">
-                  <v-icon :left="!isSmAndDown" dark>mdi-pencil</v-icon>
-                  <span v-if="!isSmAndDown">
-                    Editar
-                  </span>
-                </v-btn>
-                <v-btn color="error" :icon="isSmAndDown" @click="inactivatePet(pet.id, index)">
-                  <v-icon :left="!isSmAndDown" dark>mdi-trash-can</v-icon>
-                  <span v-if="!isSmAndDown">
-                    Apagar
-                  </span>
-                </v-btn>
-              </v-layout>
-            </v-list-tile>
-          </v-list>
-          <v-card-text class="text-xs-center headline grey--text" v-else>
-            Nenhum pet cadastrado
-          </v-card-text>
+          <div v-if="loading" class="text-xs-center my-3">
+            <v-progress-circular color="primary" indeterminate size="60"/>
+            <h1 class="display-1 mt-3">
+              Buscando pets
+            </h1>
+          </div>
+          <div v-else>
+            <v-list class="py-0" two-line v-if="pets && pets.length > 0">
+              <v-list-tile v-for="(pet, index) in pets" :key="index" @click="tileClick(pet.id)">
+                <v-layout align-center row>
+                  <v-list-tile-avatar tile size="70" class="mr-4">
+                    <v-img :src="pet.fotos[0] | preventNoPhoto">
+                    </v-img>
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{ pet.nome }} -
+                      <span class="caption">{{pet.status | statusText}}</span>
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title>
+                      {{pet.especie | capitalize}} -
+                      {{pet.sexo | genderText | capitalize}} -
+                      Porte {{pet.porte | sizeText}} -
+                      {{pet.idade | capitalize}}
+                    </v-list-tile-sub-title>
+                    <v-list-tile-sub-title class="caption">
+                      {{pet.descricao}}
+                    </v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-spacer />
+                  <v-btn color="info" :icon="isSmAndDown" @click.stop="editPet(pet.id)">
+                    <v-icon :left="!isSmAndDown" dark>mdi-pencil</v-icon>
+                    <span v-if="!isSmAndDown">
+                      Editar
+                    </span>
+                  </v-btn>
+                  <v-btn color="error" :icon="isSmAndDown" @click.stop="removePet(pet.id, index)">
+                    <v-icon :left="!isSmAndDown" dark>mdi-trash-can</v-icon>
+                    <span v-if="!isSmAndDown">
+                      Apagar
+                    </span>
+                  </v-btn>
+                </v-layout>
+              </v-list-tile>
+            </v-list>
+            <v-card-text class="text-xs-center headline grey--text" v-else>
+              Nenhum pet cadastrado
+            </v-card-text>
+          </div>
         </v-card>
       </v-flex>
     </v-layout>
@@ -75,12 +96,6 @@
         <v-toolbar color="primary">
           <v-toolbar-title>
             Contatos
-            <v-tooltip top color="brown">
-              <v-icon slot="activator" @click="editContacts">
-                mdi-pencil
-              </v-icon>
-              Editar
-            </v-tooltip>
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="contactDialog = false">
@@ -97,7 +112,11 @@
 
 <script>
 import defaultImage from '@/assets/defaultImage.jpeg';
+import noPhoto from '@/assets/noPhoto.jpg';
 import ContactInfo from '@/components/ContactInfo.vue';
+import Users from '@/services/users';
+import Auth from '@/services/auth';
+import Pets from '@/services/pets';
 
 export default {
   name: 'User',
@@ -108,45 +127,23 @@ export default {
     return {
       contactDialog: false,
       defaultImage,
+      loading: true,
       foto: null,
-      pets: [
-        {
-          descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque leo. Cras fermentum tortor magna, a molestie enim bibendum non. Praesent viverra mi in lacus sagittis, in venenatis nulla tempus. Mauris lorem leo, sodales sit amet lorem vitae, porttitor laoreet odio. Sed lectus justo, eleifend sit amet viverra eget, varius ut ligula. Suspendisse feugiat, sapien vel pretium fringilla, enim sem volutpat magna, nec auctor ligula orci et urna  volutpat magna, nec auctor ligula orci et urna.',
-          especie: 'CACHORRO',
-          id: '1',
-          idade: 'ADULTO',
-          nome: 'Pet 1',
-          porte: 'MEDIO',
-          sexo: 'MACHO',
-        }, {
-          descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque leo. Cras fermentum tortor magna, a molestie enim bibendum non. Praesent viverra mi in lacus sagittis, in venenatis nulla tempus. Mauris lorem leo, sodales sit amet lorem vitae, porttitor laoreet odio. Sed lectus justo, eleifend sit amet viverra eget, varius ut ligula. Suspendisse feugiat, sapien vel pretium fringilla, enim sem volutpat magna, nec auctor ligula orci et urna  volutpat magna, nec auctor ligula orci et urna.',
-          especie: 'CACHORRO',
-          id: '2',
-          idade: 'ADULTO',
-          nome: 'Pet 2',
-          porte: 'MEDIO',
-          sexo: 'MACHO',
-        }, {
-          descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida neque leo. Cras fermentum tortor magna, a molestie enim bibendum non. Praesent viverra mi in lacus sagittis, in venenatis nulla tempus. Mauris lorem leo, sodales sit amet lorem vitae, porttitor laoreet odio. Sed lectus justo, eleifend sit amet viverra eget, varius ut ligula. Suspendisse feugiat, sapien vel pretium fringilla, enim sem volutpat magna, nec auctor ligula orci et urna  volutpat magna, nec auctor ligula orci et urna.',
-          especie: 'CACHORRO',
-          id: '3',
-          idade: 'ADULTO',
-          nome: 'Pet 3',
-          porte: 'MEDIO',
-          sexo: 'MACHO',
-        },
-      ],
+      pets: null,
     };
   },
-  beforeRouteEnter(to, from, next) {
-    if (localStorage.getItem('token')) {
-      next();
-    } else {
-      // eslint-disable-next-line no-restricted-globals
-      history.back();
-    }
-  },
   created() {
+    Auth.whoAmI(localStorage.getItem('token'))
+      .then(response => Users.getPetsById(response.data.id))
+      .then((response) => {
+        this.pets = response.data;
+        this.loading = false;
+      }).catch(() => {
+        this.$router.push({ name: 'search' });
+        this.$toast.error('Você precisa estar logado para acessar essa página');
+        localStorage.removeItem('token');
+        this.$store.commit('logout');
+      });
   },
   computed: {
     isSmAndDown() {
@@ -158,8 +155,21 @@ export default {
     user() {
       return this.$store.state.loggedUser;
     },
-    userPhoto() {
-      return this.user.foto ? `data:image/png;base64,${this.user.foto}` : this.defaultImage;
+  },
+  filters: {
+    preventNoPhoto(value) {
+      if (!value) {
+        return noPhoto;
+      }
+
+      return `data:image/png;base64,${value}`;
+    },
+    preventNoImage(value) {
+      if (!value) {
+        return defaultImage;
+      }
+
+      return `data:image/png;base64,${value}`;
     },
   },
   watch: {
@@ -170,11 +180,32 @@ export default {
     },
   },
   methods: {
-    editContacts() {
-      console.log('Editar contatos');
+    removePet(petId, index) {
+      Pets.remove(petId).then(() => {
+        this.$toast.success('Pet apagado com sucesso.');
+        this.pets.splice(index, 1);
+      }).catch(() => {
+        this.$toast.error('Um erro de comunicação com o servidor ocorreu. Tente novamente mais tarde.');
+      });
     },
-    inactivatePet(petId, index) {
-      this.pets.splice(index, 1);
+    editPet(petId) {
+      this.$router.push({
+        name: 'post',
+        params: {
+          id: petId,
+        },
+      });
+    },
+    tileClick(petId) {
+      this.$router.push({
+        name: 'petDetail',
+        params: {
+          id: petId,
+        },
+      });
+    },
+    edit() {
+      this.$router.push({ name: 'edit' });
     },
   },
 };

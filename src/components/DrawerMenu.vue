@@ -21,21 +21,15 @@
       </v-list-tile-content>
     </v-list-tile>
     <v-divider v-if="loggedIn"/>
-    <v-list-tile to='/'>
+    <v-list-tile to='/search'>
       <v-list-tile-content>
-        <v-list-tile-title>PRINCIPAL</v-list-tile-title>
+        <v-list-tile-title>BUSCAR</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
     <v-divider />
     <v-list-tile to='/post'>
       <v-list-tile-content>
         <v-list-tile-title>CADASTRAR PET</v-list-tile-title>
-      </v-list-tile-content>
-    </v-list-tile>
-    <v-divider />
-    <v-list-tile to='/postUser'>
-      <v-list-tile-content>
-        <v-list-tile-title>CADASTRAR USUÁRIO</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
     <v-divider />

@@ -62,9 +62,26 @@ const status = [
   },
 ];
 
+const contacts = [
+  {
+    text: 'Telefone residencial',
+    value: 'TELEFONE',
+  }, {
+    text: 'Telefone celular',
+    value: 'CELULAR',
+  }, {
+    text: 'Email',
+    value: 'EMAIL',
+  }, {
+    text: 'Rede social',
+    value: 'REDE_SOCIAL',
+  },
+];
+
 export default {
   age,
   status,
   size,
   specie,
+  contacts,
 };

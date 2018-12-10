@@ -50,28 +50,25 @@
                 v-validate="'required'"
               >
               </v-text-field>
-              <v-layout row wrap>
-                <v-flex xs6>
-                  <v-checkbox
-                    class="my-0"
-                    color="primary"
-                    label="Lembrar de mim"
-                    v-model="login.rememberMe"
-                  ></v-checkbox>
-                </v-flex>
-                <v-flex xs6>
-                  <div class="v-label mt-2 text-xs-right">
-                    <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
-                  </div>
-                </v-flex>
+              <v-layout row wrap justify-end>
+
               </v-layout>
             </v-card-text>
             <v-card-actions>
               <v-layout column>
-                <span class="mb-2">
-                  Não possui conta?
-                  <a class="blue--text" @click="toRegister">Cadastre-se</a>
-                </span>
+                <v-layout row class="mb-2">
+                  <v-flex xs6>
+                    <span >
+                      Não possui conta?
+                      <a class="blue--text" @click="toRegister">Cadastre-se</a>
+                    </span>
+                  </v-flex>
+                  <v-flex xs6>
+                    <div class="text-xs-right">
+                      <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
+                    </div>
+                  </v-flex>
+                </v-layout>
                 <v-btn
                   @click="submit"
                   block

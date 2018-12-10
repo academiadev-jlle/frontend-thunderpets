@@ -1,9 +1,8 @@
 <template>
-  <v-card-text>
+  <v-container grid-list-md fluid>
     <form data-vv-scope="contact">
     <p class="display-1">Contatos do Usuário</p>
       <v-layout row wrap>
-        <v-flex xs12 md4>
           <v-select
             :error-messages="errors.collect('contact.contactType')"
             data-vv-as="tipo de contato"
@@ -13,10 +12,8 @@
             placeholder="Selecione o tipo de contato"
             type="type"
             v-model="contactType"
-            v-validate="{ required: true }"
+            v-validate="'required'"
           ></v-select>
-        </v-flex>
-        <v-flex xs12 md4>
           <v-text-field
             :error-messages="errors.collect('contact.contactDescription')"
             data-vv-as="contato"
@@ -29,15 +26,12 @@
             :mask="maskType"
             v-validate="{ required: true, email: (contactType === 'Email'), min: sizeType}"
           ></v-text-field>
-        </v-flex>
-        <v-flex xs12 md4>
           <v-btn
             color="success"
             @click="addRow"
           >
             Adicionar
           </v-btn>
-        </v-flex>
       </v-layout>
       <v-layout row>
         <v-flex xs12 sm6 offset-sm3>
@@ -72,12 +66,15 @@
         </v-flex>
       </v-layout>
     </form>
-  </v-card-text>
+  </v-container>
 </template>
 
 <script>
 export default {
   name: 'UserContacts',
+  props: {
+    value: Array,
+  },
   data() {
     return {
       contactType: null,

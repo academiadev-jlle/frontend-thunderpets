@@ -4,6 +4,8 @@
       <v-data-iterator
         :items="pets"
         content-tag="v-layout"
+        align-center
+        justify-center
         hide-actions
         row
         v-if="pets"
@@ -12,6 +14,7 @@
         <v-flex
           slot-scope="props"
           slot="item"
+          class="ma-2"
           xs12
           sm6
           md4

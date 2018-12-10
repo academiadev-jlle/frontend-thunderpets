@@ -1,20 +1,21 @@
 <template>
   <div>
-    <v-card hover v-if="pet" @click.native="clickCard()">
+    <v-card hover v-if="pet" @click.native="clickCard()" class="truncate">
       <v-responsive>
         <v-img :src="pet.fotos[0] | preventNoPhoto" aspect-ratio="1.5" id="photo">
-          <!-- <v-scale-transition> -->
-            <v-layout
-              align-center
-              fill-height
-              justify-center
-              v-if="loading"
-              class="primary display-3 loading white--text ma-0 pa-0"
-            >
-              <v-progress-circular indeterminate size="75">
-              </v-progress-circular>
-            </v-layout>
-          <!-- </v-scale-transition> -->
+          <div :class="statusClasses">
+            {{pet.status | statusText}}
+          </div>
+          <v-layout
+            align-center
+            fill-height
+            justify-center
+            v-if="loading"
+            class="primary display-3 loading white--text ma-0 pa-0"
+          >
+            <v-progress-circular indeterminate size="75">
+            </v-progress-circular>
+          </v-layout>
           <v-layout
             align-end
             class="mx-1 my-0"
@@ -72,7 +73,7 @@
         {{pet.nome}}
       </v-card-title>
       <v-card-text class="body-1 px-2 pt-0 text-xs-justify" id="description">
-        {{pet.descricao}}
+        {{pet.descricao | max100}}
       </v-card-text>
     </v-card>
     <pet-detail-dialog ref="dialog" />
@@ -108,6 +109,13 @@ export default {
 
       return `data:image/png;base64,${value}`;
     },
+    max100(value) {
+      if (!value) {
+        return noPhoto;
+      }
+
+      return value.length > 100 ? `${value.slice(0, 100)}...` : value;
+    },
   },
   computed: {
     genderColor() {
@@ -118,6 +126,15 @@ export default {
       }
 
       return 'grey';
+    },
+    statusClasses() {
+      return {
+        'elevation-1': true,
+        'pet-status': true,
+        'red lighten-1': this.pet.status === 'PROCURANDO_PET',
+        green: this.pet.status === 'PROCURANDO_DONO',
+        blue: this.pet.status === 'PARA_ADOTAR',
+      };
     },
   },
   methods: {
@@ -145,5 +162,17 @@ export default {
   width: 100%;
   z-index: 1;
 }
+
+  .pet-status {
+    position: absolute;
+    right: -37px;
+    text-align: center;
+    top: -18px;
+    transform-origin: 0;
+    transform: rotateZ(45deg);
+    width: 100px;
+    z-index: 1;
+    opacity: .7;
+  }
 </style>
 
