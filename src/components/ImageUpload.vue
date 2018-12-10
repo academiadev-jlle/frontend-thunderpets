@@ -15,9 +15,11 @@
         v-for="(item, index) in value"
         width="100px"
       >
-        <p class="body-2 ma-0 text-xs-center" v-if="index === mainImage">Foto Principal</p>
+        <p class="body-2 ma-0 text-xs-center" v-if="index === mainImage && max > 1">
+          Foto Principal
+        </p>
         <v-img
-          :class="{'main-image': index === mainImage}"
+          :class="{'main-image': index === mainImage && max > 1}"
           :src="`data:image/png;base64,${item}`"
           @click="setMainImage(index)"
           height="100px"
@@ -40,12 +42,12 @@
         </v-img>
       </v-card>
       <v-card
-        @click.native="openFileUploader"
         :class="{'ma-1': true, 'no-image-margin': value.length == 0}"
+        @click.native="openFileUploader"
         height="100px"
         hover
         id="new-image"
-        v-if="value.length < 10"
+        v-if="value.length < max"
         width="100px"
       >
         <v-layout
@@ -71,13 +73,15 @@
 </template>
 
 <script>
-const MAX_PHOTOS = 10;
-
 export default {
   name: 'ImageUpload',
   props: {
     value: {
       type: Array,
+    },
+    max: {
+      type: Number,
+      default: 10,
     },
   },
   data() {
@@ -123,7 +127,7 @@ export default {
             binaryString = `${binaryString}${String.fromCharCode(array[j])}`;
           }
 
-          if (this.value.length < MAX_PHOTOS) {
+          if (this.value.length < this.max) {
             this.value.push(btoa(binaryString));
             this.$emit('input', this.value);
           }

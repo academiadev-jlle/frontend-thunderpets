@@ -3,7 +3,7 @@
     <v-card hover v-if="pet" @click.native="clickCard()" class="truncate">
       <v-responsive>
         <v-img :src="pet.fotos[0] | preventNoPhoto" aspect-ratio="1.5" id="photo">
-          <div class="pet-status elevation-2 blue">
+          <div :class="statusClasses">
             {{pet.status | statusText}}
           </div>
           <v-layout
@@ -127,6 +127,15 @@ export default {
 
       return 'grey';
     },
+    statusClasses() {
+      return {
+        'elevation-1': true,
+        'pet-status': true,
+        'red lighten-1': this.pet.status === 'PROCURANDO_PET',
+        green: this.pet.status === 'PROCURANDO_DONO',
+        blue: this.pet.status === 'PARA_ADOTAR',
+      };
+    },
   },
   methods: {
     clickCard() {
@@ -154,16 +163,16 @@ export default {
   z-index: 1;
 }
 
-.pet-status {
-  // transform: rotateZ(45deg);
-  transform-origin: 0;
-  width: 100px;
-  text-align: center;
-  transform: rotateZ(45deg);
-  position: absolute;
-  right: -37px;
-  top: -18px;
-  z-index: 1;
-}
+  .pet-status {
+    position: absolute;
+    right: -37px;
+    text-align: center;
+    top: -18px;
+    transform-origin: 0;
+    transform: rotateZ(45deg);
+    width: 100px;
+    z-index: 1;
+    opacity: .7;
+  }
 </style>
 

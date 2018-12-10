@@ -28,8 +28,8 @@ const router = new Router({
       component: Post,
     },
     {
-      path: '/postUser',
-      name: 'postUser',
+      path: '/edit',
+      name: 'edit',
       component: PostUser,
     },
     {

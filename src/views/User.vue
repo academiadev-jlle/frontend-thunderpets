@@ -6,11 +6,21 @@
           <v-layout class="ma-0" row>
             <v-flex >
               <v-avatar tile size="100">
-                <v-img aspect-ratio="1" :src="defaultImage" />
+                <v-img aspect-ratio="1" :src="user.foto | preventNoImage" />
               </v-avatar>
             </v-flex>
             <v-flex xs12>
-              <h2 class="display-1">{{user.nome}}</h2>
+              <v-layout row align-center>
+                <h2 class="display-1">
+                  {{user.nome}}
+                </h2>
+                <v-tooltip top color="brown" class="ml-3">
+                  <v-icon slot="activator" @click="edit">
+                    mdi-pencil
+                  </v-icon>
+                  Editar
+                </v-tooltip>
+              </v-layout>
               <a class="blue--text">
                 {{user.email}}
               </a>
@@ -38,14 +48,16 @@
           </div>
           <div v-else>
             <v-list class="py-0" two-line v-if="pets && pets.length > 0">
-              <v-list-tile v-for="(pet, index) in pets" :key="index">
+              <v-list-tile v-for="(pet, index) in pets" :key="index" @click="tileClick(pet.id)">
                 <v-layout align-center row>
                   <v-list-tile-avatar tile size="70" class="mr-4">
                     <v-img :src="pet.fotos[0] | preventNoPhoto">
                     </v-img>
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title>{{ pet.nome }}</v-list-tile-title>
+                    <v-list-tile-title>{{ pet.nome }} -
+                      <span class="caption">{{pet.status | statusText}}</span>
+                    </v-list-tile-title>
                     <v-list-tile-sub-title>
                       {{pet.especie | capitalize}} -
                       {{pet.sexo | genderText | capitalize}} -
@@ -57,13 +69,13 @@
                     </v-list-tile-sub-title>
                   </v-list-tile-content>
                   <v-spacer />
-                  <v-btn color="info" :icon="isSmAndDown" @click="editPet(pet.id)">
+                  <v-btn color="info" :icon="isSmAndDown" @click.stop="editPet(pet.id)">
                     <v-icon :left="!isSmAndDown" dark>mdi-pencil</v-icon>
                     <span v-if="!isSmAndDown">
                       Editar
                     </span>
                   </v-btn>
-                  <v-btn color="error" :icon="isSmAndDown" @click="removePet(pet.id, index)">
+                  <v-btn color="error" :icon="isSmAndDown" @click.stop="removePet(pet.id, index)">
                     <v-icon :left="!isSmAndDown" dark>mdi-trash-can</v-icon>
                     <span v-if="!isSmAndDown">
                       Apagar
@@ -84,12 +96,6 @@
         <v-toolbar color="primary">
           <v-toolbar-title>
             Contatos
-            <v-tooltip top color="brown">
-              <v-icon slot="activator" @click="editContacts">
-                mdi-pencil
-              </v-icon>
-              Editar
-            </v-tooltip>
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="contactDialog = false">
@@ -126,20 +132,17 @@ export default {
       pets: null,
     };
   },
-  beforeRouteEnter(to, from, next) {
-    if (localStorage.getItem('token')) {
-      next();
-    } else {
-      // eslint-disable-next-line no-restricted-globals
-      history.back();
-    }
-  },
   created() {
     Auth.whoAmI(localStorage.getItem('token'))
       .then(response => Users.getPetsById(response.data.id))
       .then((response) => {
         this.pets = response.data;
         this.loading = false;
+      }).catch(() => {
+        this.$router.push({ name: 'search' });
+        this.$toast.error('Você precisa estar logado para acessar essa página');
+        localStorage.removeItem('token');
+        this.$store.commit('logout');
       });
   },
   computed: {
@@ -161,6 +164,13 @@ export default {
 
       return `data:image/png;base64,${value}`;
     },
+    preventNoImage(value) {
+      if (!value) {
+        return defaultImage;
+      }
+
+      return `data:image/png;base64,${value}`;
+    },
   },
   watch: {
     loggedIn(value) {
@@ -170,9 +180,6 @@ export default {
     },
   },
   methods: {
-    editContacts() {
-      console.log('Editar contatos');
-    },
     removePet(petId, index) {
       Pets.remove(petId).then(() => {
         this.$toast.success('Pet apagado com sucesso.');
@@ -188,6 +195,17 @@ export default {
           id: petId,
         },
       });
+    },
+    tileClick(petId) {
+      this.$router.push({
+        name: 'petDetail',
+        params: {
+          id: petId,
+        },
+      });
+    },
+    edit() {
+      this.$router.push({ name: 'edit' });
     },
   },
 };

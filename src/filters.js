@@ -23,12 +23,8 @@ Vue.filter('statusText', (value) => {
     return 'Achado';
   } else if (value === 'PROCURANDO_PET') {
     return 'Perdido';
-  } else if (value === 'MACHO') {
-    return 'mdi-gender-male';
-  } else if (value === 'MACHO') {
-    return 'mdi-gender-male';
-  } else if (value === 'MACHO') {
-    return 'mdi-gender-male';
+  } else if (value === 'PARA_ADOTAR') {
+    return 'Adoção';
   }
 
   return '';

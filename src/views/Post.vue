@@ -26,7 +26,7 @@
                     data-vv-as="espécie"
                     data-vv-name="specie"
                     label="Espécie"
-                    placeholder="Selecione a espécie de animal"
+                    placeholder="Selecione a espécie do animal"
                     v-model="pet.especie"
                     v-validate="'required'"
                   ></v-select>
@@ -91,9 +91,9 @@
                   >
                     <v-text-field
                       :error-messages="errors.collect('date')"
+                      :label="dateLabel"
                       data-vv-as="data"
                       data-vv-name="date"
-                      label="Data"
                       placeholder="Informe a data"
                       prepend-icon="event"
                       readonly
@@ -131,10 +131,10 @@
         </v-flex>
         <v-flex xs12 md6 v-if="pet.status != 'PARA_ADOCAO'">
           <v-card-text>
-          <p class="display-1">
-            Localização
-          </p>
-          <google-map v-model="pet.localizacao"/>
+            <p class="display-1">
+              Localização
+            </p>
+            <google-map v-model="pet.localizacao"/>
           </v-card-text>
         </v-flex>
       </v-layout>
@@ -172,6 +172,7 @@ export default {
       datePicker: false,
       loading: false,
       preLoad: true,
+      editing: false,
       pet: {
         ativo: true,
         dataAchado: null,
@@ -193,11 +194,21 @@ export default {
     const petId = this.$route.params.id;
 
     if (petId) {
-      Pets.getById(petId).then((response) => {
-        console.log(response);
-        this.pet = response.data;
-        this.preLoad = false;
-      });
+      if (this.loggedIn) {
+        Pets.getById(petId).then((response) => {
+          if (this.$store.state.loggedUser.id === response.data.usuarioId) {
+            this.pet = response.data;
+            this.preLoad = false;
+            this.editing = true;
+          } else {
+            this.$router.push({ name: 'search' });
+            this.$toast.error('Você não possui autorização para acessar essa página!');
+          }
+        });
+      } else {
+        this.$router.push({ name: 'search' });
+        this.$toast.error('Você não possui autorização para acessar essa página!');
+      }
     } else {
       this.preLoad = false;
     }
@@ -221,17 +232,35 @@ export default {
         }
       });
     },
-    setPet() {
-
-    },
   },
   computed: {
+    loggedIn() {
+      return this.$store.state.loggedIn;
+    },
     formatDate() {
       if (!this.pet.dataAchado) return null;
 
       const [year, month, day] = this.pet.dataAchado.split('-');
 
       return `${day}/${month}/${year}`;
+    },
+    dateLabel() {
+      if (this.pet.status === 'PROCURANDO_DONO') {
+        return 'Achado em';
+      } else if (this.pet.status === 'PROCURANDO_PET') {
+        return 'Perdido em';
+      } else if (this.pet.status === 'PARA_ADOTAR') {
+        return 'Nascido em';
+      }
+
+      return 'Data';
+    },
+  },
+  watch: {
+    loggedIn(value) {
+      if (!value && this.editing) {
+        this.$router.push({ name: 'search' });
+      }
     },
   },
 };
