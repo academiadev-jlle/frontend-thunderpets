@@ -1,6 +1,7 @@
 import 'izitoast/dist/css/iziToast.min.css';
 import '@babel/polyfill';
 import * as VueGoogleMaps from 'vue2-google-maps';
+import SocialSharing from 'vue-social-sharing';
 import VueDisqus from 'vue-disqus';
 import InfiniteScroll from 'vue-infinite-scroll';
 import VeeValidate, { Validator } from 'vee-validate';
@@ -15,12 +16,11 @@ import './plugins/vuetify';
 import './registerServiceWorker';
 import './filters';
 
-
 Vue.config.productionTip = false;
 
 Vue.use(InfiniteScroll);
-
 Vue.use(VueIziToast);
+Vue.use(SocialSharing);
 
 Vue.use(VueGoogleMaps, {
   load: {
