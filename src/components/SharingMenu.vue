@@ -7,6 +7,7 @@
       inline-template
     >
       <div>
+        <span class="font-weight-bold">Compartilhe:</span>
         <network network="facebook">
           <v-btn flat color="#3c66c4" icon outline>
             <v-icon>

@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="isXS"
+    fullscreen
     transition="scale-transition"
     v-if="pet"
   >
