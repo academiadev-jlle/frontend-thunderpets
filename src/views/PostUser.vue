@@ -274,7 +274,7 @@ export default {
   watch: {
     loggedIn(value) {
       if (!value) {
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'search' });
       }
     },
   },

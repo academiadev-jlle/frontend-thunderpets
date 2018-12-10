@@ -135,8 +135,8 @@ export default {
       },
     };
   },
-  async created() {
-    this.filters = await this.$store.state.filters ? this.$store.state.filters : {
+  created() {
+    this.filters = this.$store.state.filters ? this.$store.state.filters : {
       raioDistancia: 1,
     };
 
@@ -144,6 +144,8 @@ export default {
       this.filters.latitudeUsuario = position.coords.latitude;
       this.filters.longitudeUsuario = position.coords.longitude;
 
+      this.updateFilters();
+    }, () => {
       this.updateFilters();
     });
   },

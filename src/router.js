@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/views/Home.vue';
 import Search from '@/views/Search.vue';
 import Post from '@/views/Post.vue';
 import PostUser from '@/views/PostUser.vue';
@@ -17,11 +16,6 @@ const router = new Router({
       path: '',
       name: 'mainPage',
       component: MainPage,
-    },
-    {
-      path: '/pets',
-      name: 'home',
-      component: Home,
     },
     {
       path: '/search',
