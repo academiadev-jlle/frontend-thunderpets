@@ -12,8 +12,15 @@ const save = pet => Http.post('/pet', pet, {
   },
 });
 
+const remove = id => Http.delete(`/pet/${id}`, {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
+});
+
 export default {
   get,
   getById,
   save,
+  remove,
 };

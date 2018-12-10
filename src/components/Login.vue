@@ -50,28 +50,25 @@
                 v-validate="'required'"
               >
               </v-text-field>
-              <v-layout row wrap>
-                <v-flex xs6>
-                  <v-checkbox
-                    class="my-0"
-                    color="primary"
-                    label="Lembrar de mim"
-                    v-model="login.rememberMe"
-                  ></v-checkbox>
-                </v-flex>
-                <v-flex xs6>
-                  <div class="v-label mt-2 text-xs-right">
-                    <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
-                  </div>
-                </v-flex>
+              <v-layout row wrap justify-end>
+
               </v-layout>
             </v-card-text>
             <v-card-actions>
               <v-layout column>
-                <span class="mb-2">
-                  Não possui conta?
-                  <a class="blue--text" @click="toRegister">Cadastre-se</a>
-                </span>
+                <v-layout row class="mb-2">
+                  <v-flex xs6>
+                    <span >
+                      Não possui conta?
+                      <a class="blue--text" @click="toRegister">Cadastre-se</a>
+                    </span>
+                  </v-flex>
+                  <v-flex xs6>
+                    <div class="text-xs-right">
+                      <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
+                    </div>
+                  </v-flex>
+                </v-layout>
                 <v-btn
                   @click="submit"
                   block
@@ -84,34 +81,16 @@
                 <v-container class="pa-0" fluid grid-list-md>
                   <v-layout row>
                     <v-flex xs6>
-                      <v-btn
-                        :class="{'pr-4': !isXS}"
-                        block
-                        color="#cf4332"
-                        dark
-                      >
-                        <v-icon :class="{'mr-4': !isXS}">
-                          mdi-google
-                        </v-icon>
-                        <span v-if="!isXS">
-                          Entrar com Google
-                        </span>
-                      </v-btn>
+                      <google-button
+                        @error="error = true"
+                        @login="dialog = false"
+                      ></google-button>
                     </v-flex>
                     <v-flex xs6>
-                      <v-btn
-                        :class="{'pr-4': !isXS}"
-                        block
-                        color="#3c66c4"
-                        dark
-                      >
-                        <v-icon :class="{'mr-3': !isXS}">
-                          mdi-facebook
-                        </v-icon>
-                        <span v-if="!isXS">
-                          Entrar com Facebook
-                        </span>
-                      </v-btn>
+                      <facebook-button
+                        @error="error = true"
+                        @login="dialog = false"
+                      ></facebook-button>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -127,6 +106,8 @@
 <script>
 import Users from '@/services/users';
 import Auth from '@/services/auth';
+import FacebookButton from './FacebookButton.vue';
+import GoogleButton from './GoogleButton.vue';
 
 export default {
   name: 'Login',
@@ -139,6 +120,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    FacebookButton,
+    GoogleButton,
   },
   data() {
     return {
@@ -211,4 +196,3 @@ export default {
   },
 };
 </script>
-

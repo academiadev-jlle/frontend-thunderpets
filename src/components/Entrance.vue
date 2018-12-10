@@ -2,15 +2,15 @@
   <v-menu
     max-width="200px"
     min-width="200px"
+    nudge-right="3"
     offset-y
     open-on-hover
-    nudge-right="3"
     v-if="loggedIn"
   >
     <v-layout align-center slot="activator" >
       <v-avatar class="mr-2" size="30">
         <v-img
-          :src="defaultImage"
+          :src="user.foto | preventNoPhoto"
         >
         </v-img>
       </v-avatar>
@@ -79,6 +79,9 @@ export default {
         .then(whoAmIResponse => Users.getById(whoAmIResponse.data.id))
         .then((getUserResponse) => {
           this.$store.commit('login', getUserResponse.data);
+        })
+        .catch(() => {
+          this.$store.commit('logout');
         });
     }
   },
@@ -103,6 +106,15 @@ export default {
     },
     openRegister() {
       this.$refs.register.openDialog();
+    },
+  },
+  filters: {
+    preventNoPhoto(value) {
+      if (!value) {
+        return defaultImage;
+      }
+
+      return `data:image/png;base64,${value}`;
     },
   },
 };

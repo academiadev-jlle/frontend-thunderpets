@@ -23,9 +23,6 @@
         <v-btn flat to="/post" exact>
           Cadastrar Pet
         </v-btn>
-        <v-btn flat to="/postUser" exact>
-          Cadastrar Usuário
-        </v-btn>
       </v-toolbar-items>
       <v-spacer />
       <entrance />

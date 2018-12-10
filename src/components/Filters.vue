@@ -34,6 +34,7 @@
           label="Nome"
           v-debounce:1s="updateFilters"
           v-model="filters.nome"
+          @click:clear="filters.nome = null; updateFilters()"
         >
         </v-text-field>
         <v-select
@@ -105,7 +106,7 @@
         </v-text-field>
       </div>
     </v-navigation-drawer>
-    <v-layout justify-end class="mx-4">
+    <v-layout justify-end class="mx-1">
       <v-btn @click="drawer = !drawer" block color="grey lighten-2">
         <v-icon left>
           mdi-filter

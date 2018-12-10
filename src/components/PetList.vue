@@ -4,6 +4,8 @@
       <v-data-iterator
         :items="pets"
         content-tag="v-layout"
+        align-center
+        justify-center
         hide-actions
         row
         v-if="pets"
@@ -12,6 +14,7 @@
         <v-flex
           slot-scope="props"
           slot="item"
+          class="ma-2"
           xs12
           sm6
           md4
@@ -83,7 +86,7 @@ export default {
   created() {
     Pets.get(this.filters).then((response) => {
       this.pets = response.data.content;
-      this.filters.paginaAtual += 1;
+      this.filters.paginaAtual = 1;
     }).finally(() => {
       this.loading = false;
     });
@@ -113,7 +116,7 @@ export default {
 
       Pets.get(this.filters).then((response) => {
         this.pets = response.data.content;
-        this.filters.paginaAtual += 1;
+        this.filters.paginaAtual = 1;
       }).finally(() => {
         this.loading = false;
         this.busy = false;
