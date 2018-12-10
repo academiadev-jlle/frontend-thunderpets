@@ -15,11 +15,6 @@
         <v-toolbar-title>
           {{pet.nome}}
         </v-toolbar-title>
-        <v-btn flat icon @click="share">
-          <v-icon>
-            mdi-share-variant
-          </v-icon>
-        </v-btn>
         <v-spacer />
         <v-btn flat icon @click="dialog = false" v-if="!isXS">
           <v-icon>
@@ -54,17 +49,6 @@ export default {
     openDialog(pet) {
       this.pet = pet;
       this.dialog = true;
-    },
-    share() {
-      const auxElement = document.createElement('textarea');
-
-      auxElement.value = `${window.location.origin}/pet/${this.pet.id}`;
-      document.body.appendChild(auxElement);
-      auxElement.select();
-      document.execCommand('copy');
-      document.body.removeChild(auxElement);
-
-      this.$toast.success('Link copiado para área de transferência!');
     },
   },
 };
