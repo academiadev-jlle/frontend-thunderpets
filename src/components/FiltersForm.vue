@@ -24,7 +24,7 @@
         ></v-select>
       </v-flex>
     </v-layout>
-    <v-layout row>
+    <v-layout row wrap>
       <v-flex xs12 md6>
         <v-select
           :items="domains.specie"
@@ -46,8 +46,8 @@
       label="Usar localização"
       v-model="filters.useLocation"
     ></v-switch>
-    <v-layout row>
-      <v-flex xs12 md10>
+    <v-layout row wrap>
+      <v-flex xs12 sm10>
         <v-slider
           :disabled="!filters.useLocation"
           class="mb-0"
@@ -55,7 +55,7 @@
           v-model="filters.raioDistancia"
         ></v-slider>
       </v-flex>
-      <v-flex xs12 md2>
+      <v-flex xs12 sm2>
         <v-text-field
           :disabled="!filters.useLocation"
           class="pt-0"
