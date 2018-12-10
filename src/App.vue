@@ -11,7 +11,13 @@
       <v-toolbar-side-icon v-if="isSmAndDown" @click="drawer = true">
       </v-toolbar-side-icon>
       <v-toolbar-title class="headline mr-4">
-        <span>ThunderPets</span>
+        <a
+          class="black--text"
+          href="/"
+          style="text-decoration: none"
+        >
+          <span>ThunderPets</span>
+        </a>
       </v-toolbar-title>
       <v-toolbar-items v-if="!isSmAndDown">
         <v-btn flat to="/" exact>
@@ -40,6 +46,7 @@
         <router-view class="router-view"></router-view>
       </v-fade-transition>
     </v-content>
+    <footer-app />
   </v-app>
 </template>
 
@@ -47,6 +54,7 @@
 import logo from '@/assets/logo.png';
 import DrawerMenu from './components/DrawerMenu.vue';
 import Entrance from './components/Entrance.vue';
+import FooterApp from './components/FooterApp.vue';
 
 
 export default {
@@ -54,6 +62,7 @@ export default {
   components: {
     DrawerMenu,
     Entrance,
+    FooterApp,
   },
   data() {
     return {
