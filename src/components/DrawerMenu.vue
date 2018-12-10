@@ -8,7 +8,9 @@
       </v-list-tile-action>
       <v-list-tile-content>
         <v-list-tile-title class="headline">
-          ThunderPets
+          <router-link to="/" class="black--text" style="text-decoration: none;">
+            ThunderPets
+          </router-link>
         </v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>

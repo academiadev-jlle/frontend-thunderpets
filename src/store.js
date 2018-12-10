@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     loggedIn: false,
     loggedUser: null,
+    filters: null,
   },
   mutations: {
     login(state, user) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     logout(state) {
       state.loggedIn = false;
       state.loggedUser = null;
+    },
+    updateFilters(state, filters) {
+      state.filters = filters;
     },
   },
   actions: {

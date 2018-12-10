@@ -3,15 +3,15 @@
     <v-flex
       xs12
       md2
-      v-for="membro in membros"
-      :key="membro.nome"
+      v-for="(member, index) in members"
+      :key="index"
     >
       <a
-        :href="membro.github"
+        :href="member.github"
         class="black--text"
         style="text-decoration: none"
       >
-        {{ membro.nome }}
+        {{ member.name }}
       </a>
     </v-flex>
   </v-layout>
@@ -22,25 +22,25 @@ export default {
   name: 'MembersInfo',
   data() {
     return {
-      membros: [
+      members: [
         {
-          nome: 'Adam Mews',
+          name: 'Adam Mews',
           github: 'https://github.com/LiserLine',
         },
         {
-          nome: 'Diogo Antelo',
+          name: 'Diogo Antelo',
           github: 'https://github.com/diogoantelo',
         },
         {
-          nome: 'Helena Dalmazo',
+          name: 'Helena Dalmazo',
           github: 'https://github.com/nefasta',
         },
         {
-          nome: 'Luiz Gustavo Eburneo',
+          name: 'Luiz Gustavo Eburneo',
           github: 'https://github.com/Botuca',
         },
         {
-          nome: 'Ramon Artner',
+          name: 'Ramon Artner',
           github: 'https://github.com/rartner',
         },
       ],
