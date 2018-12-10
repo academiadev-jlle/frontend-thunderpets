@@ -182,6 +182,9 @@ export default {
           this.filters.longitudeUsuario = position.coords.longitude;
 
           this.updateFilters();
+        }, () => {
+          this.filters.useLocation = false;
+          this.$toast.error('Para utilizar a busca por distância, habilite seu GPS.');
         });
       } else {
         this.updateFilters();
