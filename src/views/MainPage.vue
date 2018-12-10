@@ -17,11 +17,11 @@
           </v-img>
         </v-layout>
         <p class="display-1 text-xs-center font-weight-bold">
-          Sua visão além do AU-AUcance
+          A sua visão além do AU-Alcance
         </p>
         <p class="headline" align="justify">
-          ThunderPets é uma aplicação perfeita para pessoas que precisam
-          adotar pet's, anunciar pet's para adoção ou anunciar que há pet's perdidos.
+          ThunderPets é uma plataforma web para publicação e busca de animais perdidos, achados ou
+          disponíveis para adoção.
         </p>
       </v-flex>
     </v-layout>
