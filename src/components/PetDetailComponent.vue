@@ -36,8 +36,11 @@
               {{pet.nome}}
             </p>
             <v-spacer />
-            {{pet.usuario}}
-            <v-dialog v-model="contactDialog" width="400" v-if="contatos.length > 0">
+            <v-dialog
+              v-model="contactDialog"
+              width="400"
+              v-if="usuario && usuario.contatos"
+            >
               <v-btn color="blue" dark slot="activator">
                 Entrar em contato
               </v-btn>
@@ -52,7 +55,16 @@
                   </v-icon>
                 </v-toolbar>
                 <v-card-text>
-                  <contact-info v-model="contatos"/>
+                  <v-layout align-center slot="activator" >
+                    <v-avatar class="mr-2" size="30">
+                      <v-img :src="usuario.foto | preventNoPhoto" v-if="usuario">
+                      </v-img>
+                    </v-avatar>
+                    <span class="subheading uppercase">
+                      <span class="font-weight-bold" v-if="usuario">{{usuario.nome}}</span>
+                    </span>
+                  </v-layout>
+                  <contact-info v-model="usuario.contatos"/>
                 </v-card-text>
               </v-card>
             </v-dialog>
@@ -116,6 +128,7 @@
 </template>
 
 <script>
+import defaultImage from '@/assets/defaultImage.jpeg';
 import ContactInfo from '@/components/ContactInfo.vue';
 import GenderChip from '@/components/GenderChip.vue';
 import GoogleMap from '@/components/GoogleMap.vue';
@@ -143,17 +156,26 @@ export default {
       contactDialog: false,
       disqusShortname: process.env.VUE_APP_DISQUS_SHORTNAME,
       loading: false,
-      contatos: [],
+      usuario: null,
     };
   },
   created() {
     Users.getById(this.pet.usuarioId).then((response) => {
-      this.contatos = response.data.contatos;
+      this.usuario = response.data;
     });
   },
   computed: {
     carouselHeight() {
       return this.$vuetify.breakpoint.smAndDown ? (10 * window.innerWidth) / 16 : 500;
+    },
+  },
+  filters: {
+    preventNoPhoto(value) {
+      if (!value) {
+        return defaultImage;
+      }
+
+      return `data:image/png;base64,${value}`;
     },
   },
 };
