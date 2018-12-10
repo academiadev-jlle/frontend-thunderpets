@@ -4,66 +4,68 @@
       app
       class="elevation-0"
       clipped-left
+      clipped-right
       color="primary"
       height="50px"
     >
-      <v-toolbar-side-icon v-if="isXS" @click="drawer = true">
+      <v-toolbar-side-icon v-if="isSmAndDown" @click="drawer = true">
       </v-toolbar-side-icon>
       <v-toolbar-title class="headline mr-4">
-        <span>ThunderPets</span>
+        <router-link to="/" class="black--text" style="text-decoration: none;">
+          ThunderPets
+        </router-link>
       </v-toolbar-title>
-      <v-toolbar-items v-if="!isXS">
-        <v-btn flat to="/" exact>
-          Inicial
+      <v-toolbar-items v-if="!isSmAndDown">
+        <v-btn flat to="/search" exact>
+          Buscar
         </v-btn>
         <v-btn flat to="/post" exact>
           Cadastrar Pet
         </v-btn>
-        <v-btn flat to="/postUser" exact>
-          Cadastrar Usuário
-        </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <login />
+      <entrance />
     </v-toolbar>
     <v-navigation-drawer
       app
       clipped
-      v-if="isXS"
+      v-if="isSmAndDown"
       v-model="drawer"
     >
       <drawer-menu @close-drawer="drawer = false"/>
     </v-navigation-drawer>
     <v-content>
-      <router-view/>
+      <v-fade-transition>
+        <router-view class="router-view"></router-view>
+      </v-fade-transition>
     </v-content>
+    <footer-app />
   </v-app>
 </template>
 
 <script>
+import logo from '@/assets/logo.png';
 import DrawerMenu from './components/DrawerMenu.vue';
-import Login from './components/Login.vue';
+import Entrance from './components/Entrance.vue';
+import FooterApp from './components/FooterApp.vue';
+
 
 export default {
   name: 'App',
   components: {
     DrawerMenu,
-    Login,
+    Entrance,
+    FooterApp,
   },
   data() {
     return {
+      logo,
       drawer: false,
-      dialog: false,
-      login: {
-        email: null,
-        password: null,
-        rememberMe: false,
-      },
     };
   },
   computed: {
-    isXS() {
-      return this.$vuetify.breakpoint.xsOnly;
+    isSmAndDown() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
   methods: {
@@ -75,8 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .v-dialog__content {
-    align-items: center;
-    justify-content: center;
+  .router-view {
+    height: 100%;
   }
 </style>

@@ -5,7 +5,7 @@
       exact
       flat
     >
-      Entrar
+      Cadastrar-se
     </v-btn>
     <v-dialog
       max-width="500"
@@ -15,7 +15,7 @@
       <v-card>
         <v-toolbar color="primary">
           <v-toolbar-title>
-            Entrar
+            Cadastrar-se
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="closeDialog">
@@ -23,59 +23,63 @@
           </v-icon>
         </v-toolbar>
         <v-alert v-model="error" type="error" class="my-0">
-          Email e/ou senha inválido(s), por favor revise suas informações.
+          Outro usuário já existe com esse email.
         </v-alert>
         <div class="pa-1">
-          <form data-vv-scope="login">
+          <form data-vv-scope="register">
             <v-card-text>
               <v-text-field
-                :error-messages="errors.collect('login.email')"
+                :error-messages="errors.collect('register.name')"
                 @keyup.enter="submit"
-                class="required"
+                data-vv-as="nome"
+                data-vv-name="name"
+                label="Nome completo"
+                v-model="register.nome"
+                v-validate="'required|min:3'"
+              ></v-text-field>
+              <v-text-field
+                :error-messages="errors.collect('register.email')"
+                @keyup.enter="submit"
                 data-vv-as="email"
                 data-vv-name="email"
-                label="Email"
-                v-model="login.email"
+                label="E-mail"
+                v-model="register.email"
                 v-validate="'required|email'"
-              >
-              </v-text-field>
+              ></v-text-field>
               <v-text-field
-                :error-messages="errors.collect('login.password')"
+                :error-messages="errors.collect('register.password')"
                 @keyup.enter="submit"
                 data-vv-as="senha"
                 data-vv-name="password"
                 label="Senha"
                 type="password"
-                v-model="login.password"
-                v-validate="'required'"
-              >
-              </v-text-field>
-              <v-layout row wrap justify-end>
-
-              </v-layout>
+                v-model="register.senha"
+                v-validate="'required|min:8'"
+              ></v-text-field>
+              <v-text-field
+                :error-messages="errors.collect('register.confirmPassword')"
+                @keyup.enter="submit"
+                data-vv-as="confirmação de senha"
+                data-vv-name="confirmPassword"
+                label="Confirmação de senha"
+                type="password"
+                v-model="register.confirmaSenha"
+                v-validate="{ is: register.senha, required: true }"
+              ></v-text-field>
             </v-card-text>
             <v-card-actions>
               <v-layout column>
-                <v-layout row class="mb-2">
-                  <v-flex xs6>
-                    <span >
-                      Não possui conta?
-                      <a class="blue--text" @click="toRegister">Cadastre-se</a>
-                    </span>
-                  </v-flex>
-                  <v-flex xs6>
-                    <div class="text-xs-right">
-                      <a @click="forgotPassword" class="blue--text">Esqueci minha senha</a>
-                    </div>
-                  </v-flex>
-                </v-layout>
+                <span class="mb-2">
+                  Já possui conta?
+                  <a class="blue--text" @click="toLogin">Entrar</a>
+                </span>
                 <v-btn
                   @click="submit"
                   block
                   color="primary"
                   :loading="loading"
                 >
-                  Entrar
+                  Cadastrar
                 </v-btn>
                 <v-divider class="my-3" />
                 <v-container class="pa-0" fluid grid-list-md>
@@ -110,9 +114,9 @@ import FacebookButton from './FacebookButton.vue';
 import GoogleButton from './GoogleButton.vue';
 
 export default {
-  name: 'Login',
+  name: 'Register',
   props: {
-    openRegister: {
+    openLogin: {
       type: Function,
       required: true,
     },
@@ -130,10 +134,12 @@ export default {
       dialog: false,
       error: false,
       loading: false,
-      login: {
+      register: {
+        nome: null,
         email: null,
-        password: null,
-        rememberMe: false,
+        senha: null,
+        confirmaSenha: null,
+        contatos: [],
       },
     };
   },
@@ -149,23 +155,24 @@ export default {
     closeDialog() {
       this.dialog = false;
       this.error = false;
-      this.$validator.reset('login');
+      this.$validator.reset('register');
     },
-    forgotPassword() {
-      console.log('Esqueci Senha');
-    },
-    toRegister() {
+    toLogin() {
       this.closeDialog();
-      this.openRegister();
+      this.openLogin();
     },
     submit() {
       let token = null;
 
-      this.$validator.validateAll('login').then((result) => {
+      this.$validator.validateAll('register').then((result) => {
         if (result) {
           this.loading = true;
           this.error = false;
-          Auth.getToken(this.login)
+          Users.save(this.register)
+            .then(() => Auth.getToken({
+              email: this.register.email,
+              password: this.register.senha,
+            }))
             .then((tokenResponse) => {
               token = tokenResponse.data.access_token;
 

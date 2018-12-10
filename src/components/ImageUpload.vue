@@ -12,12 +12,14 @@
         color="primary"
         height="fit-content"
         hover
-        v-for="(item, index) in images"
+        v-for="(item, index) in value"
         width="100px"
       >
-        <p class="body-2 ma-0 text-xs-center" v-if="index === mainImage">Foto Principal</p>
+        <p class="body-2 ma-0 text-xs-center" v-if="index === mainImage && max > 1">
+          Foto Principal
+        </p>
         <v-img
-          :class="{'main-image': index === mainImage}"
+          :class="{'main-image': index === mainImage && max > 1}"
           :src="`data:image/png;base64,${item}`"
           @click="setMainImage(index)"
           height="100px"
@@ -26,7 +28,7 @@
           <v-layout class="pa-1" justify-end row>
             <v-tooltip color="red" top>
               <v-avatar
-                @click="removePhoto($event, index)"
+                @click.stop="removePhoto($event, index)"
                 class="elevation-2"
                 color="red"
                 size="20"
@@ -40,12 +42,12 @@
         </v-img>
       </v-card>
       <v-card
+        :class="{'ma-1': true, 'no-image-margin': value.length == 0}"
         @click.native="openFileUploader"
-        :class="{'ma-1': true, 'no-image-margin': images.length == 0}"
         height="100px"
         hover
         id="new-image"
-        v-if="images.length < 10"
+        v-if="value.length < max"
         width="100px"
       >
         <v-layout
@@ -71,34 +73,41 @@
 </template>
 
 <script>
-const MAX_PHOTOS = 10;
-
 export default {
   name: 'ImageUpload',
+  props: {
+    value: {
+      type: Array,
+    },
+    max: {
+      type: Number,
+      default: 10,
+    },
+  },
   data() {
     return {
-      images: [],
       mainImage: 0,
     };
+  },
+  created() {
   },
   methods: {
     validate() {
       this.$validator.validateAll();
     },
     setMainImage(index) {
-      this.mainImage = index >= this.images.length ? 0 : index;
+      this.mainImage = index >= this.value.length ? 0 : index;
     },
     removePhoto(event, index) {
-      event.stopPropagation();
-      this.images.splice(index, 1);
+      this.value.splice(index, 1);
 
-      if (this.mainImage >= this.images.length) {
+      if (this.mainImage >= this.value.length) {
         this.mainImage -= 1;
       }
 
-      this.mainImage = Math.min(Math.max(this.mainImage, 0), this.images.length);
+      this.mainImage = Math.min(Math.max(this.mainImage, 0), this.value.length);
 
-      this.$emit('input', this.images);
+      this.$emit('input', this.value);
     },
     openFileUploader() {
       this.$refs.file.click();
@@ -118,9 +127,9 @@ export default {
             binaryString = `${binaryString}${String.fromCharCode(array[j])}`;
           }
 
-          if (this.images.length < MAX_PHOTOS) {
-            this.images.push(btoa(binaryString));
-            this.$emit('input', this.images);
+          if (this.value.length < this.max) {
+            this.value.push(btoa(binaryString));
+            this.$emit('input', this.value);
           }
         };
 
