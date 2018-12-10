@@ -21,7 +21,7 @@
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
-      <div class="px-3" id="drawer-body">
+      <div class="px-3 pt-2" id="drawer-body">
         <v-select
           :items="domains.status"
           @change="updateFilters"

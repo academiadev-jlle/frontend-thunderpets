@@ -100,7 +100,6 @@ export default {
       }
     },
     filter(filters) {
-      console.log('PetList: ', filters);
       this.filters = filters;
       this.filters.paginaAtual = 0;
       this.loading = true;
