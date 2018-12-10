@@ -135,10 +135,16 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
+    this.filters = await this.$store.state.filters ? this.$store.state.filters : {
+      raioDistancia: 1,
+    };
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.filters.latitudeUsuario = position.coords.latitude;
       this.filters.longitudeUsuario = position.coords.longitude;
+
+      this.updateFilters();
     });
   },
   computed: {
@@ -163,6 +169,8 @@ export default {
         status: this.filters.status,
       };
 
+
+      this.$store.commit('updateFilters', this.filters);
       this.$emit('filter', filters);
     },
     handleLocation() {

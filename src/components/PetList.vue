@@ -83,14 +83,6 @@ export default {
       loading: true,
     };
   },
-  created() {
-    Pets.get(this.filters).then((response) => {
-      this.pets = response.data.content;
-      this.filters.paginaAtual = 1;
-    }).finally(() => {
-      this.loading = false;
-    });
-  },
   methods: {
     loadMore() {
       if (this.pets && !this.busy && !this.empty && !this.loading) {
@@ -108,6 +100,7 @@ export default {
       }
     },
     filter(filters) {
+      console.log('PetList: ', filters);
       this.filters = filters;
       this.filters.paginaAtual = 0;
       this.loading = true;
