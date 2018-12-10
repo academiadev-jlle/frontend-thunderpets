@@ -16,9 +16,6 @@
         </router-link>
       </v-toolbar-title>
       <v-toolbar-items v-if="!isSmAndDown">
-        <v-btn flat to="/" exact>
-          Inicial
-        </v-btn>
         <v-btn flat to="/search" exact>
           Buscar
         </v-btn>
