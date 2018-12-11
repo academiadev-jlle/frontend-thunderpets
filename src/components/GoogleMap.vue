@@ -113,6 +113,7 @@ export default {
 
           if (updatePlace) {
             this.formattedAddress = result.formatted_address;
+            console.log(this.formattedAddress);
           }
 
           const location = {
@@ -128,6 +129,7 @@ export default {
       });
     },
     setPlace(place) {
+      this.formattedAddress = place.formatted_address;
       this.location = {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),

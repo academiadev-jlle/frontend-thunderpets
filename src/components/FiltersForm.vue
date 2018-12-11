@@ -45,6 +45,7 @@
       color="primary"
       label="Usar localização"
       v-model="filters.useLocation"
+      @change="handleLocation"
     ></v-switch>
     <v-layout row wrap>
       <v-flex xs12 sm10>
@@ -119,6 +120,18 @@ export default {
     search() {
       this.$store.commit('updateFilters', this.filters);
       this.$router.push({ name: 'search' });
+    },
+    handleLocation() {
+      if (this.filters.useLocation) {
+        this.filters.useLocation = false;
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.filters.latitudeUsuario = position.coords.latitude;
+          this.filters.longitudeUsuario = position.coords.longitude;
+          this.filters.useLocation = true;
+        }, () => {
+          this.$toast.error('Para utilizar a busca por distância, habilite seu GPS.');
+        });
+      }
     },
   },
 };

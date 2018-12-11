@@ -217,12 +217,17 @@ export default {
     submit() {
       this.$validator.validateAll().then((result) => {
         if (result) {
+          if (!this.pet.localizacao) {
+            this.$toast.error('Pedimos que informe a localização do pet para que outros usuários possam encontrá-lo.');
+
+            return;
+          }
           if (this.$store.state.loggedIn) {
             this.pet.usuarioId = this.$store.state.loggedUser.id;
 
             this.loading = true;
             Pets.save(this.pet).then(() => {
-              this.$toast.success('Pet cadastrado com sucesso');
+              this.$toast.success('Pet cadastrado com sucesso!');
             }).finally(() => {
               this.loading = false;
             });

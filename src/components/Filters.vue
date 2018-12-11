@@ -102,6 +102,7 @@
           label="Cidade"
           v-debounce:1s="updateFilters"
           v-model="filters.cidade"
+          @click:clear="filters.cidade = null; updateFilters()"
         >
         </v-text-field>
       </div>
