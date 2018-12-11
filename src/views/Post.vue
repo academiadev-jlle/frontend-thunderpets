@@ -226,8 +226,14 @@ export default {
             this.pet.usuarioId = this.$store.state.loggedUser.id;
 
             this.loading = true;
-            Pets.save(this.pet).then(() => {
+            Pets.save(this.pet).then((response) => {
               this.$toast.success('Pet cadastrado com sucesso!');
+              this.$router.push({
+                name: 'petDetail',
+                params: {
+                  id: response.data.id,
+                },
+              });
             }).finally(() => {
               this.loading = false;
             });
