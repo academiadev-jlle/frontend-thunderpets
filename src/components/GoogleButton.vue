@@ -1,7 +1,8 @@
 <template>
   <v-btn
-    @click="submitGoogle"
     :class="{'pr-4': !isXS}"
+    :loading="loading"
+    @click="submitGoogle"
     block
     color="#cf4332"
     dark
