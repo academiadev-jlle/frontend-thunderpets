@@ -10,16 +10,26 @@
     >
       <v-toolbar-side-icon v-if="isSmAndDown" @click="drawer = true">
       </v-toolbar-side-icon>
-      <v-toolbar-title class="headline mr-4">
+      <v-toolbar-title class="headline mr-4 ml-0">
         <router-link to="/" class="black--text" style="text-decoration: none;">
+          <v-avatar size="30" tile class="mr-2">
+            <v-img :src="logo">
+            </v-img>
+          </v-avatar>
           ThunderPets
         </router-link>
       </v-toolbar-title>
       <v-toolbar-items v-if="!isSmAndDown">
         <v-btn flat to="/search" exact>
+          <v-icon left>
+            mdi-magnify
+          </v-icon>
           Buscar
         </v-btn>
         <v-btn flat to="/post" exact>
+          <v-icon left>
+            mdi-plus
+          </v-icon>
           Cadastrar Pet
         </v-btn>
       </v-toolbar-items>
@@ -48,7 +58,6 @@ import logo from '@/assets/logo.png';
 import DrawerMenu from './components/DrawerMenu.vue';
 import Entrance from './components/Entrance.vue';
 import FooterApp from './components/FooterApp.vue';
-
 
 export default {
   name: 'App',

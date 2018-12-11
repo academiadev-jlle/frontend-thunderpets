@@ -13,17 +13,8 @@ const size = [
 
 const specie = [
   {
-    text: 'Bovino',
-    value: 'BOVINO',
-  }, {
     text: 'Cachorro',
     value: 'CACHORRO',
-  }, {
-    text: 'Equino',
-    value: 'EQUINO',
-  }, {
-    text: 'Galináceo',
-    value: 'GALINACEO',
   }, {
     text: 'Gato',
     value: 'GATO',
@@ -31,8 +22,8 @@ const specie = [
     text: 'Pássaro',
     value: 'PASSARO',
   }, {
-    text: 'Roedor',
-    value: 'ROEDOR',
+    text: 'Outros',
+    value: 'OUTROS',
   },
 ];
 

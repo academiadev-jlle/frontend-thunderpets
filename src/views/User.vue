@@ -4,7 +4,7 @@
       <v-flex xs12>
         <v-card>
           <v-layout class="ma-0" row>
-            <v-flex >
+            <v-flex>
               <v-avatar tile size="100">
                 <v-img aspect-ratio="1" :src="user.foto | preventNoImage" />
               </v-avatar>
@@ -14,25 +14,38 @@
                 <h2 class="display-1">
                   {{user.nome}}
                 </h2>
-                <v-tooltip top color="brown" class="ml-3">
-                  <v-icon slot="activator" @click="edit">
-                    mdi-pencil
-                  </v-icon>
-                  Editar
-                </v-tooltip>
+                <v-layout
+                  :class="{'ml-0': true, 'mr-3': isXS}"
+                  :column="isXS"
+                  :row="!isXS"
+                  justify-space-between
+                >
+                  <v-tooltip top color="brown" class="ml-3">
+                    <v-icon slot="activator" @click="edit">
+                      mdi-pencil
+                    </v-icon>
+                    Editar
+                  </v-tooltip>
+                  <v-tooltip top color="blue">
+                    <v-btn
+                      :icon="isXS"
+                      @click="contactDialog = true"
+                      color="blue"
+                      slot="activator"
+                    >
+                      <v-icon :left="!isXS" dark>mdi-phone</v-icon>
+                      <span v-if="!isXS">
+                        Contatos
+                      </span>
+                    </v-btn>
+                    Contatos
+                  </v-tooltip>
+                </v-layout>
               </v-layout>
               <a class="blue--text">
                 {{user.email}}
               </a>
             </v-flex>
-            <v-btn
-              @click="contactDialog = true"
-              color="blue"
-              dark
-              slot="activator"
-            >
-              Contatos
-            </v-btn>
           </v-layout>
         </v-card>
       </v-flex>
@@ -148,6 +161,9 @@ export default {
   computed: {
     isSmAndDown() {
       return this.$vuetify.breakpoint.smAndDown;
+    },
+    isXS() {
+      return this.$vuetify.breakpoint.xsOnly;
     },
     loggedIn() {
       return this.$store.state.loggedIn;
