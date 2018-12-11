@@ -33,7 +33,10 @@
           <v-btn
             :loading="loading"
             @click="submit"
-            block color="primary">Redefinir senha</v-btn>
+            block color="primary"
+          >
+            Redefinir senha
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-layout>
