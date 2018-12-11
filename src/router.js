@@ -6,6 +6,7 @@ import PostUser from '@/views/PostUser.vue';
 import User from '@/views/User.vue';
 import PetDetail from '@/views/PetDetail.vue';
 import MainPage from '@/views/MainPage.vue';
+import NotFound from '@/views/NotFound.vue';
 
 Vue.use(Router);
 
@@ -42,6 +43,11 @@ const router = new Router({
       name: 'petDetail',
       component: PetDetail,
     },
+    {
+      path: '/*',
+      name: 'notFound',
+      component: NotFound,
+    }
   ],
   scrollBehavior() {
     return new Promise((resolve) => {
