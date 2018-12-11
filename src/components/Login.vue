@@ -152,7 +152,18 @@ export default {
       this.$validator.reset('login');
     },
     forgotPassword() {
-      console.log('Esqueci Senha');
+      this.$validator.validate('login.email').then((valid) => {
+        if (valid) {
+          Users.forgotPassword(this.login.email)
+            .then(() => this.$toast.success('Enviado e-mail com instruções para recuperação de senha'))
+            .catch(() => this.$toast.error('Erro ao enviar e-mail de recuperação'))
+            .finally(() => {
+              this.loading = false;
+            });
+        } else {
+          this.$toast.error('Por favor, insira o e-mail para recuperação');
+        }
+      });
     },
     toRegister() {
       this.closeDialog();

@@ -4,6 +4,7 @@ import Search from '@/views/Search.vue';
 import Post from '@/views/Post.vue';
 import PostUser from '@/views/PostUser.vue';
 import User from '@/views/User.vue';
+import PasswordRecovery from '@/views/PasswordRecovery.vue';
 import PetDetail from '@/views/PetDetail.vue';
 import MainPage from '@/views/MainPage.vue';
 
@@ -41,6 +42,11 @@ const router = new Router({
       path: '/pet/:id',
       name: 'petDetail',
       component: PetDetail,
+    },
+    {
+      path: '/forgotPassword/:id',
+      name: 'forgotPassword',
+      component: PasswordRecovery,
     },
   ],
   scrollBehavior() {
